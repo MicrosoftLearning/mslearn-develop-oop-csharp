@@ -1,6 +1,6 @@
 using System;
 
-namespace Reuse_M1;
+namespace Classes_M3;
 
 public partial class BankCustomer
 {
