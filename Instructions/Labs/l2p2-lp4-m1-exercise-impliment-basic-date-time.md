@@ -202,7 +202,7 @@ In this task, you will create transactions for specific dates and times.
    ```csharp
    DateOnly date = new DateOnly.FromDateTime(DateTime.Now);
    TimeOnly time = new TimeOnly.FromDatetime(DateTime.Now);
-   Transaction transaction1 = new Transaction(date, time, 100, account1.AccountId, account2.AccountId, "Deposit", "reimbursement");
+   Transaction transaction1 = new Transaction(date, time, 100, account1.AccountNumber, account2.AccountNumber, "Deposit", "reimbursement");
    transactions.Add(transaction1);
    ```
 
@@ -213,7 +213,7 @@ In this task, you will create transactions for specific dates and times.
    DateTime yesterday = DateTime.Now.AddDays(-1).Date.Add(new TimeSpan(13, 15, 0));
    date = new DateOnly.FromDateTime(yesterday);
    time = new DateOnly.FromDateTime(yesterday);
-   Transaction transaction2 = new Transaction(date, time, 100, account1.AccountId, account2.AccountId, "Deposit", "reimbursement");
+   Transaction transaction2 = new Transaction(date, time, 100, account1.AccountNumber, account2.AccountNumber, "Deposit", "reimbursement");
    transactions.Add(transaction2);
    ```
 
@@ -226,7 +226,7 @@ In this task, you will create transactions for specific dates and times.
        DateTime transactionDate = new DateTime(2024, 12, day, 13, 15, 0);
        date = new DateOnly.FromDateTime(transactionDate);
        time = new DateOnly.FromDateTime(transactionDate);
-       Transaction transaction = new Transaction(date, time, 100, account1.AccountId, account2.AccountId, "Deposit", "reimbursement");
+       Transaction transaction = new Transaction(date, time, 100, account1.AccountNumber, account2.AccountNumber, "Deposit", "reimbursement");
        transactions.Add(transaction);
    }
    ```
@@ -265,7 +265,7 @@ In this task, you will define a date range and generate transactions for that ra
    Add the following code to generate transactions for the specified date range using the `SimulateTransactions` class:
 
    ```csharp
-   List<Transaction> transactions = SimulateTransactions.GenerateTransactions(startDate, endDate, account1.AccountId, account2.AccountId).ToList();
+   List<Transaction> transactions = SimulateTransactions.GenerateTransactions(startDate, endDate, account1.AccountNumber, account2.AccountNumber).ToList();
    ```
 
 1. **Display the simulated transactions**  

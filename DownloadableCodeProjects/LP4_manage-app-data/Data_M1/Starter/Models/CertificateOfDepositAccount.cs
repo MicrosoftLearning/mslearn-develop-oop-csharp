@@ -57,7 +57,7 @@ public class CertificateOfDeposit : BankAccount
 
     public override string DisplayAccountInfo()
     {
-        return base.DisplayAccountInfo() + $", Maturity Date: {MaturityDate.ToShortDateString()}, Early Withdrawal Penalty: {EarlyWithdrawalPenalty * 100}%, Interest Rate: {InterestRate * 100}%";
+        return base.DisplayAccountInfo() + $", Maturity Date: {MaturityDate.ToShortDateString()}, Early Withdrawal Penalty: {EarlyWithdrawalPenalty:P2}, Interest Rate: {InterestRate:P2}";
     }
 }
 
