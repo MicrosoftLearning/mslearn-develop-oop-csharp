@@ -45,7 +45,7 @@ public class CheckingAccount : BankAccount
 
     public override string DisplayAccountInfo()
     {
-        return base.DisplayAccountInfo() + $", Overdraft Limit: {OverdraftLimit}";
+        return base.DisplayAccountInfo() + $", Overdraft Limit: {OverdraftLimit:C}";
     }
 
     public override double InterestRate

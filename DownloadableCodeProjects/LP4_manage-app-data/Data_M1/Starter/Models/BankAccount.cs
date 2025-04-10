@@ -103,6 +103,6 @@ public class BankAccount : IBankAccount
     // Method to display account information
     public virtual string DisplayAccountInfo()
     {
-        return $"Account Number: {AccountNumber}, Type: {AccountType}, Balance: {Balance:C}, Interest Rate: {InterestRate:P}, Customer ID: {CustomerId}";
+        return $"Account Number: {AccountNumber}, Type: {AccountType}, Balance: {Balance:C}, Interest Rate: {InterestRate:P2}, Customer ID: {CustomerId}";
     }
 }

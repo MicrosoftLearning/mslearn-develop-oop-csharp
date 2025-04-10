@@ -25,7 +25,7 @@ public class MoneyMarketAccount : BankAccount
     {
         if (balance < DefaultMinimumOpeningBalance)
         {
-            throw new ArgumentException($"Balance must be at least {DefaultMinimumOpeningBalance}");
+            throw new ArgumentException($"Balance must be at least {DefaultMinimumOpeningBalance:C}");
         }
 
         MinimumBalance = minimumBalance;
@@ -50,6 +50,6 @@ public class MoneyMarketAccount : BankAccount
 
     public override string DisplayAccountInfo()
     {
-        return base.DisplayAccountInfo() + $", Minimum Balance: {MinimumBalance}, Minimum Opening Balance: {MinimumOpeningBalance}";
+        return base.DisplayAccountInfo() + $", Minimum Balance: {MinimumBalance:C}, Minimum Opening Balance: {MinimumOpeningBalance:C}";
     }
 }

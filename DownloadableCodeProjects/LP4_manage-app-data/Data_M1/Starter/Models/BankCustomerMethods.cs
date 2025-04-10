@@ -22,4 +22,8 @@ public partial class BankCustomer : IBankCustomer
     {
         return $"Customer ID: {CustomerId}, Name: {ReturnFullName()}";
     }
+
+    public abstract bool IsPremiumCustomer();
+
+    public abstract void ApplyBenefits();
 }

@@ -28,7 +28,7 @@ public class SavingsAccount : BankAccount
     {
         if (balance < DefaultMinimumOpeningBalance)
         {
-            throw new ArgumentException($"Balance must be at least {DefaultMinimumOpeningBalance}");
+            throw new ArgumentException($"Balance must be at least {DefaultMinimumOpeningBalance:C}");
         }
 
         WithdrawalLimit = withdrawalLimit;
