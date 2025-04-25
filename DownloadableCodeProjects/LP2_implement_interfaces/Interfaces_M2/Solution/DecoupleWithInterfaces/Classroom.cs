@@ -1,6 +1,10 @@
-public class Classroom : IEnumerable
+namespace DecoupleWithInterfaces;
+using System.Collections;
+using System.Collections.Generic;
+
+public class Classroom : IEnumerable<Student>
 {
-    private List students = new List();
+    private List<Student> students = new List<Student>();
 
     public void AddStudent(Student student)
     {
@@ -12,7 +16,7 @@ public class Classroom : IEnumerable
         students.Sort(); // Uses the IComparable implementation in Student
     }
 
-    public IEnumerator GetEnumerator()
+    public IEnumerator<Student> GetEnumerator()
     {
         return students.GetEnumerator();
     }

@@ -1,6 +1,7 @@
+// TASK 3: Refactor the code to use an IDataAccess interface.
+
 // This class is responsible for connecting to a database and retrieving data.
 // It is currently tightly coupled to the Application class.
-// In this exercise, you will refactor the code to use an IDataAccess interface.
 public class DatabaseAccess
 {
     // Simulates connecting to a database.

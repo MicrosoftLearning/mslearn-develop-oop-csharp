@@ -1,3 +1,4 @@
+// TASK 2: Create an interface ILogger with a method Log(string message).
 // Interface for data access operations.
 public interface IDataAccess
 {

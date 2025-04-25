@@ -3,8 +3,8 @@ public class Application
     private readonly ILogger _logger;
     private readonly IDataAccess _dataAccess;
 
-    // The constructor now accepts ILogger and IDataAccess interfaces,
-    // enabling dependency injection and decoupling the class from specific implementations.
+    // TASK 6: Implement ILogger and IDataAccess interfaces and  
+    // refactor this constructor to accept them as parameters.
     public Application(ILogger logger, IDataAccess dataAccess)
     {
         _logger = logger;

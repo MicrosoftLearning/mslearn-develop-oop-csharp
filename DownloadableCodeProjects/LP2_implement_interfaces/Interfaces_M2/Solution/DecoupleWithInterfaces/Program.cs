@@ -1,13 +1,14 @@
+﻿namespace DecoupleWithInterfaces;
+
 class Program
 {
     static void Main(string[] args)
     {
-        // Create a teacher and students
         IPerson teacher = new Teacher { Name = "Helen Karu", Age = 35 };
         IPerson student1 = new Student { Name = "Eba Lencho", Age = 20 };
         IPerson student2 = new Student { Name = "Frederiek Eppink", Age = 22 };
 
-        // Use the utility class to print details
+        // Use the utility class
         PersonUtilities.PrintPersonDetails(teacher);
         PersonUtilities.PrintPersonDetails(student1);
 
@@ -20,9 +21,21 @@ class Program
         classroom.SortStudentsByAge();
 
         Console.WriteLine("\nSorted Students by Age:");
-        foreach (var student in classroom)
+        foreach (Student student in classroom)
         {
             student.DisplayInfo();
+        }
+
+        // Demonstrate ArgumentException for incompatible comparison
+        try
+        {
+            Console.WriteLine("\nAttempting to compare a Student with a Teacher...");
+            Student student = (Student)student1;
+            int comparisonResult = student.CompareTo(teacher); // This will throw an exception
+        }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
         }
     }
 }
