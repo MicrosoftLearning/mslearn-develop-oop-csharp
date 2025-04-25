@@ -39,7 +39,7 @@ public class CheckingAccount : BankAccount
             {
                 double overdraftFee = AccountCalculations.CalculateOverdraftFee(Math.Abs(Balance), BankAccount.OverdraftRate, BankAccount.MaxOverdraftFee);
                 Balance -= overdraftFee;
-                Console.WriteLine($"Overdraft fee of ${overdraftFee} applied.");
+                Console.WriteLine($"Overdraft fee of {overdraftFee:C} applied.");
             }
 
             return result;
@@ -49,6 +49,6 @@ public class CheckingAccount : BankAccount
 
     public override string DisplayAccountInfo()
     {
-        return base.DisplayAccountInfo() + $", Overdraft Limit: {OverdraftLimit}";
+        return base.DisplayAccountInfo() + $", Overdraft Limit: {OverdraftLimit:C}";
     }
 }

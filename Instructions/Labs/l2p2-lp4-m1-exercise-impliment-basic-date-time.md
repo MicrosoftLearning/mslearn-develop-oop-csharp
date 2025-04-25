@@ -29,7 +29,7 @@ Suppose you're a software developer at a tech company working on a new project. 
 You've developed an initial version of the app that includes the following files:
 
 - `Program.cs`: This file contains the main entry point of the application, demonstrating the creation and manipulation of date and time values.
-- `Transaction.cs`: This file defines the `Transaction` class, which includes properties for transaction details such as account ID, amount, description, and date.
+- `Transaction.cs`: This file defines the `Transaction` class, which includes properties for transaction details such as date, time, amount, sourceaccount ID, targetaccount ID, type and description.
 - `BankAccount.cs`: This file defines the `BankAccount` class, which includes properties and methods for managing bank account transactions.
 - `SimulateTransactions.cs`: This file contains methods for generating and simulating transactions over a specified date range.
 
@@ -191,12 +191,19 @@ In this task, you will create transactions for specific dates and times.
 
 ### Task 2 Steps
 
+1. **Create a List of type Transaction**
+   ```csharp
+   List<Transaction> transactions = new();
+   ```
+
 1. **Create a transaction for the current date and time**  
    Add the following code to create a transaction for the current date and time:
 
    ```csharp
-   Transaction transaction1 = new Transaction(account1.AccountId, 100, "reimbursement", DateTime.Now);
-   account1.AddTransaction(transaction1);
+   DateOnly date = new DateOnly.FromDateTime(DateTime.Now);
+   TimeOnly time = new TimeOnly.FromDatetime(DateTime.Now);
+   Transaction transaction1 = new Transaction(date, time, 100, account1.AccountNumber, account2.AccountNumber, "Deposit", "reimbursement");
+   transactions.Add(transaction1);
    ```
 
 1. **Create a transaction for yesterday at 1:15 PM**  
@@ -204,8 +211,10 @@ In this task, you will create transactions for specific dates and times.
 
    ```csharp
    DateTime yesterday = DateTime.Now.AddDays(-1).Date.Add(new TimeSpan(13, 15, 0));
-   Transaction transaction2 = new Transaction(account1.AccountId, 100, "reimbursement", yesterday);
-   account1.AddTransaction(transaction2);
+   date = new DateOnly.FromDateTime(yesterday);
+   time = new DateOnly.FromDateTime(yesterday);
+   Transaction transaction2 = new Transaction(date, time, 100, account1.AccountNumber, account2.AccountNumber, "Deposit", "reimbursement");
+   transactions.Add(transaction2);
    ```
 
 1. **Create transactions for the first three days of December 2024**  
@@ -215,8 +224,10 @@ In this task, you will create transactions for specific dates and times.
    for (int day = 1; day <= 3; day++)
    {
        DateTime transactionDate = new DateTime(2024, 12, day, 13, 15, 0);
-       Transaction transaction = new Transaction(account1.AccountId, 100, "reimbursement", transactionDate);
-       account1.AddTransaction(transaction);
+       date = new DateOnly.FromDateTime(transactionDate);
+       time = new DateOnly.FromDateTime(transactionDate);
+       Transaction transaction = new Transaction(date, time, 100, account1.AccountNumber, account2.AccountNumber, "Deposit", "reimbursement");
+       transactions.Add(transaction);
    }
    ```
 
@@ -224,7 +235,7 @@ In this task, you will create transactions for specific dates and times.
    Add the following code to display the transactions:
 
    ```csharp
-   foreach (Transaction transaction in account1.Transactions)
+   foreach (Transaction transaction in transactions)
    {
        Console.WriteLine(transaction.ReturnTransaction());
    }
@@ -254,7 +265,7 @@ In this task, you will define a date range and generate transactions for that ra
    Add the following code to generate transactions for the specified date range using the `SimulateTransactions` class:
 
    ```csharp
-   List<Transaction> transactions = SimulateTransactions.GenerateTransactions(startDate, endDate, account1.AccountId);
+   List<Transaction> transactions = SimulateTransactions.GenerateTransactions(startDate, endDate, account1.AccountNumber, account2.AccountNumber).ToList();
    ```
 
 1. **Display the simulated transactions**  

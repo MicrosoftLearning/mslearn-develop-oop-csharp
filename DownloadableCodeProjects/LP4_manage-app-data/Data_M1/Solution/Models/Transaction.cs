@@ -86,6 +86,6 @@ public class Transaction
     // Returns a formatted string with transaction details for logging.
     public string ReturnTransaction()
     {
-        return $"Transaction ID: {transactionId}, Type: {transactionType}, Date: {transactionDate}, Time: {transactionTime}, Amount: {transactionAmount}, Source Account: {sourceAccountNumber}, Target Account: {targetAccountNumber}, Description: {description}";
+        return $"Transaction ID: {transactionId}, Type: {transactionType}, Date: {transactionDate}, Time: {transactionTime}, Amount: {transactionAmount:C}, Source Account: {sourceAccountNumber}, Target Account: {targetAccountNumber}, Description: {description}";
     }
 }

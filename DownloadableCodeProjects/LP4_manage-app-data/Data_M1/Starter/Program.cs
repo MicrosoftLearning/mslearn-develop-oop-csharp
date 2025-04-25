@@ -42,16 +42,19 @@ class Program
         bankAccounts[2] = account3;
         bankAccounts[3] = account4;
 
-        // TASK 2: Step 1 - Create a transaction for the current date and time
+        // TASK 2: Step 1 - Create a List of type Transaction
+        // Placeholder for creating a List of type Transaction
+
+        // TASK 2: Step 2 - Create a transaction for the current date and time
         // Placeholder for creating a transaction for the current date and time
 
-        // TASK 2: Step 2 - Create a transaction for yesterday at 1:15PM
+        // TASK 2: Step 3 - Create a transaction for yesterday at 1:15PM
         // Placeholder for creating a transaction for yesterday at 1:15PM
 
-        // TASK 2: Step 3 - Create transactions for the first three days of December 2024
+        // TASK 2: Step 4 - Create transactions for the first three days of December 2024
         // Placeholder for creating transactions for the first three days of December 2024
 
-        // TASK 2: Step 4 - Display the datedTransactions
+        // TASK 2: Step 5 - Display the datedTransactions
         // Placeholder for displaying the datedTransactions
 
         // TASK 3: Use Date Ranges to Simulate Transactions Programmatically

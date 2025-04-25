@@ -44,7 +44,7 @@ public static class SimulateTransactions
         }
 
         // Need to compare the month and year of the start and end dates
-        DateOnly startDayFirstFullMonth = new DateOnly(startDate.Year, startDate.Month, 1);
+        DateOnly startDayFirstFullMonth = startDate;
         DateOnly startDayLastFullMonth = new DateOnly(endYear, endMonth, 1);
 
         // If the start date for the first month and the start date for hte last month are the same, then the date range is exactly one month
@@ -93,7 +93,8 @@ public static class SimulateTransactions
     static Transaction[] SimulateTransActionsFullMonth(int month, int year, BankAccount account1, BankAccount account2)
     {
         // Create an array of Transaction objects to hold the monthly transactions
-        Transaction[] monthlyTransactions = new Transaction[40];
+        Transaction[] monthlyTransactions = new Transaction[20];
+        int transactionIndex = 0;
 
         // Monthly expenses: semiMonthlyPaycheck, transferToSavings, rent, entertainment1, entertainment2, entertainment3, entertainment4, monthlyGasElectric, monthlyWaterSewer, monthlyWasteManagement, monthlyHealthClub, creditCardBill
         // Call ReturnMonthlyExpenses to get the monthly expenses
@@ -143,14 +144,14 @@ public static class SimulateTransactions
         }
 
         // Use account1 to deposit the semiMonthlyPaycheck. Deposit paychecks into the checking account on a workday in the middle of the month and the final workday of the month.
-        monthlyTransactions[0] = new Transaction(middleOfMonth, new TimeOnly(12, 00), semiMonthlyPaycheck, account1.AccountNumber, account1.AccountNumber, "Deposit", "Bi-monthly salary deposit");
-        monthlyTransactions[1] = new Transaction(endOfMonth, new TimeOnly(12, 00), semiMonthlyPaycheck, account1.AccountNumber, account1.AccountNumber, "Deposit", "Bi-monthly salary deposit");
+        monthlyTransactions[transactionIndex++] = new Transaction(middleOfMonth, new TimeOnly(12, 00), semiMonthlyPaycheck, account1.AccountNumber, account1.AccountNumber, "Deposit", "Bi-monthly salary deposit");
+        monthlyTransactions[transactionIndex++] = new Transaction(endOfMonth, new TimeOnly(12, 00), semiMonthlyPaycheck, account1.AccountNumber, account1.AccountNumber, "Deposit", "Bi-monthly salary deposit");
 
         // Use account1, account2, and transferToSavings to create a transfer transaction from checking to savings on the first day of the month.
-        monthlyTransactions[2] = new Transaction(firstDayOfMonth, new TimeOnly(12, 00), transferToSavings, account1.AccountNumber, account2.AccountNumber, "Transfer", "Transfer checking to savings account");
+        monthlyTransactions[transactionIndex++] = new Transaction(firstDayOfMonth, new TimeOnly(12, 00), transferToSavings, account1.AccountNumber, account2.AccountNumber, "Transfer", "Transfer checking to savings account");
 
         // Use account1 to generate a withdraw transaction for rent on the first day of the month.
-        monthlyTransactions[3] = new Transaction(firstDayOfMonth, new TimeOnly(12, 00), rent, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Auto-pay rent");
+        monthlyTransactions[transactionIndex++] = new Transaction(firstDayOfMonth, new TimeOnly(12, 00), rent, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Auto-pay rent");
 
         // Use account1 and the four entertainment amounts to generate a withdraw transaction using a debit card every Saturday night of the month. Calculate the DateOnly value for each Saturday in the month.
         DateOnly saturday1 = firstDayOfMonth;
@@ -162,16 +163,16 @@ public static class SimulateTransactions
         DateOnly saturday3 = saturday2.AddDays(7);
         DateOnly saturday4 = saturday3.AddDays(7);
 
-        monthlyTransactions[4] = new Transaction(saturday1, new TimeOnly(21, 00), entertainment1, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Debit card purchase");
-        monthlyTransactions[5] = new Transaction(saturday2, new TimeOnly(21, 00), entertainment2, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Debit card purchase");
-        monthlyTransactions[6] = new Transaction(saturday3, new TimeOnly(21, 00), entertainment3, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Debit card purchase");
-        monthlyTransactions[7] = new Transaction(saturday4, new TimeOnly(21, 00), entertainment4, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Debit card purchase");
+        monthlyTransactions[transactionIndex++] = new Transaction(saturday1, new TimeOnly(21, 00), entertainment1, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Debit card purchase");
+        monthlyTransactions[transactionIndex++] = new Transaction(saturday2, new TimeOnly(21, 00), entertainment2, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Debit card purchase");
+        monthlyTransactions[transactionIndex++] = new Transaction(saturday3, new TimeOnly(21, 00), entertainment3, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Debit card purchase");
+        monthlyTransactions[transactionIndex++] = new Transaction(saturday4, new TimeOnly(21, 00), entertainment4, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Debit card purchase");
 
         // Generate withdraw transactions for monthly bills on the 20th of the month. Bills include gas and electric, water and sewer, waste management, and health club membership.
-        monthlyTransactions[8] = new Transaction(new DateOnly(year, month, 20), new TimeOnly(12, 00), monthlyGasElectric, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Auto-pay gas and electric bill");
-        monthlyTransactions[9] = new Transaction(new DateOnly(year, month, 20), new TimeOnly(12, 00), monthlyWaterSewer, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Auto-pay water and sewer bill");
-        monthlyTransactions[10] = new Transaction(new DateOnly(year, month, 20), new TimeOnly(12, 00), monthlyWasteManagement, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Auto-pay waste management bill");
-        monthlyTransactions[11] = new Transaction(new DateOnly(year, month, 20), new TimeOnly(12, 00), monthlyHealthClub, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Auto-pay health club membership");
+        monthlyTransactions[transactionIndex++] = new Transaction(new DateOnly(year, month, 20), new TimeOnly(12, 00), monthlyGasElectric, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Auto-pay gas and electric bill");
+        monthlyTransactions[transactionIndex++] = new Transaction(new DateOnly(year, month, 20), new TimeOnly(12, 00), monthlyWaterSewer, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Auto-pay water and sewer bill");
+        monthlyTransactions[transactionIndex++] = new Transaction(new DateOnly(year, month, 20), new TimeOnly(12, 00), monthlyWasteManagement, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Auto-pay waste management bill");
+        monthlyTransactions[transactionIndex++] = new Transaction(new DateOnly(year, month, 20), new TimeOnly(12, 00), monthlyHealthClub, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Auto-pay health club membership");
 
         // Generate a withdraw transactions for weekly expenses every Monday morning during the month. Weekly expense withdrawals are for 400. Calculate the DateOnly value for each Monday in the month.
         DateOnly monday1 = firstDayOfMonth;
@@ -183,20 +184,20 @@ public static class SimulateTransactions
         DateOnly monday3 = monday2.AddDays(7);
         DateOnly monday4 = monday3.AddDays(7);
 
-        monthlyTransactions[12] = new Transaction(monday1, new TimeOnly(9, 00), 400.00, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Withdraw for expenses");
-        monthlyTransactions[13] = new Transaction(monday2, new TimeOnly(9, 00), 400.00, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Withdraw for expenses");
-        monthlyTransactions[14] = new Transaction(monday3, new TimeOnly(9, 00), 400.00, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Withdraw for expenses");
-        monthlyTransactions[15] = new Transaction(monday4, new TimeOnly(9, 00), 400.00, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Withdraw for expenses");
+        monthlyTransactions[transactionIndex++] = new Transaction(monday1, new TimeOnly(9, 00), 400.00, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Withdraw for expenses");
+        monthlyTransactions[transactionIndex++] = new Transaction(monday2, new TimeOnly(9, 00), 400.00, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Withdraw for expenses");
+        monthlyTransactions[transactionIndex++] = new Transaction(monday3, new TimeOnly(9, 00), 400.00, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Withdraw for expenses");
+        monthlyTransactions[transactionIndex++] = new Transaction(monday4, new TimeOnly(9, 00), 400.00, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Withdraw for expenses");
 
         // Generate a withdraw transaction for a credit card bill on the last day of the month.
-        monthlyTransactions[16] = new Transaction(lastDay, new TimeOnly(12, 00), creditCardBill, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Auto-pay credit card bill");
+        monthlyTransactions[transactionIndex++] = new Transaction(lastDay, new TimeOnly(12, 00), creditCardBill, account1.AccountNumber, account1.AccountNumber, "Withdraw", "Auto-pay credit card bill");
 
         // Generate a refund transaction for an overcharge on the 5th of the month.
-        monthlyTransactions[17] = new Transaction(new DateOnly(year, month, 5), new TimeOnly(12, 00), 100.00, account2.AccountNumber, account1.AccountNumber, "Refund", "Refund for overcharge");
+        monthlyTransactions[transactionIndex++] = new Transaction(new DateOnly(year, month, 5), new TimeOnly(12, 00), 100.00, account2.AccountNumber, account1.AccountNumber, "Refund", "Refund for overcharge");
 
         // Generate a bank fee transaction on the 3rd and 10th of the month.
-        monthlyTransactions[18] = new Transaction(new DateOnly(year, month, 3), new TimeOnly(12, 00), -50.00, account1.AccountNumber, account1.AccountNumber, "Fee", "Monthly fee");
-        monthlyTransactions[19] = new Transaction(new DateOnly(year, month, 10), new TimeOnly(12, 00), -50.00, account1.AccountNumber, account1.AccountNumber, "Fee", "Monthly fee");
+        monthlyTransactions[transactionIndex++] = new Transaction(new DateOnly(year, month, 3), new TimeOnly(12, 00), -50.00, account1.AccountNumber, account1.AccountNumber, "Fee", "Monthly fee");
+        monthlyTransactions[transactionIndex++] = new Transaction(new DateOnly(year, month, 10), new TimeOnly(12, 00), -50.00, account1.AccountNumber, account1.AccountNumber, "Fee", "Monthly fee");
 
         return monthlyTransactions;
     }
@@ -204,7 +205,7 @@ public static class SimulateTransactions
     public static Transaction[] SimulateTransactionsStartDateToEndOfMonth(DateOnly startDate, BankAccount account1, BankAccount account2)
     {
         // Create an array of Transaction objects to hold the monthly transactions
-        Transaction[] monthlyTransactions = new Transaction[40];
+        Transaction[] monthlyTransactions = new Transaction[20];
         int transactionIndex = 0;
 
         // use startDate to determine the last day of the month
@@ -369,7 +370,7 @@ public static class SimulateTransactions
     public static Transaction[] SimulateTransactionsStartMonthToEndDate(DateOnly endDate, BankAccount account1, BankAccount account2)
     {
         // Create an array of Transaction objects to hold the monthly transactions
-        Transaction[] monthlyTransactions = new Transaction[40];
+        Transaction[] monthlyTransactions = new Transaction[20];
         int transactionIndex = 0;
 
         // use endDate to determine the first day of the month
