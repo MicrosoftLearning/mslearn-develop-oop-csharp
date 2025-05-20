@@ -40,7 +40,8 @@ In this task, you download the existing version of your banking app and review t
 
 Use the following steps to complete this section of the exercise:
 
-1. Download the starter code from the following URL: [Implement inheritance and polymorphism - exercise code projects](https://github.com/MicrosoftLearning/mslearn-develop-oop-csharp/raw/refs/heads/main/DownloadableCodeProjects/Downloads/LP2SampleApps.zip)
+1. Download the starter code from the following URL: [Implement Collection Types - exercise code projects](https://github.com/MicrosoftLearning/mslearn-develop-oop-csharp/blob/main/DownloadableCodeProjects/Downloads/LP4SampleApps.zip)
+    ![Image of raw file download button for zip on toolbar.](../labs/Media/zip-download-button.png)
 
 1. Extract the contents of the LP2SampleApps.zip file to a folder location on your computer.
 
