@@ -475,7 +475,7 @@ In this task, you use the `File` class to complete the following operations:
 
 - Write to a text file using CSV formatted strings.
 - Read a CSV formatted text string from a file.
-- Append a CSV formatted text string to the end of an exiting text file.
+- Append a CSV formatted text string to the end of an existing text file.
 
 Use the following steps to complete this section of the exercise:
 
@@ -506,7 +506,7 @@ Use the following steps to complete this section of the exercise:
 
     This code creates a two-dimensional array of double values named `depositValues` and a `StringBuilder` object named `sb` that's used to build a CSV formatted string inside a `for` loop. In this case, CSV formatted strings are constructed using the `label` value followed by a colon (`:`) character and a list of comma delimited values from the `depositValues` array. The strings are appended to the `StringBuilder` object using the `AppendLine` method, which appends a string followed by a line terminator to the `StringBuilder` object.
 
-    When the app exists the `for` loop, `sb` contains the following string value: "deposits: 100.5, 200.75, 300.25\r\ndeposits: 150, 250.5, 350.75\r\ndeposits: 175.25, 275, 375.5\r\n"
+    When the app exits the `for` loop, `sb` contains the following string value: "deposits: 100.5, 200.75, 300.25\r\ndeposits: 150, 250.5, 350.75\r\ndeposits: 175.25, 275, 375.5\r\n"
 
     > [!NOTE]
     > The `StringBuilder` class is more efficient than using string concatenation, especially when building large strings or when the number of concatenations is unknown. The `StringBuilder` class provides methods for appending, inserting, and removing characters from a string.
