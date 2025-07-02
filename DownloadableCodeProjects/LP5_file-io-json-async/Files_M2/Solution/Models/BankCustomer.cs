@@ -40,7 +40,7 @@ public partial class BankCustomer : IBankCustomer
         _accounts = new List<IBankAccount>();
     }
 
-    // Constructor used to recover and restore an existing account from back up
+    // Constructor used to recover and restore an existing customer from back up
     public BankCustomer(string firstName, string lastName, string customerId, Bank bank)
     {
         // Verify that the CustomerId isn't already in use
