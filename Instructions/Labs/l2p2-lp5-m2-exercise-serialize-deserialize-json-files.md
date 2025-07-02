@@ -1341,11 +1341,11 @@ Use the following steps to complete this section of the exercise:
 
     ```
 
-1. Create a new class named `BankAccountDTO` in the **Services** folder.
+1. Create a new class named `BankCustomerDTO` in the **Services** folder.
 
-    This class will be used as a Data Transfer Object (DTO) to store account information in a format that can be serialized and deserialized without violating the encapsulation of the `BankAccount` class.
+    This class will be used as a Data Transfer Object (DTO) to store customer information in a format that can be serialized and deserialized without violating the encapsulation of the `BankCustomer` class.
 
-1. Replace the contents of the **BankAccountDTO.cs** file with the following code:
+1. Replace the contents of the **BankCustomerDTO.cs** file with the following code:
 
     ```csharp
 
@@ -1376,11 +1376,11 @@ Use the following steps to complete this section of the exercise:
 
     This code defines a `BankCustomerDTO` class with properties that can be used to store customer information. The `MapToDTO` method is used to map the properties of a `BankCustomer` object to a `BankCustomerDTO` object.
 
-1. To update the `BankAccount` class with a constructor that accepts `CustomerId` and `Bank` object parameters, add the following code to the end of the **BankAccount.cs** file:
+1. To update the `BankCustomer` class with a constructor that accepts `CustomerId` and `Bank` object parameters, add the following code to the end of the **BankCustomer.cs** file:
 
     ```csharp
 
-    // Constructor used to recover and restore an existing account from back up
+    // Constructor used to recover and restore an existing customer from back up
     public BankCustomer(string firstName, string lastName, string customerId, Bank bank)
     {
         // Verify that the CustomerId isn't already in use
