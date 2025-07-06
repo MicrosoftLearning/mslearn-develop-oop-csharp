@@ -780,7 +780,7 @@ Use the following steps to complete this section of the exercise:
 
 ## Use Data Transfer Objects and JsonSerializer with JsonSerializerOptions to serialize and deserialize a BankAccount object
 
-When the complexity and design restrictions associated with a class make it difficult to serialize and deserialize objects directly, you can create Data Transfer Objects (DTOs) that ake it easier to serialize and deserialize objects without violating the encapsulation of the original object. DTOs are simple objects that have public properties and a parameterless constructor. You can map the properties from the original object to the DTO object and serialize the DTO object instead.
+When the complexity and design restrictions associated with a class make it difficult to serialize and deserialize objects directly, you can create Data Transfer Objects (DTOs) that make it easier to serialize and deserialize objects without violating the encapsulation of the original object. DTOs are simple objects that have public properties and a parameterless constructor. You can map the properties from the original object to the DTO object and serialize the DTO object instead.
 
 In this task, you'll complete the following actions:
 
@@ -1229,7 +1229,7 @@ Use the following steps to complete this section of the exercise:
 
     The `LoadBankAccount` method accepts parameters that specify the file path of the account JSON file, the directory path for transaction JSON files, and the `BankCustomer` object. The method uses the `BankCustomer` object to retrieve existing accounts and transactions. It then loads account data from the `AccountDTO` file and checks whether the stored account information is present in the active `BankCustomer` object.
 
-    It the recovered account is already represented in the active `BankCustomer` object, the code checks for existing transactions and adds any missing transactions to the account's transaction history. The existing account is returned.
+    If the recovered account is already represented in the active `BankCustomer` object, the code checks for existing transactions and adds any missing transactions to the account's transaction history. The existing account is returned.
 
     If the recovered account isn't represented in the active `BankAccount` object, the code creates a new bank account using the recovered data. Transactions are then recovered and added to the account. The new account is returned.
 
