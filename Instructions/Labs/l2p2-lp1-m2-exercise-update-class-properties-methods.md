@@ -979,7 +979,7 @@ In this task, you create extension methods for the `BankCustomer` and `BankAccou
 
 Use the following steps to complete this section of the exercise:
 
-1. Use the **Classes_M1** project to create a new `Extensions.cs` class file.
+1. Use the **Classes_M2** project to create a new `Extensions.cs` class file.
 
     You can use the `Classes_M2` project to create new class file named Extensions. Right-click the **Classes_M2** project in the Solution Explorer, select **New File**, select **Class**, and then enter **Extensions**.
 
