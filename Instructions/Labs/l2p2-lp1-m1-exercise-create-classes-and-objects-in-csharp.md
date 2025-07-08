@@ -726,7 +726,7 @@ Use the following steps to complete this task:
 
     ```
 
-    The static constructor is called when the `BankAccount` class is loaded into memory. The static constructor initializes the `s_nextAccountNumber` and `InterestRate` fields. These fields cannot be assigned a value from outside the class.
+    The static constructor is called when the `BankAccount` class is loaded into memory. This constructor is used to initialize the `s_nextAccountNumber` and `InterestRate` fields. Since the `s_nextAccountNumber` field is a private field, it can't be assigned a value from outside the class.
 
 1. To create a constructor that accepts a `CustomerId` parameter and initializes the other fields with default values, add the following code to the `BankAccount` class definition:
 
