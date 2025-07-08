@@ -521,7 +521,7 @@ Use the following steps to complete this section of the exercise:
 
     ```csharp
 
-    using Classes_M1;
+    using Classes_M2;
     
     string firstName = "Tim";
     string lastName = "Shao";
