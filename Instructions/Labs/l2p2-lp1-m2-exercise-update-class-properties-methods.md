@@ -263,7 +263,7 @@ Use the following steps to complete this section of the exercise:
 
     The property has two accessors: `get` and `set`. The `get` accessor is used to retrieve the value of the private field `_firstName`. When the property is accessed, the `get` accessor returns the current value of `_firstName`.
 
-    The `set` accessor is used to assign a new value to the private field `_firstName`. The keyword `value` represents the value being assigned to the property. When a new value is assigned to `_firstName`, the `set` accessor sets `_firstName` to this new value.
+    The `set` accessor is used to assign a new value to the private field `_firstName`. The keyword `value` represents the value being assigned to the property. When a new value is assigned to `FirstName`, the `set` accessor sets `_firstName` to this new value.
 
 1. To create a `LastName` property that accesses the private `_lastName` field, add the following code to the `BankCustomer` class:
 
@@ -883,7 +883,7 @@ Use the following steps to complete this section of the exercise:
         // Method to display customer information
         public string DisplayCustomerInfo()
         {
-            return $"Customer ID: {CustomerId}, Name: {FullName()}";
+            return $"Customer ID: {CustomerId}, Name: {ReturnFullName()}";
         }
 
     }
@@ -979,7 +979,7 @@ In this task, you create extension methods for the `BankCustomer` and `BankAccou
 
 Use the following steps to complete this section of the exercise:
 
-1. Use the **Classes_M1** project to create a new `Extensions.cs` class file.
+1. Use the **Classes_M2** project to create a new `Extensions.cs` class file.
 
     You can use the `Classes_M2` project to create new class file named Extensions. Right-click the **Classes_M2** project in the Solution Explorer, select **New File**, select **Class**, and then enter **Extensions**.
 
