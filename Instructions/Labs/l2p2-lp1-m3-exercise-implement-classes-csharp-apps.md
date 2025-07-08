@@ -148,7 +148,7 @@ Use the following steps to complete this section of the exercise:
 
 Partial classes allow you to split the definition of a class across multiple files. This can be useful when a class has a large number of properties and methods, or when you want to separate the definition of a class into logical sections. Splitting a class between two partial class files can make your code easier to read and maintain. For example, if the methods of a class are logically grouped into different categories, you can place each group of methods in a separate partial class file. This enables a team of developers to work on different parts of a class without interfering with each other's work. By using partial classes, you can organize your code more effectively and improve the readability and maintainability of your code.
 
-In this task, you split the BankAccount class between two partial class files, moving the methods into a separate file.
+In this task, you split the BankCustomer class between two partial class files, moving the methods into a separate file.
 
 Use the following steps to complete this section of the exercise:
 
@@ -224,7 +224,7 @@ Use the following steps to complete this section of the exercise:
     public partial class BankCustomer
     {
         // Method to return the full name of the customer
-        public string FullName()
+        public string ReturnFullName()
         {
             return $"{FirstName} {LastName}";
         }
@@ -239,7 +239,7 @@ Use the following steps to complete this section of the exercise:
         // Method to display customer information
         public string DisplayCustomerInfo()
         {
-            return $"Customer ID: {CustomerId}, Name: {FullName()}";
+            return $"Customer ID: {CustomerId}, Name: {ReturnFullName()}";
         }
     }
     
@@ -255,7 +255,7 @@ Use the following steps to complete this section of the exercise:
     
     public partial class BankCustomer
     {
-        private static int nextCustomerId;
+        private static int s_nextCustomerId;
         private string _firstName = "Tim";
         private string _lastName = "Shao";
         public readonly string CustomerId;
@@ -263,14 +263,14 @@ Use the following steps to complete this section of the exercise:
         static BankCustomer()
         {
             Random random = new Random();
-            nextCustomerId = random.Next(10000000, 20000000);
+            s_nextCustomerId = random.Next(10000000, 20000000);
         }
     
         public BankCustomer(string firstName, string lastName)
         {
             FirstName = firstName;
             LastName = lastName;
-            this.CustomerId = (nextCustomerId++).ToString("D10");
+            this.CustomerId = (s_nextCustomerId++).ToString("D10");
         }
     
         public string FirstName
@@ -935,11 +935,11 @@ Use the following steps to complete this section of the exercise:
     
     // Using object initializer
     BankAccount account8 = new BankAccount(customer4.CustomerId) {AccountType = "Savings"};
-    Console.WriteLine($"Account 4: Account # {account8.AccountNumber}, type {account8.AccountType}, balance {account8.Balance}, rate {BankAccount.InterestRate}, customer ID {account8.CustomerId}");
+    Console.WriteLine($"Account 8: Account # {account8.AccountNumber}, type {account8.AccountType}, balance {account8.Balance}, rate {BankAccount.InterestRate}, customer ID {account8.CustomerId}");
     
     // Using copy constructor
     BankAccount account9 = new BankAccount(account4);
-    Console.WriteLine($"Account 5 (copy of account4): Account # {account9.AccountNumber}, type {account9.AccountType}, balance {account9.Balance}, rate {BankAccount.InterestRate}, customer ID {account9.CustomerId}");
+    Console.WriteLine($"Account 9 (copy of account4): Account # {account9.AccountNumber}, type {account9.AccountType}, balance {account9.Balance}, rate {BankAccount.InterestRate}, customer ID {account9.CustomerId}");
 
     ```
 
@@ -953,7 +953,7 @@ Use the following steps to complete this section of the exercise:
     - The `customer4` object is created using an object initializer. The `FirstName` and `LastName` properties are set using the object initializer syntax.
     - The `customer5` object is created using a copy constructor. The `customer5` object is a copy of the `customer4` object.
     - The `account8` object is created using an object initializer. The `AccountType` property is set using the object initializer syntax. However, the `Balance` property has a private set accessor, so it can't be set using an object initializer.
-    - The `account9` object is created using a copy constructor. The `account5` object is a copy of the `account4` object.
+    - The `account9` object is created using a copy constructor. The `account9` object is a copy of the `account4` object.
 
 1. Run the app and review the output in the terminal window.
 
