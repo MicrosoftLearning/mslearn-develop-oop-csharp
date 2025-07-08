@@ -883,7 +883,7 @@ Use the following steps to complete this section of the exercise:
         // Method to display customer information
         public string DisplayCustomerInfo()
         {
-            return $"Customer ID: {CustomerId}, Name: {FullName()}";
+            return $"Customer ID: {CustomerId}, Name: {ReturnFullName()}";
         }
 
     }
