@@ -414,8 +414,6 @@ Use the following steps to complete this task:
 
     using Classes_M1;
 
-    namespace Classes_M1;
-
     string firstName = "Tim";
     string lastName = "Shao";
     string customerIdNumber = "1010101010";
