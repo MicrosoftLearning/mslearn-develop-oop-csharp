@@ -478,7 +478,7 @@ Use the following steps to complete this task:
     ```plaintext
 
     BankCustomer 1: Tim Shao 1010101010
-    BankCustomer 2: Lisa Doe 1010101010
+    BankCustomer 2: Lisa Shao 1010101010
     BankCustomer 3: Sandy Zoeng 2020202020
 
     ```
