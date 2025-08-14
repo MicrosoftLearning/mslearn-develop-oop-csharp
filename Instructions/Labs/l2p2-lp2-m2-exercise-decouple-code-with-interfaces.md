@@ -246,7 +246,7 @@ In this task, you will create a `Classroom` class that uses `List<T>` to store s
 
 ---
 
-## Task 6: Create the Program Class  
+## Task 6: Update the Program Class  
 
 1. **Update the `Program.cs` file to demonstrate the functionality of the `Classroom` class.**
 
