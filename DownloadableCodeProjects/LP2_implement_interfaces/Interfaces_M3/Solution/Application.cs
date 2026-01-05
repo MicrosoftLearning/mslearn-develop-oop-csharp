@@ -1,10 +1,14 @@
 public class Application
 {
+    // The Application class represents the main application logic. 
+
+    // TASK 6: Create references to the ILogger and IDataAccess
+    // interfaces, then refactor the Application constructor
+    // to accept them as parameters.
+
     private readonly ILogger _logger;
     private readonly IDataAccess _dataAccess;
 
-    // TASK 6: Implement ILogger and IDataAccess interfaces and  
-    // refactor this constructor to accept them as parameters.
     public Application(ILogger logger, IDataAccess dataAccess)
     {
         _logger = logger;

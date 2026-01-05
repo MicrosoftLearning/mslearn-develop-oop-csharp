@@ -1,16 +1,18 @@
 
 public class Application
 {
+    // The Application class represents the main application logic. 
+
+    // TASK 6: Create references to the ILogger and IDataAccess
+    // interfaces, then refactor the Application constructor
+    // to accept them as parameters.
+
     private readonly ConsoleLogger _logger;
     private readonly DatabaseAccess _dataAccess;
 
-    // TASK 6: Implement ILogger and IDataAccess interfaces and  
-    // refactor this constructor to accept them as parameters.
-
-    // *The Application class represents the main application logic, and 
-    // *is tightly coupled to ConsoleLogger and DatabaseAccess.
-    // *Currently, the constructor directly instantiates the 
-    // *ConsoleLogger and DatabaseAccess classes, creating tight coupling. 
+    // This constructor for the Application class instantiates
+    // the ConsoleLogger and DatabaseAccess classes directly,
+    // creating tight coupling.
     public Application()
     {
         _logger = new ConsoleLogger();

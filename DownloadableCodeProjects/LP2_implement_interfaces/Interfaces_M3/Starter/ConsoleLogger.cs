@@ -1,6 +1,4 @@
 // TASK 5: Refactor the code to use an ILogger interface.
-// This class implements the ILogger interface and is responsible for 
-// logging messages to the console.
 
 // *This class is responsible for logging messages to the console.
 // *Currently, it is tightly coupled to the Application class.

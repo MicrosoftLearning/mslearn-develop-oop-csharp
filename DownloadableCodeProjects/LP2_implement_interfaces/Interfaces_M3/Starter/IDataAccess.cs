@@ -1,1 +1,1 @@
-// TASK 2: Create an interface ILogger with a method Log(string message).
+// TASK 2: Create an interface IDataAccess for data access operations.

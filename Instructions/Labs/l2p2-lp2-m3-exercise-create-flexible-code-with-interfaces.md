@@ -28,20 +28,22 @@ Suppose you're a software developer at a tech company working on a new project. 
 
 This exercise includes the following tasks:
 
-1. Create a new C# project.
-1. Define interfaces to abstract logging and database access.
-1. Update existing classes to implement the interfaces.
-1. Refactor the application to use dependency injection.
-1. Test the refactored application to ensure it works as expected.
+1. Review the current version of your logging application.
+1. Create IDataAccess interface for data access.
+1. Implement the IDataAccess interface to decouple the DatabaseAccess class.
+1. Create ILogger interface for logging a message.
+1. Update ConsoleLogger class to implement the interfaces.
+1. Refactor the Application class to use dependency injection.
+1. Refactor the Program.cs file to use dependency injection.
+1. Test the refactored application.
 
-## Task 1: Review the current version of your logging application.
+## Task 1: Review the current version of your logging application
 
 In this task, you download the existing version of your banking app and review the code.
 
 Use the following steps to complete this section of the exercise:
 
-1. Download the starter code from the following URL: [Implement interfaces - exercise code projects](https://github.com/MicrosoftLearning/mslearn-develop-oop-csharp/blob/main/DownloadableCodeProjects/Downloads/LP2SampleApps.zip)
-    ![Image of raw file download button for zip on toolbar.](./Media/zip-download-button.png)
+1. Download the starter code from the following URL: [Implement interfaces - exercise code projects](https://github.com/MicrosoftLearning/mslearn-develop-oop-csharp/raw/refs/heads/main/DownloadableCodeProjects/Downloads/LP2SampleApps.zip)
 
 1. Extract the contents of the LP2SampleApps.zip file to a folder location on your computer.
 
@@ -69,17 +71,17 @@ Use the following steps to complete this section of the exercise:
 
 1. Take a minute to open and review each of the files.
 
-- **`Application.cs`**: Defines the `Application` class, which contains the main application logic and is tightly coupled to `ConsoleLogger` and `DatabaseAccess`.
+    - **`Application.cs`**: Defines the `Application` class, which contains the main application logic and is tightly coupled to `ConsoleLogger` and `DatabaseAccess`.
 
-- **`ConsoleLogger.cs`**: Defines the `ConsoleLogger` class, responsible for logging messages to the console, currently tightly coupled to `Application`.
+    - **`ConsoleLogger.cs`**: Defines the `ConsoleLogger` class, responsible for logging messages to the console, currently tightly coupled to `Application`.
 
-- **`DatabaseAccess.cs`**: Defines the `DatabaseAccess` class, responsible for connecting to a database and retrieving data, currently tightly coupled to `Application`.
+    - **`DatabaseAccess.cs`**: Defines the `DatabaseAccess` class, responsible for connecting to a database and retrieving data, currently tightly coupled to `Application`.
 
-- **`IDataAccess.cs`**: Defines the `IDataAccess` interface, specifying the contract for data access operations like `Connect` and `GetData`.
+    - **`IDataAccess.cs`**: Placeholder for the `IDataAccess` interface (will be used to specify the contract for data access operations like `Connect` and `GetData`).
 
-- **`ILogger.cs`**: Defines the `ILogger` interface, specifying the contract for logging operations with a `Log(string message)` method.
+    - **`ILogger.cs`**: Placeholder for thee `ILogger` interface (will be used to specify the contract for logging operations with a `Log(string message)` method).
 
-- **`Program.cs`**: Contains the entry point of the application, creating and running an instance of the `Application` class.
+    - **`Program.cs`**: Contains the entry point of the application, creating and running an instance of the `Application` class.
 
     > [!TIP]
     > Review of each file in the previous list provides understanding of the current project starting code, which is tightly coupled. Reviewing `TASK` comments in the files provides context for understanding how the project code is refactored into loosely coupled code.
@@ -97,19 +99,19 @@ Use the following steps to complete this section of the exercise:
     Your app should produce output that's similar to the following example:
 
     ```console
-        ConsoleLogger: Application started.
-        Database connected.
-        ConsoleLogger: Data retrieved: Sample Data from Database
-        ConsoleLogger: Application finished.
+    ConsoleLogger: Application started.
+    Database connected.
+    ConsoleLogger: Data retrieved: Sample Data from Database
+    ConsoleLogger: Application finished.
     ```
 
-## Task 2: Create `IDataAccess` interface for data access  
+## Task 2: Create IDataAccess interface for data access  
 
 In Visual Studio Code open `IDataAccess.cs`, the file only has comments.
 
 1. Open the `IDataAccess.cs` file in Visual Studio Code.
 
-1. Under the comment `TASK 2:` Add the following code to define the `IDataAccess` interface:
+1. Under the `TASK 2:` comment, to define the `IDataAccess` interface, add the following code:
 
    ```csharp
     public interface IDataAccess
@@ -122,21 +124,21 @@ In Visual Studio Code open `IDataAccess.cs`, the file only has comments.
     }
    ```
 
-   *The `ILogger` interface defines a contract for logging functionality, ensuring that any class implementing it provides a `Log` method.*
+    *The `IDataAccess` interface defines a contract for data access operations, ensuring that any class implementing it provides `Connect` and `GetData` methods.*
 
 1. Save your changes.
 
 1. **Notice that adding the `IDataAccess` interface definition** provides the foundation for functionality with a clearly defined contract for data access operations. This ensures that any class implementing the interface will provide concrete implementations for the `Connect` and `GetData` methods, enabling consistent and flexible data access across the application.
 
-## Task 3: Implement the `IDataAccess` interface to decouple the `DatabaseAccess` class
+## Task 3: Implement the IDataAccess interface to decouple the DatabaseAccess class
 
 Now, update the existing `DatabaseAccess` class to implement the newly defined interface.
 
 1. Open the `DatabaseAccess.cs` file.
 
-1. Under the comment `TASK 3:` Add the following code to modify the class to implement the `IDataAccess` interface:
+1. Under the `TASK 3:` comment, to implement the IDataAccess interface, replace the existing DatabaseAccess class with the following code:
 
-   ```csharp
+    ```csharp
     // This class implements the IDataAccess interface and is responsible for connecting to a database and retrieving data.
     public class DatabaseAccess : IDataAccess
     {
@@ -152,7 +154,7 @@ Now, update the existing `DatabaseAccess` class to implement the newly defined i
             return "Sample Data from Database";
         }
     }
-   ```
+    ```
 
    *The `DatabaseAccess` class now implements the `IDataAccess` interface, providing methods to connect to a database and retrieve data.*
 
@@ -160,19 +162,19 @@ Now, update the existing `DatabaseAccess` class to implement the newly defined i
 
 1. **Notice that the only code change** is adding the interface reference (`: IDataAccess`) to the `DatabaseAccess` class. This ensures the class adheres to the contract defined by the `IDataAccess` interface, which includes the `Connect` and `GetData` methods.
 
-## Task 4: Create `ILogger` interface for logging a message
+## Task 4: Create ILogger interface for logging a message
 
 1. Open the `ILogger.cs` file in Visual Studio Code.
 
-1. Under the comment `TASK 4:`, add the following code to define the `ILogger` interface under the Task 4 comment:
+1. Under the `TASK 4:` comment, to define the `ILogger` interface, add the following code:
 
     ```csharp
-     // Interface for logging messages.
-     public interface ILogger
-     {
-          // Logs a message.
-          void Log(string message);
-     }
+    // Interface for logging messages.
+    public interface ILogger
+    {
+        // Logs a message.
+        void Log(string message);
+    }
     ```
 
     *The `ILogger` interface abstracts logging operations, requiring implementing classes to provide a method for logging messages.*
@@ -181,16 +183,18 @@ Now, update the existing `DatabaseAccess` class to implement the newly defined i
 
 1. **Notice that adding the `ILogger` interface definition** establishes a clear contract for logging functionality. This ensures that any class implementing the interface will provide a concrete implementation of the `Log` method, enabling consistent and reusable logging behavior across the application.
 
-## Task 5: Update `ConsoleLogger` class to implement the interfaces
+## Task 5: Update ConsoleLogger class to implement the interfaces
 
 Next, you update the existing `ConsoleLogger` class to implement the newly defined interface.
 
 1. Open the `ConsoleLogger.cs` file.
 
-1. Under the comment `TASK 5:`, add the following code to modify the class to implement the `ILogger` interface:
+1. Under the `TASK 5:` comment, to implement the ILogger interface, replace the existing ConsoleLogger class with the following code:
 
-   ```csharp
-   public class ConsoleLogger : ILogger
+    ```csharp
+    // This class implements the ILogger interface and is responsible for 
+    // logging messages to the console.
+    public class ConsoleLogger : ILogger
     {
         // Logs a message to the console.
         public void Log(string message)
@@ -198,40 +202,42 @@ Next, you update the existing `ConsoleLogger` class to implement the newly defin
             Console.WriteLine($"ConsoleLogger: {message}");
         }
     }
-   ```
+    ```
 
-> [!NOTE]
-> The constructor code in Task 6 is incomplete. It doesn't show the full `Application` class or how `_logger` and `_dataAccess` are declared - those items must remain intact.
+    *The `ConsoleLogger` class now implements the `ILogger` interface, providing a concrete implementation of the `Log` method to log messages to the console.*
 
-   *The `ConsoleLogger` class now implements the `ILogger` interface, providing a concrete implementation of the `Log` method to log messages to the console.*
+    > [!NOTE]
+    > The constructor code in Task 6 is incomplete. It doesn't show the full `Application` class or how `_logger` and `_dataAccess` are declared - those items must remain intact.
 
 1. Save your changes.
 
 1. **Notice that adding the `ILogger` interface definition** establishes a clear contract for logging functionality. This ensures that any class implementing the interface will provide a concrete implementation of the `Log` method, enabling consistent and reusable logging behavior across the application.
 
-## Task 6: Refactor the application to use dependency injection
+## Task 6: Refactor the Application class to use dependency injection
 
 Refactor the `Application` class to depend on the `ILogger` and `IDataAccess` interfaces instead of directly instantiating the `ConsoleLogger` and `DatabaseAccess` classes.
 
 1. Open the `Application.cs` file.
 
-1. Under the comment `TASK 6:`, add the following code to replace the `Application` class:
+1. Under the `TASK 6:` comment, replace the field declarations and `Application` class constructor with the following code:
 
-   ```csharp
-    // TASK 6: Implement ILogger and IDataAccess interfaces and  
-    // refactor this constructor to accept them as parameters.
+    ```csharp
+    private readonly ILogger _logger;
+    private readonly IDataAccess _dataAccess;
+
     public Application(ILogger logger, IDataAccess dataAccess)
     {
         _logger = logger;
         _dataAccess = dataAccess;
     }
-   ```
+    ```
 
    *The `Application` class now uses dependency injection to receive its dependencies, making it more flexible and easier to test.*
 
-## Task 7: Refactor `Program` to use dependency injection
+## Task 7: Refactor the Program.cs file to use dependency injection
 
 1. Open the `Program.cs` file.
+
 1. Replace all of the existing code with the following:
 
    ```csharp
@@ -257,32 +263,24 @@ Finally, test the refactored application to ensure it works as expected.
 
     *To debug, set breakpoints in your code (e.g., in `Application.cs` or `Program.cs`) and press `F5` in Visual Studio Code to start debugging. This allows you to step through the code and inspect variables.*
 
-1. Verify the output to ensure that the application logs messages to the console and retrieves data from the database.
+1. Verify the output to ensure that the application logs messages to the console.
 
     Your app should produce output that's similar to the following example:
 
     ```console
-        ConsoleLogger: Application started.
-        Database connected.
-        ConsoleLogger: Data retrieved: Sample Data from Database
-        ConsoleLogger: Application finished.
-    ```
-
-### Check your work: Test the refactored application
-
-Confirm that the application runs without errors and produces the following output:
-
-```console
     ConsoleLogger: Application started.
     Database connected.
     ConsoleLogger: Data retrieved: Sample Data from Database
     ConsoleLogger: Application finished.
-```
+    ```
 
-*This output confirms that the application is functioning correctly, with logging and database operations working as expected.*
+    *This output confirms that the application is functioning correctly, with logging and database operations working as expected.*
 
-The output is the same as the starter code, but now the code is decoupled from specific implementations by using interfaces and dependency injection. This exercise demonstrated how to refactor tightly coupled code into loosely coupled components by defining interfaces (`ILogger` and `IDataAccess`), implementing them in concrete classes (`ConsoleLogger` and `DatabaseAccess`), and injecting these dependencies into the `Application` class.
+    The output is the same as the starter code, but now the code is decoupled from specific implementations by using interfaces and dependency injection. This exercise demonstrated how to refactor tightly coupled code into loosely coupled components by defining interfaces (`ILogger` and `IDataAccess`), implementing them in concrete classes (`ConsoleLogger` and `DatabaseAccess`), and injecting these dependencies into the `Application` class.
 
-Refactoring code using techniques like interfaces and dependency injection helps decouple components, making your application more flexible and maintainable. Interfaces define clear contracts between parts of the system, while dependency injection ensures that dependencies are provided in a modular and testable manner. Together, these practices improve the structure of your code, making it easier to extend, test, and adapt to future requirements.
+> [!NOTE]
+> Refactoring code using techniques like interfaces and dependency injection helps decouple components, making your application more flexible and maintainable. Interfaces define clear contracts between parts of the system, while dependency injection ensures that dependencies are provided in a modular and testable manner. Together, these practices improve the structure of your code, making it easier to extend, test, and adapt to future requirements.
+
+## Clean up
 
 Now that you've finished the exercise, consider archiving your project files for review at a later time. Having your own projects available for review can be a valuable resource when you're learning to code. Additionally, building a portfolio of projects can be a great way to demonstrate your skills to potential employers.
