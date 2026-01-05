@@ -79,12 +79,11 @@ Use the following steps to complete this section of the exercise:
 
     - **`IDataAccess.cs`**: Placeholder for the `IDataAccess` interface (will be used to specify the contract for data access operations like `Connect` and `GetData`).
 
-    - **`ILogger.cs`**: Placeholder for thee `ILogger` interface (will be used to specify the contract for logging operations with a `Log(string message)` method).
+    - **`ILogger.cs`**: Placeholder for the `ILogger` interface (will be used to specify the contract for logging operations with a `Log(string message)` method).
 
     - **`Program.cs`**: Contains the entry point of the application, creating and running an instance of the `Application` class.
 
-    > [!TIP]
-    > Review of each file in the previous list provides understanding of the current project starting code, which is tightly coupled. Reviewing `TASK` comments in the files provides context for understanding how the project code is refactored into loosely coupled code.
+    > **NOTE**: Reviewing the initial project files code reveals the tightly coupled nature of the application components. Reviewing `TASK` comments in the files provides context for understanding how the project code is refactored into loosely coupled code.
 
 1. Run the application using the following command (or debug with `F5`):
 
@@ -113,7 +112,7 @@ In Visual Studio Code open `IDataAccess.cs`, the file only has comments.
 
 1. Under the `TASK 2:` comment, to define the `IDataAccess` interface, add the following code:
 
-   ```csharp
+    ```csharp
     public interface IDataAccess
     {
         // Connects to the data source.
@@ -122,7 +121,7 @@ In Visual Studio Code open `IDataAccess.cs`, the file only has comments.
         // Retrieves data from the data source.
         string GetData();
     }
-   ```
+    ```
 
     *The `IDataAccess` interface defines a contract for data access operations, ensuring that any class implementing it provides `Connect` and `GetData` methods.*
 
@@ -206,7 +205,7 @@ Next, you update the existing `ConsoleLogger` class to implement the newly defin
 
     *The `ConsoleLogger` class now implements the `ILogger` interface, providing a concrete implementation of the `Log` method to log messages to the console.*
 
-    > [!NOTE]
+    > **NOTE**
     > The constructor code in Task 6 is incomplete. It doesn't show the full `Application` class or how `_logger` and `_dataAccess` are declared - those items must remain intact.
 
 1. Save your changes.
@@ -278,7 +277,7 @@ Finally, test the refactored application to ensure it works as expected.
 
     The output is the same as the starter code, but now the code is decoupled from specific implementations by using interfaces and dependency injection. This exercise demonstrated how to refactor tightly coupled code into loosely coupled components by defining interfaces (`ILogger` and `IDataAccess`), implementing them in concrete classes (`ConsoleLogger` and `DatabaseAccess`), and injecting these dependencies into the `Application` class.
 
-> [!NOTE]
+> **NOTE**
 > Refactoring code using techniques like interfaces and dependency injection helps decouple components, making your application more flexible and maintainable. Interfaces define clear contracts between parts of the system, while dependency injection ensures that dependencies are provided in a modular and testable manner. Together, these practices improve the structure of your code, making it easier to extend, test, and adapt to future requirements.
 
 ## Clean up

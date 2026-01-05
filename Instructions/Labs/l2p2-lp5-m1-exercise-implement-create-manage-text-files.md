@@ -508,8 +508,7 @@ Use the following steps to complete this section of the exercise:
 
     When the app exits the `for` loop, `sb` contains the following string value: "deposits: 100.5, 200.75, 300.25\r\ndeposits: 150, 250.5, 350.75\r\ndeposits: 175.25, 275, 375.5\r\n"
 
-    > [!NOTE]
-    > The `StringBuilder` class is more efficient than using string concatenation, especially when building large strings or when the number of concatenations is unknown. The `StringBuilder` class provides methods for appending, inserting, and removing characters from a string.
+    > **NOTE**: The `StringBuilder` class is more efficient than using string concatenation, especially when building large strings or when the number of concatenations is unknown. The `StringBuilder` class provides methods for appending, inserting, and removing characters from a string.
 
 1. To split the CSV formatted string into a string array and display the string values, add the following code to the **Main** method:
 
@@ -1230,8 +1229,7 @@ Use the following steps to complete this section of the exercise:
 
     ```
 
-    > [!NOTE]
-    > The transaction data is simulated using randomly generated data, which means your "File length" and "Current position" values may differ from the example output.
+    > **NOTE**: The transaction data is simulated using randomly generated data, which means your "File length" and "Current position" values may differ from the example output.
 
 ## Use the BinaryWriter and BinaryReader classes to create and read binary files
 

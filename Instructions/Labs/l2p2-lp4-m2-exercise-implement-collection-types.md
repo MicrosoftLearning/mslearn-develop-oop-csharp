@@ -84,8 +84,7 @@ Use the following steps to complete this section of the exercise:
 
     To run your app, right-click the **Data_M2** project in the Solution Explorer, select **Debug**, and then select **Start New Instance**.
 
-    > [!TIP]
-    > If you encounter any issues while completing this exercise, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code. If you're still having trouble, you can review the solution code in the sample apps that you downloaded at the beginning of this exercise. To view the Data_M2 solution, navigate to the LP4SampleApps/Data_M2/Solution folder and open the Solution project in Visual Studio Code.
+    > **TIP**: If you encounter any issues while completing this exercise, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code. If you're still having trouble, you can review the solution code in the sample apps that you downloaded at the beginning of this exercise. To view the Data_M2 solution, navigate to the LP4SampleApps/Data_M2/Solution folder and open the Solution project in Visual Studio Code.
 
 ---
 
@@ -103,7 +102,7 @@ You will implement functionality to create `Bank`, `BankCustomer`, and `BankAcco
    Bank myBank = new Bank("MyBank");
    ```
 
-   > **Note:** This creates a bank named "MyBank" that will hold customers and their accounts.
+   > **NOTE**: This creates a bank named "MyBank" that will hold customers and their accounts.
 
 1. **Create `BankCustomer` and `BankAccount` objects**  
    Add the following code below the previous step:
@@ -114,7 +113,7 @@ You will implement functionality to create `Bank`, `BankCustomer`, and `BankAcco
    BankAccount account1 = new CheckingAccount(customer1.CustomerId, 1000);
    ```
 
-   > **Note:** This creates a customer named Alice Smith and a checking account with a $1,000 balance.
+   > **NOTE**: This creates a customer named Alice Smith and a checking account with a $1,000 balance.
 
 1. **Add accounts to customers and customers to the bank**  
    Add the following code below the previous step:
@@ -125,7 +124,7 @@ You will implement functionality to create `Bank`, `BankCustomer`, and `BankAcco
    myBank.AddCustomer(customer1);
    ```
 
-   > **Note:** This links the account to the customer and the customer to the bank.
+   > **NOTE**: This links the account to the customer and the customer to the bank.
 
 1. **Simulate deposits, withdrawals, and transfers**  
    Add the following code below the previous step:
@@ -137,7 +136,7 @@ You will implement functionality to create `Bank`, `BankCustomer`, and `BankAcco
    simulator.SimulateWithdrawal(account1, 300);
    ```
 
-   > **Note:** This adds $500 to the account and then removes $300.
+   > **NOTE**: This adds $500 to the account and then removes $300.
 
 1. **Use a `HashSet` to ensure unique transactions**  
    Add the following code below the previous step:
@@ -147,7 +146,7 @@ You will implement functionality to create `Bank`, `BankCustomer`, and `BankAcco
    HashSet<Transaction> uniqueTransactions = new HashSet<Transaction>(account1.Transactions);
    ```
 
-   > **Note:** This ensures that duplicate transactions are not added to the list.
+   > **NOTE**: This ensures that duplicate transactions are not added to the list.
 
 1. **Generate a report of transactions within a date range**  
    Add the following code below the previous step:
@@ -161,7 +160,7 @@ You will implement functionality to create `Bank`, `BankCustomer`, and `BankAcco
    }
    ```
 
-   > **Note:** This displays all unique transactions for the account.
+   > **NOTE**: This displays all unique transactions for the account.
 
 ---
 
@@ -193,7 +192,7 @@ You will implement functionality to manage customers and transaction reports in 
    public List<BankCustomer> Customers { get; set; } = new List<BankCustomer>();
    ```
 
-   > **Note:** This code adds a property for the bank's name and a list to store its customers.
+   > **NOTE**: This code adds a property for the bank's name and a list to store its customers.
 
 1. **Add a method to add customers**  
    Below the properties, add the following method:
@@ -205,7 +204,7 @@ You will implement functionality to manage customers and transaction reports in 
    }
    ```
 
-   > **Note:** This method allows you to add a customer to the bank.
+   > **NOTE**: This method allows you to add a customer to the bank.
 
 1. **Add a dictionary for transaction reports**  
    Add the following property to store transaction reports:
@@ -214,7 +213,7 @@ You will implement functionality to manage customers and transaction reports in 
    public Dictionary<string, List<Transaction>> TransactionReports { get; set; } = new Dictionary<string, List<Transaction>>();
    ```
 
-   > **Note:** This dictionary will be used to generate transaction reports.
+   > **NOTE**: This dictionary will be used to generate transaction reports.
 
 ---
 
@@ -222,7 +221,7 @@ You will implement functionality to manage customers and transaction reports in 
 
 After completing this task, save your work. You do not need to build and debug yet, as the functionality implemented in this task will be used in subsequent tasks.
 
-> **Note:** The output remains the same as the previous step. Ensure the application builds successfully and no errors are introduced.
+> **NOTE**: The output remains the same as the previous step. Ensure the application builds successfully and no errors are introduced.
 
 ---
 
@@ -239,7 +238,7 @@ You will update the `BankCustomer` class to manage customer accounts. Each step 
    public List<BankAccount> Accounts { get; set; } = new List<BankAccount>();
    ```
 
-   > **Note:** This property stores the accounts associated with the customer.
+   > **NOTE**: This property stores the accounts associated with the customer.
 
 1. **Add a method to add accounts**  
    Below the property, add the following method:
@@ -251,7 +250,7 @@ You will update the `BankCustomer` class to manage customer accounts. Each step 
    }
    ```
 
-   > **Note:** This method allows you to add an account to the customer.
+   > **NOTE**: This method allows you to add an account to the customer.
 
 ---
 
@@ -276,7 +275,7 @@ You will update the `BankAccount` class to manage transactions. Each step aligns
    public List<Transaction> Transactions { get; set; } = new List<Transaction>();
    ```
 
-   > **Note:** This property stores the transactions associated with the bank account.
+   > **NOTE**: This property stores the transactions associated with the bank account.
 
 1. **Add a method to add transactions**  
    Below the property, add the following method:
@@ -288,7 +287,7 @@ You will update the `BankAccount` class to manage transactions. Each step aligns
    }
    ```
 
-   > **Note:** This method allows you to add a transaction to the account.
+   > **NOTE**: This method allows you to add a transaction to the account.
 
 ---
 
@@ -296,7 +295,7 @@ You will update the `BankAccount` class to manage transactions. Each step aligns
 
 After completing this task, save your work. You do not need to build and debug yet, as the functionality implemented in this task will be used in subsequent tasks.
 
-> **Note:** The output remains the same as the previous step. Ensure the application builds successfully and no errors are introduced.
+> **NOTE**: The output remains the same as the previous step. Ensure the application builds successfully and no errors are introduced.
 
 ---
 
@@ -316,7 +315,7 @@ You will create the `Transaction` class to represent deposits, withdrawals, and 
    public double Amount { get; set; }
    ```
 
-   > **Note:** These properties represent the details of a transaction, including its ID, date, type, and amount.
+   > **NOTE**: These properties represent the details of a transaction, including its ID, date, type, and amount.
 
 1. **Add a constructor to initialize transaction details**  
    Below the properties, add the following constructor:
@@ -331,7 +330,7 @@ You will create the `Transaction` class to represent deposits, withdrawals, and 
    }
    ```
 
-   > **Note:** This constructor initializes a transaction with the provided details.
+   > **NOTE**: This constructor initializes a transaction with the provided details.
 
 ---
 
@@ -365,7 +364,7 @@ You will create the `SimulateDepositWithdrawTransfer` class to simulate deposits
    }
    ```
 
-   > **Note:** This method creates a deposit transaction and adds it to the specified account.
+   > **NOTE**: This method creates a deposit transaction and adds it to the specified account.
 
 1. **Add a method to simulate withdrawals**  
    Below the deposit method, add the following code:
@@ -383,7 +382,7 @@ You will create the `SimulateDepositWithdrawTransfer` class to simulate deposits
    }
    ```
 
-   > **Note:** This method creates a withdrawal transaction and adds it to the specified account.
+   > **NOTE**: This method creates a withdrawal transaction and adds it to the specified account.
 
 1. **Add a method to simulate transfers**  
    Below the withdrawal method, add the following code:
@@ -409,7 +408,7 @@ You will create the `SimulateDepositWithdrawTransfer` class to simulate deposits
    }
    ```
 
-   > **Note:** This method creates a transfer transaction, withdrawing from one account and depositing into another.
+   > **NOTE**: This method creates a transfer transaction, withdrawing from one account and depositing into another.
 
 ---
 
@@ -417,7 +416,7 @@ You will create the `SimulateDepositWithdrawTransfer` class to simulate deposits
 
 After completing this task, save your work and run debug with **F5**. While this task does not produce visible output, ensure that the project builds successfully without errors.
 
-> **Note:** The output remains the same as the previous step. Ensure the application builds successfully and no errors are introduced.
+> **NOTE**: The output remains the same as the previous step. Ensure the application builds successfully and no errors are introduced.
 
 ---
 
@@ -434,7 +433,7 @@ You will use a `HashSet` to ensure that transactions are unique. Each step align
    HashSet<Transaction> uniqueTransactions = new HashSet<Transaction>(account1.Transactions);
    ```
 
-   > **Note:** This creates a `HashSet` from the transactions in `account1`, ensuring that duplicate transactions are not added.
+   > **NOTE**: This creates a `HashSet` from the transactions in `account1`, ensuring that duplicate transactions are not added.
 
 1. **Display unique transactions**  
    Below the `HashSet` creation, add the following code:
@@ -447,7 +446,7 @@ You will use a `HashSet` to ensure that transactions are unique. Each step align
    }
    ```
 
-   > **Note:** This displays all unique transactions in the `HashSet`.
+   > **NOTE**: This displays all unique transactions in the `HashSet`.
 
 ---
 
@@ -478,7 +477,7 @@ You will generate transaction reports using a `Dictionary` to group transactions
    Dictionary<string, List<Transaction>> transactionReports = new Dictionary<string, List<Transaction>>();
    ```
 
-   > **Note:** This dictionary will group transactions by account number.
+   > **NOTE**: This dictionary will group transactions by account number.
 
 1. **Populate the `Dictionary` with transactions**  
    Below the dictionary creation, add the following code:
@@ -493,7 +492,7 @@ You will generate transaction reports using a `Dictionary` to group transactions
    }
    ```
 
-   > **Note:** This loops through all customers and their accounts, adding transactions to the dictionary.
+   > **NOTE**: This loops through all customers and their accounts, adding transactions to the dictionary.
 
 1. **Generate a report for a specific account**  
    Below the dictionary population, add the following code:
@@ -513,7 +512,7 @@ You will generate transaction reports using a `Dictionary` to group transactions
    }
    ```
 
-   > **Note:** This generates a report for a specific account (e.g., account number `12345`).
+   > **NOTE**: This generates a report for a specific account (e.g., account number `12345`).
 
 ---
 
@@ -548,7 +547,7 @@ You will generate a report of transactions within a specific date range. Each st
    DateTime endDate = DateTime.Parse(Console.ReadLine());
    ```
 
-   > **Note:** This prompts the user to enter a start and end date for the transaction report.
+   > **NOTE**: This prompts the user to enter a start and end date for the transaction report.
 
 1. **Filter transactions by date range**  
    Below the user input, add the following code:
@@ -570,7 +569,7 @@ You will generate a report of transactions within a specific date range. Each st
    }
    ```
 
-   > **Note:** This filters and displays transactions that fall within the specified date range.
+   > **NOTE**: This filters and displays transactions that fall within the specified date range.
 
 ---
 
@@ -616,7 +615,7 @@ You will generate a summary report of all transactions across all accounts. Each
    }
    ```
 
-   > **Note:** This calculates the total number of transactions and the total amount across all accounts.
+   > **NOTE**: This calculates the total number of transactions and the total amount across all accounts.
 
 1. **Display the summary report**  
    Below the calculations, add the following code:
@@ -627,7 +626,7 @@ You will generate a summary report of all transactions across all accounts. Each
    Console.WriteLine($"Total Amount: {totalAmount:C}");
    ```
 
-   > **Note:** This displays the total number of transactions and the total amount in a summary report.
+   > **NOTE**: This displays the total number of transactions and the total amount in a summary report.
 
 ---
 

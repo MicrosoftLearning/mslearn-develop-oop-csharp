@@ -81,8 +81,7 @@ Use the following steps to complete this section of the exercise:
 
     To run your app, right-click the **Data_M3** project in the Solution Explorer, select **Debug**, and then select **Start New Instance**.
 
-    > [!TIP]
-    > If you encounter any issues while completing this exercise, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code. If you're still having trouble, you can review the solution code in the sample apps that you downloaded at the beginning of this exercise. To view the Data_M3 solution, navigate to the LP4SampleApps/Data_M3/Solution folder and open the Solution project in Visual Studio Code.
+    > **TIP**: If you encounter any issues while completing this exercise, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code. If you're still having trouble, you can review the solution code in the sample apps that you downloaded at the beginning of this exercise. To view the Data_M3 solution, navigate to the LP4SampleApps/Data_M3/Solution folder and open the Solution project in Visual Studio Code.
 
 ## Task 1: Define the `AccountType` enum
 

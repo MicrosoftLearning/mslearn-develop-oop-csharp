@@ -8,8 +8,7 @@ lab:
 
 Delegates enable developers to encapsulate methods and pass them as parameters, allowing for flexible and extensible code design. Delegates are useful when implementing callback methods, custom sorting or filtering, and many other programming scenarios.
 
-> [!NOTE]
-> Delegates are also used as event handlers, where you define a delegate type that represents the signature of the event handler methods. The implementation of event publishers and subscribers is covered separately.
+> **NOTE**: Delegates are also used as event handlers, where you define a delegate type that represents the signature of the event handler methods. The implementation of event publishers and subscribers is covered separately.
 
 In this exercise, you declare, instantiate, and invoke delegates that implement callback and custom sorting scenarios. You implement custom delegates to perform callback and sorting scenarios, and then replace the custom delegates with strongly typed `Action` and `Func` delegates that reduce code complexity and improve readability.
 
@@ -407,8 +406,7 @@ Use the following steps to complete this section of the exercise:
 
     ```
 
-> [!NOTE]
-> Transactions are generated using random values. The final account balances, and the order of customers will vary each time you run the app.
+> **NOTE**: Transactions are generated using random values. The final account balances, and the order of customers will vary each time you run the app.
 
 1. To demonstrate using the delegate to sort by name rather than by balance, add the following code to the end of the `Main` method:
 

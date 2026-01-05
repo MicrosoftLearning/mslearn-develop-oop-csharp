@@ -757,8 +757,7 @@ In this task, you update a constructor in the BankAccount class using optional p
 
     ```
 
-    > [!NOTE]
-    > Optional parameters can make your code more flexible and easier to read. In this case, there are no changes required to the code in your Program.cs. In fact, new constructor enables you to create BankAccount objects with parameter combinations that were not possible before.
+    > **NOTE**: Optional parameters can make your code more flexible and easier to read. In this case, there are no changes required to the code in your Program.cs. In fact, new constructor enables you to create BankAccount objects with parameter combinations that were not possible before.
 
 1. Take a minute to review your BankAccount.cs code.
 

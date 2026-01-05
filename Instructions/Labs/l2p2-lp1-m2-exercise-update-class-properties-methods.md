@@ -108,8 +108,7 @@ Use the following steps to complete this section of the exercise:
 
     The `BankCustomer` class also includes two constructors. The first constructor is a static constructor that initializes the `s_nextCustomerId` field with a random number eight-digit integer. The second constructor takes two parameters, `firstName` and `lastName`, and initializes the `FirstName` and `LastName` fields with the values of the parameters. The constructor also increments `s_nextCustomerId` and uses the incremented value to assign a unique value to `CustomerId`.
 
-    > [!NOTE]
-    > The `this` keyword refers to the current instance of the class. It's used to access fields, properties, and methods of the current instance. In the `BankCustomer` class, the `this` keyword is used to access the read-only `CustomerId` field. The `this` keyword is not required in this context, but it's used for clarity. The `this` keyword is not available in a static constructor.
+    > **NOTE**: The `this` keyword refers to the current instance of the class. It's used to access fields, properties, and methods of the current instance. In the `BankCustomer` class, the `this` keyword is used to access the read-only `CustomerId` field. The `this` keyword is not required in this context, but it's used for clarity. The `this` keyword is not available in a static constructor.
 
 1. Open the BankAccount.cs file.
 
@@ -212,8 +211,7 @@ Use the following steps to complete this section of the exercise:
 
     The customer IDs and account numbers in your output will be different from the example output. Remember that they're sequential values based on a randomly generated initial value.
 
-    > [!TIP]
-    > To run your app, right-click the **Classes_M2** project in the Solution Explorer, select **Debug**, and then select **Start New Instance**. If you don't see the **Debug** option listed, ensure that you've selected the **Classes_M2** project in the Solution Explorer. The **Debug** option isn't available when the **Classes_M2** solution is selected.
+    > **TIP**: To run your app, right-click the **Classes_M2** project in the Solution Explorer, select **Debug**, and then select **Start New Instance**. If you don't see the **Debug** option listed, ensure that you've selected the **Classes_M2** project in the Solution Explorer. The **Debug** option isn't available when the **Classes_M2** solution is selected.
 
 ## Implement properties for the BankCustomer class
 
@@ -455,8 +453,7 @@ Use the following steps to complete this section of the exercise:
 
     The `set` accessor is used to assign a new value to the private field. The `value` keyword represents the value being assigned to the property. When a new value is assigned to the property, the `set` accessor assigns `value` to the private field.
 
-    > [!NOTE]
-    > Your code doesn't need to explicitly define the anonymous backing fields (`_balance` and `_accountType`) for auto-implemented properties. The C# compiler automatically creates these fields for you when using auto-implemented properties.
+    > **NOTE**: Your code doesn't need to explicitly define the anonymous backing fields (`_balance` and `_accountType`) for auto-implemented properties. The C# compiler automatically creates these fields for you when using auto-implemented properties.
 
 1. Notice that the final constructor is now assigning values to the `Balance` and `AccountType` properties.
 
@@ -1093,8 +1090,7 @@ Use the following steps to complete this section of the exercise:
 
     ```
 
-    > [!NOTE]
-    > Extension methods are passed an instance of the class they're extending as the first parameter. The `this` keyword before the parameter type indicates that the method is an extension method for that type. In this case, the `this` keyword appears before the `BankCustomer` and `BankAccount` types to indicate that the methods are extension methods for those classes.
+    > **NOTE**: Extension methods are passed an instance of the class they're extending as the first parameter. The `this` keyword before the parameter type indicates that the method is an extension method for that type. In this case, the `this` keyword appears before the `BankCustomer` and `BankAccount` types to indicate that the methods are extension methods for those classes.
 
 ## Update the Program.cs file to demonstrate the updated classes, properties, and methods
 

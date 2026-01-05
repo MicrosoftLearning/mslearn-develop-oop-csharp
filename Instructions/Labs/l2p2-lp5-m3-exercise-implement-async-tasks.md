@@ -168,8 +168,7 @@ Use the following steps to complete this section of the exercise:
     
     ```
 
-    > [!NOTE]
-    > The customer IDs, account numbers, and transaction amounts are based on randomly generated values. The values in your output will be different from the example output.
+    > **NOTE**: The customer IDs, account numbers, and transaction amounts are based on randomly generated values. The values in your output will be different from the example output.
 
 ## Create a performance baseline using methods that load customer data synchronously
 
@@ -357,7 +356,7 @@ Use the following steps to complete this section of the exercise:
 
     The time taken to load the customer data files will vary based on the computer that you're using.
 
-    > [!NOTE]
+    > **NOTE**
     > When you run this app in a clean environment, the first run may take longer than subsequent runs. During the first run, the app copies JSON files to a Config folder in the `bin\Debug\net9.0` folder. Subsequent runs will be faster because the Config files are already prepared.
 
 ## Create classes that load customer data asynchronously and evaluate improved response times
