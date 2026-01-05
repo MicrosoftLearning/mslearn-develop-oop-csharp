@@ -44,35 +44,35 @@ This exercise includes the following tasks:
 
 To start, you need to create a new C# project in your development environment. This project will serve as the foundation for creating decoupled code using Interfaces.  
 
-1. Open Visual Studio Code.  
+1. Open Visual Studio Code.
 
-1. Open the terminal in Visual Studio Code by selecting `View > Terminal`.  
+1. Ensure that the C# Dev Kit extension is installed.
 
-1. Navigate to the directory where you want to create your project.  
+1. Use Visual Studio Code to open a folder location for your new code project.
 
-1. Run the following command to create a new console application:
+    For example:
 
-   ```bash  
-   dotnet new console -n DecoupleWithInterfaces  
-   ```  
+    1. Open the **File** menu and select **Open Folder**.
+    1. In the **Open Folder** dialog box, navigate root of the C drive.
+    1. Select **New Folder** and name the folder **TrainingProjects**.
+    1. Select the **TrainingProjects** folder and then select **Select Folder**.
 
-   *This command creates a new console application named `DecoupleWithInterfaces`, which will serve as the starting point for the exercise.*  
+1. Use the Command Palette to create a new console app named **DecoupleWithInterfaces**.
 
-1. Navigate into the newly created project directory:
+    For example:
 
-   ```bash  
-   cd DecoupleWithInterfaces  
-   ```  
+    1. To open the Command Palette, press **Ctrl+Shift+P**.
+    1. In the Command Palette, type **.NET:** and then select **.NET: New Project**.
+    1. In the 'Create a new .NET Project' box, select **Console App**.
+    1. In the 'Name the new project' box, type **DecoupleWithInterfaces** and then press Enter.
+    1. In the 'Select location for the project' box, select **Default directory**
+    1. In the 'Create project or view options' box, select **Create project**
 
-   *This step ensures that you are working within the correct project directory.*  
+    You should see a new console app project named **DecoupleWithInterfaces** in the Visual Studio Code EXPLORER view.
 
-1. Open the project in Visual Studio Code:  
+1. Ensure that the project has been created successfully.
 
-   ```bash  
-   code .  
-   ```  
-
-   *Opening the project in Visual Studio Code allows you to edit and manage the files easily.*  
+    Verify the presence of the `Program.cs` file in the project directory. You should also see the project structure in the Visual Studio Code Explorer pane.
 
 1. Open Visual Studio Code's integrated terminal panel and then navigate to the `DecoupleWithInterfaces` project directory.
 
