@@ -79,11 +79,8 @@ Use the following steps to complete this section of the exercise:
     You should see output that's similar to the following sample:
 
     ```plaintext
-    Demonstrating date and time operations:
-    Account Number: 19425507, Type: Checking, Balance: 10000, Interest Rate: 0, Customer ID: 0012555399
-    Account Number: 19425508, Type: Checking, Balance: 500, Interest Rate: 0, Customer ID: 0012555399, Overdraft Limit: 400
-    Account Number: 19425509, Type: Savings, Balance: 1000, Interest Rate: 0.02, Customer ID: 0012555399, Withdrawal Limit: 6, Withdrawals This Month: 0
-    Account Number: 19425510, Type: Money Market, Balance: 2000, Interest Rate: 0.04, Customer ID: 0012555399, Minimum Balance: 1000, Interest Rate: 4%, Minimum Opening Balance: 2000
+    Demonstrate date and time operations:
+
     ```
 
     To run your app, right-click the **Data_M1** project in the Solution Explorer, select **Debug**, and then select **Start New Instance**.
@@ -202,115 +199,254 @@ In this task, you will use the `DateTime`, `DateOnly`, `TimeOnly`, and `TimeZone
 
 1. Run your app and review the output.
 
-    You should see output similar to the following:
+    You should see output (for the current date) that's similar to the following:
 
     ```plaintext
-    Current Date and Time: 3/14/2025 10:00:00 AM
-    Current Date: 3/14/2025
-    Current Time: 10:00 AM
-    Current Day of the Week: Friday
-    Current Month: 3, Current Year: 2025
-    Date Plus 10 Days: 3/24/2025 10:00:00 AM
+    Demonstrate date and time operations:
+    Current Date and Time: 1/6/2026 12:16:52 PM
+    Current Date: 1/6/2026
+    Current Time: 12:16 PM
+    Current Day of the Week: Tuesday
+    Current Month: 1, Current Year: 2026
+    Date Plus 10 Days: 1/16/2026 12:16:52 PM
     Parsed Date: 3/13/2025 12:00:00 AM
-    Formatted Date: 2025-03-14
-    Current Time Zone: Pacific Standard Time, Offset from UTC: -08:00:00
-    UTC Time: 3/14/2025 6:00:00 PM
+    Formatted Date: 2026-01-06
+    Current Time Zone: (UTC-08:00) Pacific Time (US & Canada), Offset from UTC: -08:00:00
+    UTC Time: 1/6/2026 8:16:52 PM
     ```
 
 ## Task 2: Calculate Date and Time Values for Bank Customer Transactions
 
-In this task, you will create transactions for specific dates and times.
+In this task, you will create bank transactions for specific dates and times.
 
-### Task 2 Steps
+1. Locate the following code comment in the Program.cs file:
 
-1. **Create a transaction for the current date and time**  
-   Add the following code to create a transaction for the current date and time:
+    ```csharp
+    // TASK 2: Step 1 - Create a transaction for the current date and time
+    ```
 
-   ```csharp
-   Transaction transaction1 = new Transaction(account1.AccountId, 100, "reimbursement", DateTime.Now);
-   account1.AddTransaction(transaction1);
-   ```
+1. To create a bank transaction for the current date and time, add the following code below the comment:
 
-1. **Create a transaction for yesterday at 1:15 PM**  
-   Add the following code to create a transaction for yesterday at 1:15 PM:
+    ```csharp
 
-   ```csharp
-   DateTime yesterday = DateTime.Now.AddDays(-1).Date.Add(new TimeSpan(13, 15, 0));
-   Transaction transaction2 = new Transaction(account1.AccountId, 100, "reimbursement", yesterday);
-   account1.AddTransaction(transaction2);
-   ```
+    datedTransactions[0] = new Transaction(currentDate, currentTime, 100, account2.AccountNumber, account2.AccountNumber, "Withdraw", "Groceries");
 
-1. **Create transactions for the first three days of December 2024**  
-   Add the following code to create transactions for the first three days of December 2024:
+    ```
 
-   ```csharp
-   for (int day = 1; day <= 3; day++)
-   {
-       DateTime transactionDate = new DateTime(2024, 12, day, 13, 15, 0);
-       Transaction transaction = new Transaction(account1.AccountId, 100, "reimbursement", transactionDate);
-       account1.AddTransaction(transaction);
-   }
-   ```
+1. Locate the following code comment in the Program.cs file:
 
-1. **Display the transactions**  
-   Add the following code to display the transactions:
+    ```csharp
+    // TASK 2: Step 2 - Create a transaction for yesterday at 1:15PM
+    ```
 
-   ```csharp
-   foreach (Transaction transaction in account1.Transactions)
-   {
+1. To create a bank transaction for yesterday at 1:15 PM, add the following code below the comment:
+
+    ```csharp
+
+    datedTransactions[1] = new Transaction(currentDate.AddDays(-1), new TimeOnly(13, 15), 500, account2.AccountNumber, account2.AccountNumber, "Deposit", "ATM Deposit");
+
+    ```
+
+1. Locate the following code comment in the Program.cs file:
+
+    ```csharp
+    // TASK 2: Step 3 - Create transactions for the first three days of December 2025
+    ```
+
+1. To create transactions for the first three days of December 2025, add the following code below the comment:
+
+    ```csharp
+    
+    datedTransactions[2] = new Transaction(new DateOnly(2025, 12, 1), new TimeOnly(10, 0), 200, account2.AccountNumber, account2.AccountNumber, "Deposit", "Salary");
+    datedTransactions[3] = new Transaction(new DateOnly(2025, 12, 2), new TimeOnly(14, 30), 150, account2.AccountNumber, account2.AccountNumber, "Withdraw", "Groceries");
+    datedTransactions[4] = new Transaction(new DateOnly(2025, 12, 3), new TimeOnly(9, 45), 300, account2.AccountNumber, account2.AccountNumber, "Deposit", "Freelance Work");
+    
+    ```
+
+1. Locate the following code comment in the Program.cs file:
+
+    ```csharp
+    // TASK 2: Step 4 - Display the datedTransactions
+    ```
+
+1. To display the transactions, add the following code below the comment:
+
+    ```csharp
+    
+    Console.WriteLine("\nDated Transactions:");
+    foreach (Transaction transaction in datedTransactions)
+    {
        Console.WriteLine(transaction.ReturnTransaction());
-   }
-   ```
+    }
+    ```
 
-### Check Task 2 work
+1. Save the Program.cs file.
 
-After completing this task, save your work and run debug with **F5**, your app should display the transactions you created, including their dates and times.
+1. Run your app and review the output.
 
----
+    You should see output (for the current date) that's similar to the following:
+
+    ```plaintext
+    Demonstrate date and time operations:
+    Current Date and Time: 1/6/2026 12:16:52 PM
+    Current Date: 1/6/2026
+    Current Time: 12:16 PM
+    Current Day of the Week: Tuesday
+    Current Month: 1, Current Year: 2026
+    Date Plus 10 Days: 1/16/2026 12:16:52 PM
+    Parsed Date: 3/13/2025 12:00:00 AM
+    Formatted Date: 2026-01-06
+    Current Time Zone: (UTC-08:00) Pacific Time (US & Canada), Offset from UTC: -08:00:00
+    UTC Time: 1/6/2026 8:16:52 PM
+    
+    Dated Transactions:
+    Transaction ID: a43c2d81-d814-462f-9ed2-115843465482, Type: Withdraw, Date: 1/6/2026, Time: 12:16 PM, Amount: 100, Source Account: 11159445, Target Account: 11159445, Description: Groceries
+    Transaction ID: fed4389a-f311-4f28-82f9-a4b2502a7729, Type: Deposit, Date: 1/5/2026, Time: 1:15 PM, Amount: 500, Source Account: 11159445, Target Account: 11159445, Description: ATM Deposit
+    Transaction ID: 36e1fc8b-2afe-41f7-af0e-99368a7e3117, Type: Deposit, Date: 12/1/2025, Time: 10:00 AM, Amount: 200, Source Account: 11159445, Target Account: 11159445, Description: Salary
+    Transaction ID: f5fce6eb-5148-4198-ba0f-7d9d5b30c495, Type: Withdraw, Date: 12/2/2025, Time: 2:30 PM, Amount: 150, Source Account: 11159445, Target Account: 11159445, Description: Groceries
+    Transaction ID: f0368502-cd3e-49ec-846f-2b1e2736ef0c, Type: Deposit, Date: 12/3/2025, Time: 9:45 AM, Amount: 300, Source Account: 11159445, Target Account: 11159445, Description: Freelance Work
+    ```
 
 ## Task 3: Use Date Ranges to Simulate Transactions Programmatically
 
 In this task, you will define a date range and generate transactions for that range.
 
-### Steps
+1. Locate the following code comment in the Program.cs file:
 
-1. **Define a date range**  
-   Add the following code to define a date range starting on December 12, 2024, and ending on February 20, 2025:
+    ```csharp
+      // TASK 3: Step 1 - Define a date range starting on October 12, 2025, and ending on December 20, 2025
+    ```
 
-   ```csharp
-   DateTime startDate = new DateTime(2024, 12, 12);
-   DateTime endDate = new DateTime(2025, 2, 20);
-   ```
-
-1. **Generate transactions for the specified date range**  
-   Add the following code to generate transactions for the specified date range using the `SimulateTransactions` class:
+1. To define a date range starting on October 12, 2025, and ending on December 20, 2025, add the following code below the comment:
 
    ```csharp
-   List<Transaction> transactions = SimulateTransactions.GenerateTransactions(startDate, endDate, account1.AccountId);
+   DateOnly startDate = new DateOnly(2025, 10, 12);
+   DateOnly endDate = new DateOnly(2025, 12, 20);
    ```
 
-1. **Display the simulated transactions**  
-   Add the following code to display the simulated transactions:
+1. Locate the following code comment in the Program.cs file:
 
-   ```csharp
-   foreach (Transaction transaction in transactions)
-   {
-       Console.WriteLine(transaction.ReturnTransaction());
-   }
-   ```
+    ```csharp
+      // TASK 3: Step 2 - Generate transactions for the specified date range using the SimulateTransactions class
+    ```
 
-1. **Display the number of transactions processed**  
-   Add the following code to display the number of transactions processed:
+1. To generate transactions for the specified date range using the `SimulateTransactions` class, add the following code below the comment:
 
-   ```csharp
-   Console.WriteLine($"\nNumber of transactions processed: {transactions.Count}");
-   ```
+    ```csharp
+    List<Transaction> transactions = new List<Transaction>(SimulateTransactions.SimulateTransactionsDateRange(startDate, endDate, account2, account3));
+    ```
 
-### Check Task 3 work
+1. Locate the following code comment in the Program.cs file:
 
-After completing this task, save your work and run debug with **F5**, your app should display all simulated transactions and the total number of transactions processed.
+    ```csharp
+      // TASK 3: Step 3 - Display the simulated transactions
+    ```
 
----
+1. To display the simulated transactions, add the following code below the comment:
+
+    ```csharp
+    Console.WriteLine("\nSimulated Transactions:");
+    foreach (Transaction transaction in transactions)
+    {
+       if (transaction != null)
+       {
+             Console.WriteLine(transaction.ReturnTransaction());
+       }
+    }
+    ```
+
+1. Locate the following code comment in the Program.cs file:
+
+    ```csharp
+    // TASK 3: Step 4 - Display the number of transactions processed
+    ```
+
+1. To display the number of transactions processed, add the following code below the comment:
+
+    ```csharp
+    Console.WriteLine($"\nNumber of transactions processed: {transactions.Count}");
+    ```
+
+1. Save the Program.cs file.
+
+1. Run your app and review the output.
+
+    You should see output (for the current date) that's similar to the following:
+
+    ```plaintext
+    Demonstrate date and time operations:
+    Current Date and Time: 1/6/2026 12:16:52 PM
+    Current Date: 1/6/2026
+    Current Time: 12:16 PM
+    Current Day of the Week: Tuesday
+    Current Month: 1, Current Year: 2026
+    Date Plus 10 Days: 1/16/2026 12:16:52 PM
+    Parsed Date: 3/13/2025 12:00:00 AM
+    Formatted Date: 2026-01-06
+    Current Time Zone: (UTC-08:00) Pacific Time (US & Canada), Offset from UTC: -08:00:00
+    UTC Time: 1/6/2026 8:16:52 PM
+    
+    Dated Transactions:
+    Transaction ID: a43c2d81-d814-462f-9ed2-115843465482, Type: Withdraw, Date: 1/6/2026, Time: 12:16 PM, Amount: 100, Source Account: 11159445, Target Account: 11159445, Description: Groceries
+    Transaction ID: fed4389a-f311-4f28-82f9-a4b2502a7729, Type: Deposit, Date: 1/5/2026, Time: 1:15 PM, Amount: 500, Source Account: 11159445, Target Account: 11159445, Description: ATM Deposit
+    Transaction ID: 36e1fc8b-2afe-41f7-af0e-99368a7e3117, Type: Deposit, Date: 12/1/2025, Time: 10:00 AM, Amount: 200, Source Account: 11159445, Target Account: 11159445, Description: Salary
+    Transaction ID: f5fce6eb-5148-4198-ba0f-7d9d5b30c495, Type: Withdraw, Date: 12/2/2025, Time: 2:30 PM, Amount: 150, Source Account: 11159445, Target Account: 11159445, Description: Groceries
+    Transaction ID: f0368502-cd3e-49ec-846f-2b1e2736ef0c, Type: Deposit, Date: 12/3/2025, Time: 9:45 AM, Amount: 300, Source Account: 11159445, Target Account: 11159445, Description: Freelance Work
+    
+    Simulated Transactions:
+    Transaction ID: 8a1ffb0d-f1a5-44ff-9e59-245bedaf6a87, Type: Deposit, Date: 10/14/2025, Time: 12:00 PM, Amount: 4853, Source Account: 11159445, Target Account: 11159445, Description: Bi-monthly salary deposit
+    Transaction ID: 8c27140d-2280-4b57-9d02-09df59d7b2bd, Type: Deposit, Date: 10/31/2025, Time: 12:00 PM, Amount: 4853, Source Account: 11159445, Target Account: 11159445, Description: Bi-monthly salary deposit
+    Transaction ID: addc88cf-4fc1-4f25-a64c-6187f00c4b43, Type: Withdraw, Date: 10/18/2025, Time: 9:00 PM, Amount: 214, Source Account: 11159445, Target Account: 11159445, Description: Debit card purchase
+    Transaction ID: 9d44a10f-4558-4961-bca5-62b25ae73d50, Type: Withdraw, Date: 10/25/2025, Time: 9:00 PM, Amount: 189, Source Account: 11159445, Target Account: 11159445, Description: Debit card purchase
+    Transaction ID: f9b17938-ea29-45cf-b7be-0da12d0b8f1a, Type: Withdraw, Date: 10/20/2025, Time: 12:00 PM, Amount: 118, Source Account: 11159445, Target Account: 11159445, Description: Auto-pay gas and electric bill
+    Transaction ID: d1b29129-8eda-4e86-b020-7849b1eb996f, Type: Withdraw, Date: 10/20/2025, Time: 12:00 PM, Amount: 85, Source Account: 11159445, Target Account: 11159445, Description: Auto-pay water and sewer bill
+    Transaction ID: 88f7966f-1779-4ec5-aa97-1b135b321eb3, Type: Withdraw, Date: 10/20/2025, Time: 12:00 PM, Amount: 66, Source Account: 11159445, Target Account: 11159445, Description: Auto-pay waste management bill
+    Transaction ID: 6b2ddd2f-309a-4bb5-8ff0-b86538eb3b3f, Type: Withdraw, Date: 10/20/2025, Time: 12:00 PM, Amount: 147, Source Account: 11159445, Target Account: 11159445, Description: Auto-pay health club membership
+    Transaction ID: ddddde99-8358-406e-9628-c4408507d849, Type: Withdraw, Date: 10/13/2025, Time: 9:00 AM, Amount: 400, Source Account: 11159445, Target Account: 11159445, Description: Withdraw for expenses
+    Transaction ID: 6fa8fbb6-4b06-4378-b164-9b36a78176e8, Type: Withdraw, Date: 10/20/2025, Time: 9:00 AM, Amount: 400, Source Account: 11159445, Target Account: 11159445, Description: Withdraw for expenses
+    Transaction ID: 5db30a06-925c-4eb8-9943-cb0fce79458f, Type: Withdraw, Date: 10/27/2025, Time: 9:00 AM, Amount: 400, Source Account: 11159445, Target Account: 11159445, Description: Withdraw for expenses
+    Transaction ID: 66d58051-1ecc-4131-8066-a685081b4a6d, Type: Withdraw, Date: 10/31/2025, Time: 12:00 PM, Amount: 3236.2, Source Account: 11159445, Target Account: 11159445, Description: Auto-pay credit card bill
+    Transaction ID: 0a14dd83-d347-4e53-b3c3-402dbb2348ba, Type: Deposit, Date: 11/17/2025, Time: 12:00 PM, Amount: 3579, Source Account: 11159445, Target Account: 11159445, Description: Bi-monthly salary deposit
+    Transaction ID: 278f44ae-3474-433b-8662-ad6fe595211d, Type: Deposit, Date: 11/28/2025, Time: 12:00 PM, Amount: 3579, Source Account: 11159445, Target Account: 11159445, Description: Bi-monthly salary deposit
+    Transaction ID: d13d5151-03f2-4141-a819-949b7ba76073, Type: Transfer, Date: 11/1/2025, Time: 12:00 PM, Amount: 800, Source Account: 11159445, Target Account: 11159446, Description: Transfer checking to savings account
+    Transaction ID: 84d996bf-f7d7-49e7-bc30-2ed0b8eb13a0, Type: Withdraw, Date: 11/1/2025, Time: 12:00 PM, Amount: 4437.200000000001, Source Account: 11159445, Target Account: 11159445, Description: Auto-pay rent
+    Transaction ID: 5f8c105d-a545-41e1-b1a2-779f885086a6, Type: Withdraw, Date: 11/1/2025, Time: 9:00 PM, Amount: 159, Source Account: 11159445, Target Account: 11159445, Description: Debit card purchase
+    Transaction ID: 61f2f853-1f57-4e0a-86c4-69eae8b97285, Type: Withdraw, Date: 11/8/2025, Time: 9:00 PM, Amount: 167, Source Account: 11159445, Target Account: 11159445, Description: Debit card purchase
+    Transaction ID: 91130d34-f012-44e8-95a4-ae6450b99140, Type: Withdraw, Date: 11/15/2025, Time: 9:00 PM, Amount: 170, Source Account: 11159445, Target Account: 11159445, Description: Debit card purchase
+    Transaction ID: c696fecd-0bb6-40b3-b1d7-b1ac84a96a3b, Type: Withdraw, Date: 11/22/2025, Time: 9:00 PM, Amount: 166, Source Account: 11159445, Target Account: 11159445, Description: Debit card purchase
+    Transaction ID: 7d8de552-b9cd-47e8-ae00-154ecd7b84ca, Type: Withdraw, Date: 11/20/2025, Time: 12:00 PM, Amount: 112, Source Account: 11159445, Target Account: 11159445, Description: Auto-pay gas and electric bill
+    Transaction ID: 3b92b99c-7a2b-4569-8859-275574180838, Type: Withdraw, Date: 11/20/2025, Time: 12:00 PM, Amount: 88, Source Account: 11159445, Target Account: 11159445, Description: Auto-pay water and sewer bill
+    Transaction ID: b037344b-6a26-4197-bb2e-7ce7fe710ce2, Type: Withdraw, Date: 11/20/2025, Time: 12:00 PM, Amount: 69, Source Account: 11159445, Target Account: 11159445, Description: Auto-pay waste management bill
+    Transaction ID: 7f163b42-aaba-4af6-9b40-ddcae6d27201, Type: Withdraw, Date: 11/20/2025, Time: 12:00 PM, Amount: 157, Source Account: 11159445, Target Account: 11159445, Description: Auto-pay health club membership
+    Transaction ID: 43a3fa8a-a241-4f64-96e5-d13542a333f1, Type: Withdraw, Date: 11/3/2025, Time: 9:00 AM, Amount: 400, Source Account: 11159445, Target Account: 11159445, Description: Withdraw for expenses
+    Transaction ID: f107d840-3075-4d68-aa03-6c287b700dcb, Type: Withdraw, Date: 11/10/2025, Time: 9:00 AM, Amount: 400, Source Account: 11159445, Target Account: 11159445, Description: Withdraw for expenses
+    Transaction ID: ac88e0ed-c2dc-416a-a800-6c7a8851eda6, Type: Withdraw, Date: 11/17/2025, Time: 9:00 AM, Amount: 400, Source Account: 11159445, Target Account: 11159445, Description: Withdraw for expenses
+    Transaction ID: b797d495-c1cc-401b-ae0f-56d8f89811fb, Type: Withdraw, Date: 11/24/2025, Time: 9:00 AM, Amount: 400, Source Account: 11159445, Target Account: 11159445, Description: Withdraw for expenses
+    Transaction ID: 124a0e30-1612-4e50-8cd0-73233fd59100, Type: Withdraw, Date: 11/30/2025, Time: 12:00 PM, Amount: 2575.6000000000004, Source Account: 11159445, Target Account: 11159445, Description: Auto-pay credit card bill
+    Transaction ID: 95f665d3-e560-4fad-b709-ef538e0f57fc, Type: Refund, Date: 11/5/2025, Time: 12:00 PM, Amount: 100, Source Account: 11159446, Target Account: 11159445, Description: Refund for overcharge
+    Transaction ID: e7d89c50-543f-4af7-bde7-1279500b4702, Type: Fee, Date: 11/3/2025, Time: 12:00 PM, Amount: -50, Source Account: 11159445, Target Account: 11159445, Description: Monthly fee
+    Transaction ID: aa538bee-0a11-400b-afa2-8278ca850cc2, Type: Fee, Date: 11/10/2025, Time: 12:00 PM, Amount: -50, Source Account: 11159445, Target Account: 11159445, Description: Monthly fee
+    Transaction ID: ad1dfd3d-a3f1-42ce-923d-9668980a6330, Type: Deposit, Date: 12/15/2025, Time: 12:00 PM, Amount: 3427, Source Account: 11159445, Target Account: 11159445, Description: Bi-monthly salary deposit
+    Transaction ID: 093da892-cd57-468a-8179-3ed8a8e242c0, Type: Deposit, Date: 12/19/2025, Time: 12:00 PM, Amount: 3427, Source Account: 11159445, Target Account: 11159445, Description: Bi-monthly salary deposit
+    Transaction ID: b124245b-9fcb-4b85-869a-e3d8181438db, Type: Transfer, Date: 12/1/2025, Time: 12:00 PM, Amount: 800, Source Account: 11159445, Target Account: 11159446, Description: Transfer checking to savings account
+    Transaction ID: 62755d8f-b0e8-4080-85ca-5c9b3f93e77b, Type: Withdraw, Date: 12/1/2025, Time: 12:00 PM, Amount: 3613.6000000000004, Source Account: 11159445, Target Account: 11159445, Description: Auto-pay rent
+    Transaction ID: 0d9fb04d-a0fc-4989-8297-4a364e294831, Type: Withdraw, Date: 12/6/2025, Time: 9:00 PM, Amount: 175, Source Account: 11159445, Target Account: 11159445, Description: Debit card purchase
+    Transaction ID: 05d5b695-67b7-4c9b-89b5-69cfbcc2cfc9, Type: Withdraw, Date: 12/13/2025, Time: 9:00 PM, Amount: 202, Source Account: 11159445, Target Account: 11159445, Description: Debit card purchase
+    Transaction ID: 71db5228-ac80-4e27-9df9-bfc020254112, Type: Withdraw, Date: 12/20/2025, Time: 9:00 PM, Amount: 211, Source Account: 11159445, Target Account: 11159445, Description: Debit card purchase
+    Transaction ID: 36fbc095-9af2-4481-a5d6-6ef39179eaae, Type: Withdraw, Date: 12/20/2025, Time: 12:00 PM, Amount: 137, Source Account: 11159445, Target Account: 11159445, Description: Auto-pay gas and electric bill
+    Transaction ID: 18d4071d-3d0a-450e-84b3-75a576bfc25e, Type: Withdraw, Date: 12/20/2025, Time: 12:00 PM, Amount: 85, Source Account: 11159445, Target Account: 11159445, Description: Auto-pay water and sewer bill
+    Transaction ID: e1ac4928-f57a-45a5-9f29-0d3b374f7b66, Type: Withdraw, Date: 12/20/2025, Time: 12:00 PM, Amount: 61, Source Account: 11159445, Target Account: 11159445, Description: Auto-pay waste management bill
+    Transaction ID: 6a74a94a-d108-4e2b-bf1f-afe8b4377355, Type: Withdraw, Date: 12/20/2025, Time: 12:00 PM, Amount: 149, Source Account: 11159445, Target Account: 11159445, Description: Auto-pay health club membership
+    Transaction ID: 32400719-3f2d-4b32-a380-76eeb8893ba0, Type: Withdraw, Date: 12/1/2025, Time: 9:00 AM, Amount: 400, Source Account: 11159445, Target Account: 11159445, Description: Withdraw for expenses
+    Transaction ID: 73de55c5-e07e-462a-8c8c-9349438a5e6c, Type: Withdraw, Date: 12/8/2025, Time: 9:00 AM, Amount: 400, Source Account: 11159445, Target Account: 11159445, Description: Withdraw for expenses
+    Transaction ID: f9836adb-5623-457a-817f-bcadd94ecda1, Type: Withdraw, Date: 12/15/2025, Time: 9:00 AM, Amount: 400, Source Account: 11159445, Target Account: 11159445, Description: Withdraw for expenses
+    Transaction ID: 3cc54781-2a3a-4e60-a548-e6ddd87aaa9b, Type: Withdraw, Date: 12/19/2025, Time: 12:00 PM, Amount: 2841.8, Source Account: 11159445, Target Account: 11159445, Description: Auto-pay credit card bill
+    Transaction ID: 37c5b67a-2945-4318-8d24-b0ad9484f182, Type: Refund, Date: 12/5/2025, Time: 12:00 PM, Amount: 100, Source Account: 11159446, Target Account: 11159445, Description: Refund for overcharge
+    Transaction ID: 7a8d2b16-b344-447b-9b6f-c6c9ebae4044, Type: Fee, Date: 12/3/2025, Time: 12:00 PM, Amount: -50, Source Account: 11159445, Target Account: 11159445, Description: Monthly fee
+    Transaction ID: da3f1489-7975-49a6-a136-6dcbd0b5057b, Type: Fee, Date: 12/10/2025, Time: 12:00 PM, Amount: -50, Source Account: 11159445, Target Account: 11159445, Description: Monthly fee
+    
+    Total Simulated Transactions: 70
+    ```
 
 ## Clean up
 
