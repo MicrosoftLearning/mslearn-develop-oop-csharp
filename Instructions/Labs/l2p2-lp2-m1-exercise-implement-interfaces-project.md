@@ -31,11 +31,11 @@ Suppose you're a software developer at a tech company working on a new project. 
 This exercise includes the following tasks:
 
 1. Create a new C# project.
-1. Define an interface with method signatures and properties.
-1. Implement the defined interface in a class.
-1. Create another class that implements the same interface with different behavior.
-1. Demonstrate interface implementation by creating instances of the classes and calling their methods.
-1. Test the implemented interfaces and their implementations to ensure they work as expected.
+1. Define the IPerson interface with method signatures and properties.
+1. Implement the defined IPerson interface in a class.
+1. Create a second class to implement IPerson interface with different behavior.
+1. Demonstrate the interface implementation.
+1. Test the implemented interfaces.
 
 ## Task 1: Create a new C# project
 
@@ -71,7 +71,7 @@ To start, you need to create a new C# project in your development environment. T
 
     Verify the presence of the `Program.cs` file in the project directory. You should also see the project structure in the Visual Studio Code Explorer pane.
 
-## Task 2: Define the `IPerson` interface with method signatures and properties
+## Task 2: Define the IPerson interface with method signatures and properties
 
 Next, you will define an interface that includes method signatures and properties. This interface will be used to enforce a contract for any class that implements it. The code defines an interface in C# which shows interfaces enforcing consistent behavior across classes.
 
@@ -93,7 +93,7 @@ Next, you will define an interface that includes method signatures and propertie
 
     *The `IPerson` interface has been defined to include the `Name` and `Age` properties, along with the `DisplayInfo` method signature, ensuring a consistent contract for implementing classes.*
 
-## Task 3: Implement the defined `IPerson` interface in a class
+## Task 3: Implement the defined IPerson interface in a class
 
 Now, you will create a class that implements the `IPerson` interface. This class will provide concrete implementations for the interface members. The code in this step implements an interface in a class and provides concrete implementations for the interface.
 
@@ -119,7 +119,7 @@ Now, you will create a class that implements the `IPerson` interface. This class
 
     *The `Student` class has been implemented to adhere to the `IPerson` interface. It provides concrete implementations for the `Name` and `Age` properties, as well as the `DisplayInfo` method, ensuring compliance with the interface contract.*
 
-## Task 4: Create a second class to implement `IPerson` interface with different behavior
+## Task 4: Create a second class to implement IPerson interface with different behavior
 
 You will now create another class that implements the `IPerson` interface but with different behavior. Task 4 implements the same interface in multiple classes. This demonstrates how to provide unique behavior for each class using an interface.
 
