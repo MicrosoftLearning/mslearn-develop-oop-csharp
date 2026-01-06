@@ -42,7 +42,7 @@ This exercise includes the following tasks:
 
 ## Task 1: Create a new C# project  
 
-To start, you need to create a new C# project in your development environment. This project will serve as the foundation for creating decoupled code using Interfaces.  
+To start, you need to create a new C# project in your development environment. This project will serve as the foundation for creating decoupled code using Interfaces.
 
 1. Open Visual Studio Code.
 
@@ -76,32 +76,33 @@ To start, you need to create a new C# project in your development environment. T
 
 1. Open Visual Studio Code's integrated terminal panel and then navigate to the `DecoupleWithInterfaces` project directory.
 
-1. At the terminal command prompt, paste the following commands and then press **Enter**:
+1. At the terminal command prompt, to add files to the project, paste the following commands and then press **Enter**:
 
-    ```dotnetcli
-    echo namespace DecoupleWithInterfaces; > Classroom.cs
-    echo <Project Sdk="Microsoft.NET.Sdk"> > DecoupleWithInterfaces.csproj
-    echo namespace DecoupleWithInterfaces; > IPerson.cs
-    echo namespace DecoupleWithInterfaces; > PersonUtilities.cs
-    echo namespace DecoupleWithInterfaces; > Program.cs
-    echo namespace DecoupleWithInterfaces; > Student.cs
-    echo namespace DecoupleWithInterfaces; > Teacher.cs
+    ```powershell
+    echo "Creating necessary files..."
+    echo "namespace DecoupleWithInterfaces;" > Classroom.cs
+    echo "namespace DecoupleWithInterfaces;" > IPerson.cs
+    echo "namespace DecoupleWithInterfaces;" > PersonUtilities.cs
+    echo "namespace DecoupleWithInterfaces;" > Program.cs
+    echo "namespace DecoupleWithInterfaces;" > Student.cs
+    echo "namespace DecoupleWithInterfaces;" > Teacher.cs
     echo "Done"
     ```
 
-    *Verify files are created in the Visual Studio Code Explorer.*
+1. Verify that the following files are listed in the Visual Studio Code EXPLORER view.
 
-    - `Classroom.cs` for the `Classroom` class.
-    - `DecoupleWithInterfaces.csproj` for the Project file.
-    - `IPerson.cs` for the `IPerson` interface.
-    - `PersonUtilities.cs` for the utility class.
-    - `Program.cs` for the main entry point of the application.
-    - `Teacher.cs` for the `Teacher` class.
-    - `Student.cs` for the `Student` class.
+    - `Classroom.cs`
+    - `IPerson.cs`
+    - `PersonUtilities.cs`
+    - `Program.cs`
+    - `Teacher.cs`
+    - `Student.cs`
 
-## Task 2: Extend the IPerson Interface  
+    Each file should contain a single code line with the specified namespace declaration.
 
-You start by adding a new property and a default method to the `IPerson` interface. Default methods allow you to provide functionality directly in the interface, which can be overridden by implementing classes if needed.  
+## Task 2: Extend the IPerson interface  
+
+You start by adding a new property and a default method to the `IPerson` interface. Default methods allow you to provide functionality directly in the interface, which can be overridden by implementing classes if needed.
 
 1. Add the code for the `IPerson` class to the file named `IPerson.cs`:
 
@@ -129,7 +130,7 @@ You start by adding a new property and a default method to the `IPerson` interfa
 
 1. Notice the `IPerson` interface includes the `Role` property and the `Greet` method with a default implementation.
 
-## Task 3: Update Teacher and Student Classes  
+## Task 3: Update Teacher and Student classes  
 
 The `Teacher` and `Student` classes now implement the new `Role` property. The `Teacher` class overrides the default `Greet` method, while the `Student` class uses the default implementation.  
 
@@ -192,7 +193,7 @@ The `Teacher` and `Student` classes now implement the new `Role` property. The `
     - The `Teacher` class overrides the default `Greet` method with a custom implementation.  
     - The `Student` class uses the default `Greet` method and implements the `IComparable` interface for sorting.  
 
-## Task 4: Use Interfaces as Method Parameters  
+## Task 4: Use interfaces as method parameters  
 
 In this task, you will create a utility class that uses an interface as a method parameter. This demonstrates how interfaces allow you to handle multiple object types generically, enabling flexibility and reusability in your code.  
 
@@ -261,7 +262,7 @@ In this task, you will create a `Classroom` class that uses `List<T>` to store s
     - The `Classroom` class implements `IEnumerable<Student>`, which means it provides an enumerator through the `GetEnumerator` method. This allows the `foreach` loop to iterate over the `students` list directly without needing a separate method like `GetStudents()`.
     - The `foreach` loop automatically uses the `GetEnumerator` method to retrieve the enumerator, which handles the iteration process internally by calling `MoveNext()` and accessing the `Current` property of the enumerator.
 
-## Task 6: Update the Program Class  
+## Task 6: Update the Program class  
 
 1. Update the `Program.cs` file to demonstrate the functionality of the `Classroom` class.
 
