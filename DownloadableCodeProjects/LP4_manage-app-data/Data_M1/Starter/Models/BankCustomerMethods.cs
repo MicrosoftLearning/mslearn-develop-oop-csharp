@@ -2,7 +2,7 @@ using System;
 
 namespace Data_M1;
 
-public partial class BankCustomer : IBankCustomer
+public abstract partial class BankCustomer : IBankCustomer
 {
     // Method to return the full name of the customer
     public string ReturnFullName()
@@ -22,4 +22,9 @@ public partial class BankCustomer : IBankCustomer
     {
         return $"Customer ID: {CustomerId}, Name: {ReturnFullName()}";
     }
+    
+    public abstract bool IsPremiumCustomer();
+    
+    public abstract void ApplyBenefits();
+
 }

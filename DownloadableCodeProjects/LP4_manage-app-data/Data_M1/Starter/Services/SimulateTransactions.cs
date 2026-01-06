@@ -1,6 +1,6 @@
 using System;
 
-namespace Data_M2;
+namespace Data_M1;
 
 public static class SimulateTransactions
 {
@@ -19,16 +19,20 @@ public static class SimulateTransactions
         int transactionIndex = 0;
 
         // Determine the starting day, month, and year
-
+        int startDay = startDate.Day;
+        int startMonth = startDate.Month;
+        int startYear = startDate.Year;
 
         // Determine the ending day, month, and year
-
+        int endDay = endDate.Day;
+        int endMonth = endDate.Month;
+        int endYear = endDate.Year;
 
         // Check if the startDate is the first day of the month
-
+        bool isStartDateFirstDayOfMonth = startDay == 1;
 
         // Check if the endDate is the last day of the month
-
+        bool isEndDateLastDayOfMonth = endDay == DateTime.DaysInMonth(endYear, endMonth);
 
         // Call SimulateTransactionsStartDateToEndOfMonth if the startDate is not the first day of the month
         if (!isStartDateFirstDayOfMonth)
@@ -40,8 +44,8 @@ public static class SimulateTransactions
         }
 
         // Need to compare the month and year of the start and end dates
-        DateOnly startDayFirstFullMonth;
-        DateOnly startDayLastFullMonth;
+        DateOnly startDayFirstFullMonth = new DateOnly(startDate.Year, startDate.Month, 1);
+        DateOnly startDayLastFullMonth = new DateOnly(endYear, endMonth, 1);
 
         // If the start date for the first month and the start date for hte last month are the same, then the date range is exactly one month
         if (startDayFirstFullMonth == startDayLastFullMonth)
@@ -55,7 +59,7 @@ public static class SimulateTransactions
         else
         {
             // Call SimulateTransActionsFullMonth for each full month in the date range
-            DateOnly currentMonth;
+            DateOnly currentMonth = startDayFirstFullMonth;
             while (currentMonth < new DateOnly(endYear, endMonth, 1))
             {
                 Transaction[] fullMonthTransactions = SimulateTransActionsFullMonth(currentMonth.Month, currentMonth.Year, account1, account2);
@@ -74,9 +78,7 @@ public static class SimulateTransactions
         }
 
         // Return only the populated portion of the array
-        Transaction[] result = new Transaction[transactionIndex];
-        Array.Copy(transactions, result, transactionIndex);
-        return result;
+        return transactions.Take(transactionIndex).ToArray();
     }
 
     /// <summary>
@@ -112,17 +114,33 @@ public static class SimulateTransactions
         double creditCardBill = monthlyExpenses[11];
 
         // Combine month and year parameters with day = 1 to create a DateOnly object for the first day of the month
-        DateOnly firstDayOfMonth;
+        DateOnly firstDayOfMonth = new DateOnly(year, month, 1);
 
         // Calculate the last day of the month, account for leap years
-        int lastDayOfMonth;
-        DateOnly lastDay;
+        int lastDayOfMonth = DateTime.DaysInMonth(year, month);
+        DateOnly lastDay = new DateOnly(year, month, lastDayOfMonth);
 
         // Calculate the workday that's closest to the middle of the month
-        DateOnly middleOfMonth;
+        DateOnly middleOfMonth = firstDayOfMonth.AddDays(14);
+        if (middleOfMonth.DayOfWeek == DayOfWeek.Saturday)
+        {
+            middleOfMonth = middleOfMonth.AddDays(2);
+        }
+        else if (middleOfMonth.DayOfWeek == DayOfWeek.Sunday)
+        {
+            middleOfMonth = middleOfMonth.AddDays(1);
+        }
 
         // Calculate the workday that's closest to the end of the month
-        DateOnly endOfMonth;
+        DateOnly endOfMonth = lastDay;
+        if (endOfMonth.DayOfWeek == DayOfWeek.Saturday)
+        {
+            endOfMonth = endOfMonth.AddDays(-1);
+        }
+        else if (endOfMonth.DayOfWeek == DayOfWeek.Sunday)
+        {
+            endOfMonth = endOfMonth.AddDays(-2);
+        }
 
         // Use account1 to deposit the semiMonthlyPaycheck. Deposit paychecks into the checking account on a workday in the middle of the month and the final workday of the month.
         monthlyTransactions[0] = new Transaction(middleOfMonth, new TimeOnly(12, 00), semiMonthlyPaycheck, account1.AccountNumber, account1.AccountNumber, "Deposit", "Bi-monthly salary deposit");

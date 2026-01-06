@@ -1,6 +1,6 @@
 using System;
 
-namespace Data_M2;
+namespace Data_M1;
 
 // Represents a financial transaction with details such as date, time, amount, source and target accounts, type, and description.
 public class Transaction
