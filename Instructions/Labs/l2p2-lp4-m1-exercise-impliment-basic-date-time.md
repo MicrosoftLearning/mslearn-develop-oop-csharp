@@ -63,8 +63,11 @@ Use the following steps to complete this section of the exercise:
 
 1. In the EXPLORER view, collapse the **STARTER** folder, select **SOLUTION EXPLORER**, and expand the **Data_M1** project.
 
-    You should see the following code file:
+    You should see the following project structure:
 
+    - Interfaces (folder)
+    - Models (folder)
+    - Services (folder)
     - Program.cs
 
 1. Take a few minutes to open and review the Program.cs file.
@@ -72,6 +75,16 @@ Use the following steps to complete this section of the exercise:
     - `Program.cs`: This file contains the main entry point of the application, demonstrating the creation and manipulation of date and time values.
 
 1. Run the app and review the output in the terminal window.
+
+    You should see output that's similar to the following sample:
+
+    ```plaintext
+    Demonstrating date and time operations:
+    Account Number: 19425507, Type: Checking, Balance: 10000, Interest Rate: 0, Customer ID: 0012555399
+    Account Number: 19425508, Type: Checking, Balance: 500, Interest Rate: 0, Customer ID: 0012555399, Overdraft Limit: 400
+    Account Number: 19425509, Type: Savings, Balance: 1000, Interest Rate: 0.02, Customer ID: 0012555399, Withdrawal Limit: 6, Withdrawals This Month: 0
+    Account Number: 19425510, Type: Money Market, Balance: 2000, Interest Rate: 0.04, Customer ID: 0012555399, Minimum Balance: 1000, Interest Rate: 4%, Minimum Opening Balance: 2000
+    ```
 
     To run your app, right-click the **Data_M1** project in the Solution Explorer, select **Debug**, and then select **Start New Instance**.
 
@@ -81,42 +94,49 @@ Use the following steps to complete this section of the exercise:
 
 In this task, you will use the `DateTime`, `DateOnly`, `TimeOnly`, and `TimeZoneInfo` classes to create and manipulate date and time values.
 
-### Task 1 Steps
+1. Ensure that you have the Program.cs file open in Visual Studio Code.
 
-1. **Get the current date and time**  
-   Add the following code to retrieve and display the current date and time:
+1. Locate the following code comment:
+
+    ```csharp
+    // TASK 1: Step 1 - Get the current date and time, and extract date and time components
+    ```
+
+1. To get and display the current date and time, add the following code below the comment:
 
    ```csharp
    DateTime currentDateTime = DateTime.Now;
    Console.WriteLine($"Current Date and Time: {currentDateTime}");
    ```
 
-1. **Get the current date only**  
-   Add the following code to retrieve and display the current date:
+1. Locate the following code comment:
+
+    ```csharp
+    // TASK 1: Step 2 - Get the current day of the week and the current month and year
+    ```
+
+1. To get and display the date only, add the following code below the comment:
 
    ```csharp
    DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now);
    Console.WriteLine($"Current Date: {currentDate}");
    ```
 
-1. **Get the current time only**  
-   Add the following code to retrieve and display the current time:
+1. To get and display the current time only, add the following code:
 
    ```csharp
    TimeOnly currentTime = TimeOnly.FromDateTime(DateTime.Now);
    Console.WriteLine($"Current Time: {currentTime}");
    ```
 
-1. **Get the current day of the week**  
-   Add the following code to retrieve and display the current day of the week:
+1. To get and display the current day of the week, add the following code:
 
    ```csharp
    DayOfWeek currentDayOfWeek = DateTime.Now.DayOfWeek;
    Console.WriteLine($"Current Day of the Week: {currentDayOfWeek}");
    ```
 
-1. **Get the current month and year**  
-   Add the following code to retrieve and display the current month and year:
+1. To get and display the current month and year, add the following code:
 
    ```csharp
    int currentMonth = DateTime.Now.Month;
@@ -124,32 +144,40 @@ In this task, you will use the `DateTime`, `DateOnly`, `TimeOnly`, and `TimeZone
    Console.WriteLine($"Current Month: {currentMonth}, Current Year: {currentYear}");
    ```
 
-1. **Add days to the current date**  
-   Add the following code to add 10 days to the current date and display the result:
+1. Locate the following code comment:
+
+    ```csharp
+    // TASK 1: Step 3 - Add days to the current date and parse a date string
+    ```
+
+1. To add 10 days to the current date and display the result, add the following code below the comment:
 
    ```csharp
    DateTime datePlusDays = DateTime.Now.AddDays(10);
    Console.WriteLine($"Date Plus 10 Days: {datePlusDays}");
    ```
 
-1. **Parse a date string**  
-   Add the following code to parse a date string and display the result:
+1. To parse a date string and display the result, add the following code:
 
    ```csharp
    DateTime parsedDate = DateTime.Parse("2025-03-13");
    Console.WriteLine($"Parsed Date: {parsedDate}");
    ```
 
-1. **Format a date using `.ToString()` method and "yyyy-MM-dd" format**  
-   Add the following code to format the current date and display it:
+1. Locate the following code comment:
+
+    ```csharp
+    // TASK 1: Step 4 - Format a date and get the current timezone offset
+    ```
+
+1. To format a date using the `.ToString()` method and "yyyy-MM-dd" format, add the following code below the comment:  
 
    ```csharp
    string formattedDate = DateTime.Now.ToString("yyyy-MM-dd");
    Console.WriteLine($"Formatted Date: {formattedDate}");
    ```
 
-1. **Get the current timezone and offset from UTC**  
-   Add the following code to retrieve and display the current timezone and UTC offset:
+1. To get the current timezone and offset from UTC, add the following code:
 
    ```csharp
    TimeZoneInfo currentTimeZone = TimeZoneInfo.Local;
@@ -157,32 +185,37 @@ In this task, you will use the `DateTime`, `DateOnly`, `TimeOnly`, and `TimeZone
    Console.WriteLine($"Current Time Zone: {currentTimeZone.DisplayName}, Offset from UTC: {offsetFromUtc}");
    ```
 
-1. **Convert the current time to UTC**  
-   Add the following code to convert the current time to UTC and display it:
+1. Locate the following code comment:
+
+    ```csharp
+    // TASK 1: Step 5 - Convert the current time to UTC and display it
+    ```
+
+1. To convert the current time to UTC and display it, add the following code below the comment:
 
    ```csharp
    DateTime utcTime = DateTime.UtcNow;
    Console.WriteLine($"UTC Time: {utcTime}");
    ```
 
-### Check Task 1 work
+1. Save the Program.cs file.
 
-After completing this task, save your work and run debug with **F5**, your app should produce output similar to the following:
+1. Run your app and review the output.
 
-```plaintext
-Current Date and Time: 3/14/2025 10:00:00 AM
-Current Date: 3/14/2025
-Current Time: 10:00 AM
-Current Day of the Week: Friday
-Current Month: 3, Current Year: 2025
-Date Plus 10 Days: 3/24/2025 10:00:00 AM
-Parsed Date: 3/13/2025 12:00:00 AM
-Formatted Date: 2025-03-14
-Current Time Zone: Pacific Standard Time, Offset from UTC: -08:00:00
-UTC Time: 3/14/2025 6:00:00 PM
-```
+    You should see output similar to the following:
 
----
+    ```plaintext
+    Current Date and Time: 3/14/2025 10:00:00 AM
+    Current Date: 3/14/2025
+    Current Time: 10:00 AM
+    Current Day of the Week: Friday
+    Current Month: 3, Current Year: 2025
+    Date Plus 10 Days: 3/24/2025 10:00:00 AM
+    Parsed Date: 3/13/2025 12:00:00 AM
+    Formatted Date: 2025-03-14
+    Current Time Zone: Pacific Standard Time, Offset from UTC: -08:00:00
+    UTC Time: 3/14/2025 6:00:00 PM
+    ```
 
 ## Task 2: Calculate Date and Time Values for Bank Customer Transactions
 
