@@ -76,7 +76,7 @@ To start, you need to create a new C# project in your development environment. T
 
 1. Open Visual Studio Code's integrated terminal panel and then navigate to the `DecoupleWithInterfaces` project directory.
 
-1. At the terminal command prompt, to add files to the project, paste the following commands and then press **Enter**:
+1. To create/prepare project files, paste the following commands at the terminal command prompt, and then press **Enter**:
 
     ```powershell
     echo "Creating necessary files..."
@@ -95,8 +95,8 @@ To start, you need to create a new C# project in your development environment. T
     - `IPerson.cs`
     - `PersonUtilities.cs`
     - `Program.cs`
-    - `Teacher.cs`
     - `Student.cs`
+    - `Teacher.cs`
 
     Each file should contain a single code line with the specified namespace declaration.
 
@@ -104,10 +104,11 @@ To start, you need to create a new C# project in your development environment. T
 
 You start by adding a new property and a default method to the `IPerson` interface. Default methods allow you to provide functionality directly in the interface, which can be overridden by implementing classes if needed.
 
-1. Add the code for the `IPerson` class to the file named `IPerson.cs`:
+1. Open the `IPerson.cs` file in the Visual Studio Code editor.
 
-    ```csharp  
-    namespace DecoupleWithInterfaces;
+1. To define the `IPerson` interface, add the following code to the file:
+
+    ```csharp
     
     public interface IPerson
     {
@@ -126,7 +127,7 @@ You start by adding a new property and a default method to the `IPerson` interfa
     }
     ```  
 
-    *This code introduces a default method and a new property to the interface, enabling shared functionality across implementing classes.*  
+    *This code defines a default method and several properties, enabling shared IPerson functionality across implementing classes.*  
 
 1. Notice the `IPerson` interface includes the `Role` property and the `Greet` method with a default implementation.
 
@@ -134,10 +135,11 @@ You start by adding a new property and a default method to the `IPerson` interfa
 
 The `Teacher` and `Student` classes now implement the new `Role` property. The `Teacher` class overrides the default `Greet` method, while the `Student` class uses the default implementation.  
 
-1. Add the code for the `Teacher` class to the file named `Teacher.cs`:
+1. Open the `Teacher.cs` file in the Visual Studio Code editor.
 
-    ```csharp  
-    namespace DecoupleWithInterfaces;
+1. To define the `Teacher` class, add the following code to the file:
+
+    ```csharp
     
     public class Teacher : IPerson
     
@@ -161,10 +163,11 @@ The `Teacher` and `Student` classes now implement the new `Role` property. The `
 
     *This code demonstrates how the `Teacher` class implements the `IPerson` interface, defines the `Role` property, and overrides the default `Greet` method.*  
 
-1. Add the code for the `Student` class to the file named `Student.cs`:
+1. Open the `Student.cs` file in the Visual Studio Code editor.
+
+1. To define the `Student` class, add the following code to the file:
 
     ```csharp  
-    namespace DecoupleWithInterfaces;
     
     public class Student : IPerson, IComparable  
     {  
@@ -178,11 +181,26 @@ The `Teacher` and `Student` classes now implement the new `Role` property. The `
             Console.WriteLine($"Student Name: {Name}, Age: {Age}");  
         }  
     
-        public int CompareTo(Student? other)  
-        {  
-            if (other == null) return 1;  
-            return this.Age.CompareTo(other.Age);  
-        }  
+        public int CompareTo(object? obj)
+        {
+            // Explicitly check if obj is null
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj), "Cannot compare to a null object.");
+            }
+
+            // Explicitly check if obj is of type Student
+            if (!(obj is Student))
+            {
+                throw new ArgumentException(nameof(obj), "The object being compared must be of type Student.");
+            }
+
+            // Explicitly cast obj to Student
+            Student other = (Student)obj;
+
+            // Compare the Age property
+            return this.Age.CompareTo(other.Age);
+        }
     }  
     ```  
 
@@ -197,10 +215,11 @@ The `Teacher` and `Student` classes now implement the new `Role` property. The `
 
 In this task, you will create a utility class that uses an interface as a method parameter. This demonstrates how interfaces allow you to handle multiple object types generically, enabling flexibility and reusability in your code.  
 
-1. Add the code for the `PersonUtilities` class to the file named `PersonUtilities.cs`:
+1. Open the `PersonUtilities.cs` file in the Visual Studio Code editor.
+
+1. To define the `PersonUtilities` class, add the following code to the file:
 
     ```csharp  
-    namespace DecoupleWithInterfaces;
     
     public class PersonUtilities
     {
@@ -214,7 +233,7 @@ In this task, you will create a utility class that uses an interface as a method
 
     *This code demonstrates how to use an interface as a method parameter to handle multiple object types generically.*  
 
-1. Observe the use of Interfaces as Method Parameters:
+1. Observe the use of interfaces as method parameters:
 
     The `PrintPersonDetails` method accepts an `IPerson` object as a parameter. This allows the method to work with any class that implements the `IPerson` interface, such as `Teacher` or `Student`. Inside the method, the `DisplayInfo` and `Greet` methods are called on the `IPerson` object. These methods are defined in the `IPerson` interface and implemented by the `Teacher` and `Student` classes.  
 
@@ -222,10 +241,12 @@ In this task, you will create a utility class that uses an interface as a method
 
 In this task, you will create a `Classroom` class that uses `List<T>` to store students dynamically and implements `IEnumerable` to allow iteration over the collection. You will also test the `Classroom` class by adding, sorting, and displaying students.
 
-1. Create the Classroom Class in the file named `Classroom.cs` and add the following code:
+1. Open the `Classroom.cs` file in the Visual Studio Code editor.
+
+1. To define the `Classroom` class, add the following code to the file:
 
     ```csharp  
-    namespace DecoupleWithInterfaces;
+
     using System.Collections;
     using System.Collections.Generic;
     
@@ -257,17 +278,18 @@ In this task, you will create a `Classroom` class that uses `List<T>` to store s
 
     *This code shows how to create a custom collection class that supports dynamic storage (can grow or shrink as needed), sorting, and iteration using `List<T>` and `IEnumerable`.*
 
-1. Observe the `Classroom` class:
+1. Observe the following:
 
     - The `Classroom` class implements `IEnumerable<Student>`, which means it provides an enumerator through the `GetEnumerator` method. This allows the `foreach` loop to iterate over the `students` list directly without needing a separate method like `GetStudents()`.
     - The `foreach` loop automatically uses the `GetEnumerator` method to retrieve the enumerator, which handles the iteration process internally by calling `MoveNext()` and accessing the `Current` property of the enumerator.
 
 ## Task 6: Update the Program class  
 
-1. Update the `Program.cs` file to demonstrate the functionality of the `Classroom` class.
+1. Open the `Program.cs` file in the Visual Studio Code editor.
+
+1. To define the `Program.cs` class, add the following code to the file:
 
     ```csharp  
-    namespace DecoupleWithInterfaces;
     
     class Program
     {
@@ -323,19 +345,21 @@ In this task, you will create a `Classroom` class that uses `List<T>` to store s
 
 ## Task 7: Build and run the program to examine the output
 
-1. Open the terminal in Visual Studio Code.  
+1. Open Visual Studio Code's integrated terminal panel and then navigate to the `DecoupleWithInterfaces` project directory.  
 
-1. Run the following command to build the program:  
+1. To build the program, enter the following command:
 
-   ```bash  
-   dotnet build  
-   ```  
+    ```bash
+    dotnet build
+    ```
 
-1. Run the following command to execute the program:  
+    If errors are generated during the build process, review your code to ensure that it matches the provided code snippets in each task.
 
-   ```bash  
-   dotnet run  
-   ```  
+1. To run the program, enter the following command:
+
+    ```bash
+    dotnet run
+    ```
 
 1. Verify that the following console output is generated:  
 
@@ -344,20 +368,18 @@ In this task, you will create a `Classroom` class that uses `List<T>` to store s
     Hello, I am Helen Karu, and I am a teacher.
     Student Name: Eba Lencho, Age: 20
     Hello, my name is Eba Lencho and I am a Student.
-
+    
     Sorted Students by Age:
     Student Name: Eba Lencho, Age: 20
     Student Name: Frederiek Eppink, Age: 22
-
+    
     Attempting to compare a Student with a Teacher...
-    Error: obj (Parameter 'The object being compared must be of type Student.')  
+    Error: obj (Parameter 'The object being compared must be of type Student.')
     ```
 
-*The `Teacher` and `Student` details are printed using the `PersonUtilities` class. The students in the `Classroom` are displayed in ascending order of age after sorting. The `foreach` loop successfully iterates over the `Classroom` collection.*
+    *The `Teacher` and `Student` details are printed using the `PersonUtilities` class. The students in the `Classroom` are displayed in ascending order of age after sorting. The `foreach` loop successfully iterates over the `Classroom` collection.*
 
 Using interfaces helps decouple components, making your application more flexible and maintainable. Interfaces define clear contracts between parts of the system, and working with system-defined interfaces like `IComparable` and `IEnumerable` further enhances your code's functionality. These interfaces enable sorting and iteration capabilities, allowing your application to leverage built-in .NET features for handling collections and comparisons. These practices improve the structure of your code, making it easier to extend, test, and adapt to future requirements.  
-
-Now that you've finished the exercise, consider archiving your project files for review at a later time. Having your own projects available for review can be a valuable resource when you're learning to code. Additionally, building a portfolio of projects can be a great way to demonstrate your skills to potential employers.
 
 ## Clean up
 
