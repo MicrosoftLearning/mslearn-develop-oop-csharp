@@ -36,8 +36,8 @@ You've developed an initial version of the app that includes the following files
 This exercise includes the following tasks:
 
 1. Review the current version of your project.
-1. Create date and time values.
-1. Calculate date and time values for bank customer transactions.
+1. Create and manipulate date and time values.
+1. Construct date and time values for bank customer transactions.
 1. Use date ranges to simulate transactions programmatically.
 
 ## Review the current version of your project
@@ -83,11 +83,11 @@ Use the following steps to complete this section of the exercise:
 
     ```
 
-    To run your app, right-click the **Data_M1** project in the Solution Explorer, select **Debug**, and then select **Start New Instance**.
+    To run your app from the EXPLORER view, expand SOLUTION EXPLORER, right-click the **Data_M1** project, select **Debug**, and then select **Start New Instance**.
 
     > **TIP**: If you encounter any issues while completing this exercise, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code. If you're still having trouble, you can review the solution code in the sample apps that you downloaded at the beginning of this exercise. To view the Data_M1 solution, navigate to the LP4SampleApps/Data_M1/Solution folder and open the Solution project in Visual Studio Code.
 
-## Task 1: Create and Manipulate Date and Time Values
+## Create and manipulate date and time values
 
 In this task, you will use the `DateTime`, `DateOnly`, `TimeOnly`, and `TimeZoneInfo` classes to create and manipulate date and time values.
 
@@ -215,7 +215,7 @@ In this task, you will use the `DateTime`, `DateOnly`, `TimeOnly`, and `TimeZone
     UTC Time: 1/6/2026 8:16:52 PM
     ```
 
-## Task 2: Calculate Date and Time Values for Bank Customer Transactions
+## Construct date and time values for bank customer transactions
 
 In this task, you will create bank transactions for specific dates and times.
 
@@ -307,7 +307,7 @@ In this task, you will create bank transactions for specific dates and times.
     Transaction ID: f0368502-cd3e-49ec-846f-2b1e2736ef0c, Type: Deposit, Date: 12/3/2025, Time: 9:45 AM, Amount: 300, Source Account: 11159445, Target Account: 11159445, Description: Freelance Work
     ```
 
-## Task 3: Use Date Ranges to Simulate Transactions Programmatically
+## Use date ranges to simulate transactions programmatically
 
 In this task, you will define a date range and generate transactions for that range.
 
