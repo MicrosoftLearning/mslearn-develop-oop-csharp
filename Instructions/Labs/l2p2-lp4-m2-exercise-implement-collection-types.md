@@ -54,8 +54,7 @@ In this task, you download the existing version of your project and review the c
 
 Use the following steps to complete this section of the exercise:
 
-1. Download the starter code from the following URL: [Implement Collection Types - exercise code projects](https://github.com/MicrosoftLearning/mslearn-develop-oop-csharp/blob/main/DownloadableCodeProjects/Downloads/LP4SampleApps.zip)
-    ![Image of raw file download button for zip on toolbar.](./Media/zip-download-button.png)
+1. Download the starter code from the following URL: [Implement collection types - exercise code projects](https://github.com/MicrosoftLearning/mslearn-develop-oop-csharp/raw/refs/heads/main/DownloadableCodeProjects/Downloads/LP4SampleApps.zip)
 
 1. Extract the contents of the LP4SampleApps.zip file to a folder location on your computer.
 

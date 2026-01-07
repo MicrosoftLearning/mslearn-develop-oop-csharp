@@ -55,8 +55,8 @@ class Program
         // Purpose: Loop through customers, accounts, and transactions to generate date-range reports.
 
         // TASK 8: Step 1 - Define a date range for the report
-        DateTime startDate = new DateTime(2025, 1, 1); // Example start date
-        DateTime endDate = new DateTime(2025, 12, 31); // Example end date
+        DateOnly startDate = new DateOnly(2025, 1, 1); // Example start date
+        DateOnly endDate = new DateOnly(2025, 12, 31); // Example end date
 
 
         // TASK 8: Step 2 - Loop through customers, accounts, and filter transactions by date range
