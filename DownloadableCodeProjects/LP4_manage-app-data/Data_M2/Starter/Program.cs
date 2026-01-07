@@ -6,6 +6,8 @@ class Program
 {
     static void Main()
     {
+        Console.WriteLine("Bank Application - demonstrate using object collections and dictionaries.");
+
         // TASK 1: Create and Manage Bank, Customers, and Accounts
         // This task will set up the initial structure for the bank system.
 
@@ -55,8 +57,8 @@ class Program
         // Purpose: Loop through customers, accounts, and transactions to generate date-range reports.
 
         // TASK 8: Step 1 - Define a date range for the report
-        DateOnly startDate = new DateOnly(2025, 1, 1); // Example start date
-        DateOnly endDate = new DateOnly(2025, 12, 31); // Example end date
+        // Example: DateOnly startDate = new DateOnly(2025, 1, 1); // Example start date
+        // Example: DateOnly endDate = new DateOnly(2025, 12, 31); // Example end date
 
 
         // TASK 8: Step 2 - Loop through customers, accounts, and filter transactions by date range
@@ -97,11 +99,13 @@ class Program
         // TASK 10: Step 2 - Retrieve and display transactions from the dictionary
         // Placeholder for retrieving and displaying transactions from the dictionary
 
-        BankCustomer exampleCustomer = new BankCustomer("Isabel", "Robledo");
-        Console.WriteLine($"Example Customer Created: {exampleCustomer.FirstName} {exampleCustomer.LastName}");
 
-        // Example: Use a method from the BankCustomer class
-        exampleCustomer.AddAccount(new BankAccount("Savings", 1000.00));
-        Console.WriteLine($"Account added for {exampleCustomer.FirstName} with balance: {exampleCustomer.Accounts[0].Balance}");
+        // Example: Create a BankCustomer and display their information
+        // BankCustomer exampleCustomer = new BankCustomer("Isabel", "Robledo");
+        // Console.WriteLine($"Example Customer Created: {exampleCustomer.FirstName} {exampleCustomer.LastName}");
+
+        // Example: Use a method of the BankCustomer class
+        // exampleCustomer.AddAccount(new BankAccount(exampleCustomer.CustomerId, 1000.00, "Savings"));
+        // Console.WriteLine($"Account added for {exampleCustomer.FirstName} with balance: {exampleCustomer.Accounts[0].Balance}");
     }
 }

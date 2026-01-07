@@ -37,8 +37,8 @@ You've developed an initial version of the app that includes the following files
 
 This exercise includes the following tasks:
 
-1. Review the code.
-1. Implement the `Bank` class.
+1. Review the banking application project.
+1. Create and manage objects in Program.cs.
 1. Update the `BankCustomer` class.
 1. Update the `BankAccount` class.
 1. Create the `Transaction` class.
@@ -48,9 +48,9 @@ This exercise includes the following tasks:
 
 ---
 
-## Review the current version of your project
+## Review the banking application project
 
-In this task, you download the existing version of your project and review the code.
+In this task, you download the existing version of your banking project and review the code.
 
 Use the following steps to complete this section of the exercise:
 
@@ -73,11 +73,26 @@ Use the following steps to complete this section of the exercise:
 
     You should see the following project files:
 
+    - Interfaces (folder)
+    - Models (folder)
+    - Services (folder)
     - Program.cs
 
-1. Take a few minutes to open and review the Program.cs file.
+1. Take a couple minutes to review the contents of the Interfaces folder.
 
-    - `Program.cs`: This file contains the main entry point of the application, demonstrating the creation and manipulation of date and time values.
+    - `Interfaces`: The Interfaces folder defines the core contracts for the banking domain: account behavior and state in IBankAccount.cs, customer interactions in IBankCustomer.cs, and reporting abstractions in IMonthlyReportGenerator.cs, IQuarterlyReportGenerator.cs, and IYearlyReportGenerator.cs. These interfaces decouple the codebase by allowing concrete implementations in Models (various account and customer types) and Services (calculations and report generation) to be swapped or extended without changing consumers like Program.cs or transaction simulators, promoting testability and clear separation of concerns.
+
+1. Take a couple minutes to review the contents of the Models folder.
+
+    - `Models`: The Models folder contains the concrete domain types and behaviors that implement the banking contracts and drive the app’s logic: the bank and customers in Bank.cs and BankCustomer.cs, the account base and variants in BankAccount.cs, CheckingAccount.cs, SavingsAccount.cs, MoneyMarketAccount.cs, and CertificateOfDepositAccount.cs, plus transactional primitives and helpers in Transaction.cs and BankCustomerMethods.cs. It also includes a lightweight workflow harness in SimulateDepositWithdrawTransfer.cs for exercising core operations. Together, these classes realize the IBankAccount/IBankCustomer contracts from Interfaces and supply the state and business rules consumed by Services for calculations and reporting.
+
+1. Take a couple minutes to review the contents of the Services folder.
+
+    - `Services`: The Services folder encapsulates application-level logic built on the domain models and interface contracts: AccountCalculations.cs centralizes balance/interest/fee computations; AccountReportGenerator.cs and CustomerReportGenerator.cs generate monthly/quarterly/yearly outputs aligning with the reporting interfaces; Extensions.cs provides helper extension methods; and SimulateTransactions.cs orchestrates example deposit/withdraw/transfer flows. These services consume model implementations of IBankAccount and IBankCustomer and are invoked by Program.cs and simulators, keeping business rules centralized, reusable, and decoupled from UI or storage concerns.
+
+1. Take a minute to review the Program.cs file.
+
+    - `Program.cs`: Program.cs serves as the application entry point and orchestrator, wiring together Interfaces, Models, and Services to run the sample banking workflow. It constructs the core domain objects (bank, customers, and accounts), invokes service routines for calculations and report generation, and drives transaction simulations to demonstrate behavior end-to-end. In short, it coordinates execution and output, exercising the concrete implementations behind the interface contracts to showcase the system’s business logic.
 
 1. Run the app and review the output in the terminal window.
 
@@ -85,13 +100,9 @@ Use the following steps to complete this section of the exercise:
 
     > **TIP**: If you encounter any issues while completing this exercise, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code. If you're still having trouble, you can review the solution code in the sample apps that you downloaded at the beginning of this exercise. To view the Data_M2 solution, navigate to the LP4SampleApps/Data_M2/Solution folder and open the Solution project in Visual Studio Code.
 
----
-
-## Task 1: Create and manage objects in `Program.cs`
+## Create and manage banking objects
 
 You will implement functionality to create `Bank`, `BankCustomer`, and `BankAccount` objects, add accounts to customers and customers to the bank, simulate transactions, ensure unique transactions using a `HashSet`, and generate a report of transactions within a date range. Each step aligns with a `// Task 1` comment in the `Program.cs` file to help you locate where to add the code.
-
-### Task 1 Steps
 
 1. **Create a `Bank` object**  
    Open the `Program.cs` file and locate the `// Task 1` comment. Add the following code below it:

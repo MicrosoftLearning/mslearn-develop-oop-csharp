@@ -6,9 +6,14 @@ namespace Data_M2;
 
 public partial class BankCustomer : IBankCustomer
 {
+    // TASK 3: Steps 1 and 2 should be completed in the IBankCustomer interface  
     private static int s_nextCustomerId;
     private string _firstName = "Tim";
     private string _lastName = "Shao";
+
+    // TASK 3: Step 3 - declare the Accounts field
+    //private readonly List<IBankAccount> _accounts;
+
     public string CustomerId { get; }
 
     public string FirstName
@@ -23,6 +28,10 @@ public partial class BankCustomer : IBankCustomer
         set { _lastName = value; }
     }
 
+
+    // TASK 3: Step 4 - expose the Accounts property
+    // public IReadOnlyList<IBankAccount> Accounts => _accounts.AsReadOnly();
+
     static BankCustomer()
     {
         Random random = new Random();
@@ -35,23 +44,8 @@ public partial class BankCustomer : IBankCustomer
         LastName = lastName;
         this.CustomerId = (s_nextCustomerId++).ToString("D10");
 
-        // TASK 3: Step 1 - Initialize the Accounts list in the constructor
-        // Placeholder for initializing the Accounts list
-        Accounts = new List<BankAccount>(); // Temporary scaffolding
-    }
-
-    // TASK 3: Step 2 - Add List<BankAccount> property
-    // Placeholder for adding a property to store customer accounts
-    public List<BankAccount> Accounts { get; set; } = new List<BankAccount>(); // Temporary scaffolding
-
-    // TASK 3: Step 3 - Add methods to manage accounts (e.g., AddAccount)
-    // Placeholder for adding methods to manage accounts
-    public void AddAccount(BankAccount account) // Temporary scaffolding
-    {
-        if (account != null && !Accounts.Contains(account))
-        {
-            Accounts.Add(account);
-        }
+        // TASK 3: Step 5 - initialize the Accounts field
+        //_accounts = new List<IBankAccount>();
     }
 
     // Copy constructor for BankCustomer
@@ -61,8 +55,9 @@ public partial class BankCustomer : IBankCustomer
         this.LastName = existingCustomer.LastName;
         this.CustomerId = (s_nextCustomerId++).ToString("D10");
 
-        // TASK 3: Step 4 - Copy the Accounts list in the copy constructor
-        // Placeholder for copying the Accounts list
-        Accounts = new List<BankAccount>(existingCustomer.Accounts); // Temporary scaffolding
+        // TASK 3: Step 6 - initialize the Accounts field by copying from existingCustomer
+        //_accounts = new List<IBankAccount>(existingCustomer._accounts);
     }
+
+    // TASK 3: Step 7 - should be completed in BankCustomerMethods.cs
 }

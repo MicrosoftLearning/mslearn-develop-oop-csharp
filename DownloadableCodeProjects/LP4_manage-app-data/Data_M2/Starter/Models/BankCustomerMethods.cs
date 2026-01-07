@@ -22,4 +22,10 @@ public partial class BankCustomer : IBankCustomer
     {
         return $"Customer ID: {CustomerId}, Name: {ReturnFullName()}";
     }
+
+    // Task 3: Step 7 - Add account-management methods
+    //public void AddAccount(IBankAccount account)
+    //{
+    //    _accounts.Add(account);
+    //}
 }
