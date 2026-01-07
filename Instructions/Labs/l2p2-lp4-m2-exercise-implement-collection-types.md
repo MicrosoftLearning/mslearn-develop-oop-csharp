@@ -38,13 +38,14 @@ You've developed an initial version of the app that includes the following files
 This exercise includes the following tasks:
 
 1. Review the banking application project.
-1. Create and manage objects in Program.cs.
-1. Update the `BankCustomer` class.
-1. Update the `BankAccount` class.
-1. Create the `Transaction` class.
-1. Create the `SimulateDepositWithdrawTransfer` class.
-1. Use a `HashSet` to ensure unique transactions.
-1. Generate transaction reports using a `Dictionary`.
+1. Implement the Bank class.
+1. Update the BankCustomer class.
+1. Update the BankAccount class.
+1. Create the Transaction class.
+1. Create the SimulateDepositWithdrawTransfer class.
+1. Create and manage banking objects.
+1. Use a HashSet to ensure unique transactions.
+1. Generate transaction reports using a Dictionary.
 
 ---
 
@@ -80,7 +81,7 @@ Use the following steps to complete this section of the exercise:
 
 1. Take a couple minutes to review the contents of the Interfaces folder.
 
-    - `Interfaces`: The Interfaces folder defines the core contracts for the banking domain: account behavior and state in IBankAccount.cs, customer interactions in IBankCustomer.cs, and reporting abstractions in IMonthlyReportGenerator.cs, IQuarterlyReportGenerator.cs, and IYearlyReportGenerator.cs. These interfaces decouple the codebase by allowing concrete implementations in Models (various account and customer types) and Services (calculations and report generation) to be swapped or extended without changing consumers like Program.cs or transaction simulators, promoting testability and clear separation of concerns.
+    - `Interfaces`: The interface files define the core contracts for the banking domain: account behavior and state in IBankAccount.cs, customer interactions in IBankCustomer.cs, and reporting abstractions in IMonthlyReportGenerator.cs, IQuarterlyReportGenerator.cs, and IYearlyReportGenerator.cs. These interfaces decouple the codebase by allowing concrete implementations in Models (various account and customer types) and Services (calculations and report generation) to be swapped or extended without changing consumers like Program.cs or transaction simulators, promoting testability and clear separation of concerns.
 
 1. Take a couple minutes to review the contents of the Models folder.
 
@@ -99,6 +100,227 @@ Use the following steps to complete this section of the exercise:
     To run your app, right-click the **Data_M2** project in the Solution Explorer, select **Debug**, and then select **Start New Instance**.
 
     > **TIP**: If you encounter any issues while completing this exercise, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code. If you're still having trouble, you can review the solution code in the sample apps that you downloaded at the beginning of this exercise. To view the Data_M2 solution, navigate to the LP4SampleApps/Data_M2/Solution folder and open the Solution project in Visual Studio Code.
+
+## Task 2: Implement the Bank class
+
+You will implement functionality to manage customers and transaction reports in the `Bank` class. Each step aligns with a `// Task 2` comment in the `Bank.cs` file to help you locate where to add the code.
+
+1. Open the `Bank.cs` file and locate the `// Task 2` comment.
+
+1. Add the following code below the comment:
+
+   ```csharp
+   public string Name { get; set; }
+   public List<BankCustomer> Customers { get; set; } = new List<BankCustomer>();
+   ```
+
+   > **NOTE**: This code adds a property for the bank's name and a list to store its customers.
+
+1. To create a method for adding customers to a bank object, add the following code:
+
+   ```csharp
+   public void AddCustomer(BankCustomer customer)
+   {
+       Customers.Add(customer);
+   }
+   ```
+
+   > **NOTE**: This method allows you to add a customer to the bank.
+
+1. To create a dictionary that stores transaction reports, add the following code:
+
+   ```csharp
+   public Dictionary<string, List<Transaction>> TransactionReports { get; set; } = new Dictionary<string, List<Transaction>>();
+   ```
+
+   > **NOTE**: This dictionary will be used to generate transaction reports.
+
+1. Save the Bank.cs file.
+
+1. Build and run the application.
+
+    Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
+
+    The functionality implemented in this task will be used in subsequent tasks.
+
+## Task 3: Update the BankCustomer class
+
+You will update the `BankCustomer` class to manage customer accounts. Each step aligns with a `// Task 3` comment in the `BankCustomer.cs` file to help you locate where to add the code.
+
+1. **Add a list of accounts**  
+   Open the `BankCustomer.cs` file and locate the `// Task 3` comment. Add the following code below it:
+
+   ```csharp
+   public List<BankAccount> Accounts { get; set; } = new List<BankAccount>();
+   ```
+
+   > **NOTE**: This property stores the accounts associated with the customer.
+
+1. **Add a method to add accounts**  
+   Below the property, add the following method:
+
+   ```csharp
+   public void AddAccount(BankAccount account)
+   {
+       Accounts.Add(account);
+   }
+   ```
+
+   > **NOTE**: This method allows you to add an account to the customer.
+
+1. Save the BankCustomer.cs file.
+
+1. Build and run the application.
+
+    Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
+
+    The functionality implemented in this task will be used in subsequent tasks.
+
+## Task 4: Update the BankAccount class
+
+You will update the `BankAccount` class to manage transactions. Each step aligns with a `// Task 4` comment in the `BankAccount.cs` file to help you locate where to add the code.
+
+1. **Add a list of transactions**  
+   Open the `BankAccount.cs` file and locate the `// Task 4` comment. Add the following code below it:
+
+   ```csharp
+   public List<Transaction> Transactions { get; set; } = new List<Transaction>();
+   ```
+
+   > **NOTE**: This property stores the transactions associated with the bank account.
+
+1. **Add a method to add transactions**  
+   Below the property, add the following method:
+
+   ```csharp
+   public void AddTransaction(Transaction transaction)
+   {
+       Transactions.Add(transaction);
+   }
+   ```
+
+   > **NOTE**: This method allows you to add a transaction to the account.
+
+1. Save the BankAccount.cs file.
+
+1. Build and run the application.
+
+    Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
+
+    The functionality implemented in this task will be used in subsequent tasks.
+
+## Task 5: Create the Transaction class
+
+You will create the `Transaction` class to represent deposits, withdrawals, and transfers. Each step aligns with a `// Task 5` comment in the `Transaction.cs` file to help you locate where to add the code.
+
+1. **Add properties for transaction details**  
+   Open the `Transaction.cs` file and locate the `// Task 5` comment. Add the following code below it:
+
+   ```csharp
+   public string TransactionId { get; set; }
+   public DateTime Date { get; set; }
+   public string Type { get; set; }
+   public double Amount { get; set; }
+   ```
+
+   > **NOTE**: These properties represent the details of a transaction, including its ID, date, type, and amount.
+
+1. **Add a constructor to initialize transaction details**  
+   Below the properties, add the following constructor:
+
+   ```csharp
+   public Transaction(string transactionId, DateTime date, string type, double amount)
+   {
+       TransactionId = transactionId;
+       Date = date;
+       Type = type;
+       Amount = amount;
+   }
+   ```
+
+   > **NOTE**: This constructor initializes a transaction with the provided details.
+
+1. Save the Transaction.cs file.
+
+1. Build and run the application.
+
+    Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
+
+    The functionality implemented in this task will be used in subsequent tasks.
+
+## Task 6: Create the SimulateDepositWithdrawTransfer class
+
+You will create the `SimulateDepositWithdrawTransfer` class to simulate deposits, withdrawals, and transfers. Each step aligns with a `// Task 6` comment in the `SimulateDepositWithdrawTransfer.cs` file to help you locate where to add the code.
+
+1. **Add a method to simulate deposits**  
+   Open the `SimulateDepositWithdrawTransfer.cs` file and locate the `// Task 6` comment. Add the following code below it:
+
+   ```csharp
+   public void SimulateDeposit(BankAccount account, double amount)
+   {
+       var transaction = new Transaction(
+           Guid.NewGuid().ToString(),
+           DateTime.Now,
+           "Deposit",
+           amount
+       );
+       account.AddTransaction(transaction);
+   }
+   ```
+
+   > **NOTE**: This method creates a deposit transaction and adds it to the specified account.
+
+1. **Add a method to simulate withdrawals**  
+   Below the deposit method, add the following code:
+
+   ```csharp
+   public void SimulateWithdrawal(BankAccount account, double amount)
+   {
+       var transaction = new Transaction(
+           Guid.NewGuid().ToString(),
+           DateTime.Now,
+           "Withdrawal",
+           amount
+       );
+       account.AddTransaction(transaction);
+   }
+   ```
+
+   > **NOTE**: This method creates a withdrawal transaction and adds it to the specified account.
+
+1. **Add a method to simulate transfers**  
+   Below the withdrawal method, add the following code:
+
+   ```csharp
+   public void SimulateTransfer(BankAccount fromAccount, BankAccount toAccount, double amount)
+   {
+       var withdrawal = new Transaction(
+           Guid.NewGuid().ToString(),
+           DateTime.Now,
+           "Transfer Out",
+           amount
+       );
+       fromAccount.AddTransaction(withdrawal);
+
+       var deposit = new Transaction(
+           Guid.NewGuid().ToString(),
+           DateTime.Now,
+           "Transfer In",
+           amount
+       );
+       toAccount.AddTransaction(deposit);
+   }
+   ```
+
+   > **NOTE**: This method creates a transfer transaction, withdrawing from one account and depositing into another.
+
+1. Save the SimulateDepositWithdrawTransfer.cs file.
+
+1. Build and run the application.
+
+    Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
+
+    The functionality implemented in this task will be used in subsequent tasks.
 
 ## Create and manage banking objects
 
@@ -172,269 +394,25 @@ You will implement functionality to create `Bank`, `BankCustomer`, and `BankAcco
 
    > **NOTE**: This displays all unique transactions for the account.
 
----
+1. Save the Program.cs file.
 
-### Check Task 1 work
+1. Build and run the application.
 
-After completing this task, save your work and run debug with **F5**, your app should produce output similar to the following:
+    Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
 
-```plaintext
-Transaction Report:
-Transaction ID: 1, Type: Deposit, Amount: $500.00, Date: 3/14/2025
-Transaction ID: 2, Type: Withdrawal, Amount: $300.00, Date: 3/14/2025
-```
+1. Review the output in the terminal window.
 
-If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
+    Your app should produce output similar to the following:
 
----
+    ```plaintext
+    Transaction Report:
+    Transaction ID: 1, Type: Deposit, Amount: $500.00, Date: 3/14/2025
+    Transaction ID: 2, Type: Withdrawal, Amount: $300.00, Date: 3/14/2025
+    ```
 
-## Task 2: Implement the `Bank` class
-
-You will implement functionality to manage customers and transaction reports in the `Bank` class. Each step aligns with a `// Task 2` comment in the `Bank.cs` file to help you locate where to add the code.
-
-### Task 2 Steps
-
-1. **Add properties for the bank name and customers**  
-   Open the `Bank.cs` file and locate the `// Task 2` comment. Add the following code below it:
-
-   ```csharp
-   public string Name { get; set; }
-   public List<BankCustomer> Customers { get; set; } = new List<BankCustomer>();
-   ```
-
-   > **NOTE**: This code adds a property for the bank's name and a list to store its customers.
-
-1. **Add a method to add customers**  
-   Below the properties, add the following method:
-
-   ```csharp
-   public void AddCustomer(BankCustomer customer)
-   {
-       Customers.Add(customer);
-   }
-   ```
-
-   > **NOTE**: This method allows you to add a customer to the bank.
-
-1. **Add a dictionary for transaction reports**  
-   Add the following property to store transaction reports:
-
-   ```csharp
-   public Dictionary<string, List<Transaction>> TransactionReports { get; set; } = new Dictionary<string, List<Transaction>>();
-   ```
-
-   > **NOTE**: This dictionary will be used to generate transaction reports.
-
----
-
-### Check Task 2 work
-
-After completing this task, save your work. You do not need to build and debug yet, as the functionality implemented in this task will be used in subsequent tasks.
-
-> **NOTE**: The output remains the same as the previous step. Ensure the application builds successfully and no errors are introduced.
-
----
-
-## Task 3: Update the `BankCustomer` class
-
-You will update the `BankCustomer` class to manage customer accounts. Each step aligns with a `// Task 3` comment in the `BankCustomer.cs` file to help you locate where to add the code.
-
-### Task 3 Steps
-
-1. **Add a list of accounts**  
-   Open the `BankCustomer.cs` file and locate the `// Task 3` comment. Add the following code below it:
-
-   ```csharp
-   public List<BankAccount> Accounts { get; set; } = new List<BankAccount>();
-   ```
-
-   > **NOTE**: This property stores the accounts associated with the customer.
-
-1. **Add a method to add accounts**  
-   Below the property, add the following method:
-
-   ```csharp
-   public void AddAccount(BankAccount account)
-   {
-       Accounts.Add(account);
-   }
-   ```
-
-   > **NOTE**: This method allows you to add an account to the customer.
-
----
-
-### Check Task 3 work
-
-After completing this task, save your work and run debug with **F5**. While this task does not produce visible output, ensure that the project builds successfully without errors. The functionality implemented in this task will be used in subsequent tasks.
-
-If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
-
----
-
-## Task 4: Update the `BankAccount` class
-
-You will update the `BankAccount` class to manage transactions. Each step aligns with a `// Task 4` comment in the `BankAccount.cs` file to help you locate where to add the code.
-
-### Task 4 Steps
-
-1. **Add a list of transactions**  
-   Open the `BankAccount.cs` file and locate the `// Task 4` comment. Add the following code below it:
-
-   ```csharp
-   public List<Transaction> Transactions { get; set; } = new List<Transaction>();
-   ```
-
-   > **NOTE**: This property stores the transactions associated with the bank account.
-
-1. **Add a method to add transactions**  
-   Below the property, add the following method:
-
-   ```csharp
-   public void AddTransaction(Transaction transaction)
-   {
-       Transactions.Add(transaction);
-   }
-   ```
-
-   > **NOTE**: This method allows you to add a transaction to the account.
-
----
-
-### Check Task 4 work
-
-After completing this task, save your work. You do not need to build and debug yet, as the functionality implemented in this task will be used in subsequent tasks.
-
-> **NOTE**: The output remains the same as the previous step. Ensure the application builds successfully and no errors are introduced.
-
----
-
-## Task 5: Create the `Transaction` class
-
-You will create the `Transaction` class to represent deposits, withdrawals, and transfers. Each step aligns with a `// Task 5` comment in the `Transaction.cs` file to help you locate where to add the code.
-
-### Task 5 Steps
-
-1. **Add properties for transaction details**  
-   Open the `Transaction.cs` file and locate the `// Task 5` comment. Add the following code below it:
-
-   ```csharp
-   public string TransactionId { get; set; }
-   public DateTime Date { get; set; }
-   public string Type { get; set; }
-   public double Amount { get; set; }
-   ```
-
-   > **NOTE**: These properties represent the details of a transaction, including its ID, date, type, and amount.
-
-1. **Add a constructor to initialize transaction details**  
-   Below the properties, add the following constructor:
-
-   ```csharp
-   public Transaction(string transactionId, DateTime date, string type, double amount)
-   {
-       TransactionId = transactionId;
-       Date = date;
-       Type = type;
-       Amount = amount;
-   }
-   ```
-
-   > **NOTE**: This constructor initializes a transaction with the provided details.
-
----
-
-### Check Task 5 work
-
-After completing this task, save your work and run debug with **F5**. While this task does not produce visible output, ensure that the project builds successfully without errors. The functionality implemented in this task will be used in subsequent tasks.
-
-If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
-
----
-
-## Task 6: Create the `SimulateDepositWithdrawTransfer` class
-
-You will create the `SimulateDepositWithdrawTransfer` class to simulate deposits, withdrawals, and transfers. Each step aligns with a `// Task 6` comment in the `SimulateDepositWithdrawTransfer.cs` file to help you locate where to add the code.
-
-### Task 6 Steps
-
-1. **Add a method to simulate deposits**  
-   Open the `SimulateDepositWithdrawTransfer.cs` file and locate the `// Task 6` comment. Add the following code below it:
-
-   ```csharp
-   public void SimulateDeposit(BankAccount account, double amount)
-   {
-       var transaction = new Transaction(
-           Guid.NewGuid().ToString(),
-           DateTime.Now,
-           "Deposit",
-           amount
-       );
-       account.AddTransaction(transaction);
-   }
-   ```
-
-   > **NOTE**: This method creates a deposit transaction and adds it to the specified account.
-
-1. **Add a method to simulate withdrawals**  
-   Below the deposit method, add the following code:
-
-   ```csharp
-   public void SimulateWithdrawal(BankAccount account, double amount)
-   {
-       var transaction = new Transaction(
-           Guid.NewGuid().ToString(),
-           DateTime.Now,
-           "Withdrawal",
-           amount
-       );
-       account.AddTransaction(transaction);
-   }
-   ```
-
-   > **NOTE**: This method creates a withdrawal transaction and adds it to the specified account.
-
-1. **Add a method to simulate transfers**  
-   Below the withdrawal method, add the following code:
-
-   ```csharp
-   public void SimulateTransfer(BankAccount fromAccount, BankAccount toAccount, double amount)
-   {
-       var withdrawal = new Transaction(
-           Guid.NewGuid().ToString(),
-           DateTime.Now,
-           "Transfer Out",
-           amount
-       );
-       fromAccount.AddTransaction(withdrawal);
-
-       var deposit = new Transaction(
-           Guid.NewGuid().ToString(),
-           DateTime.Now,
-           "Transfer In",
-           amount
-       );
-       toAccount.AddTransaction(deposit);
-   }
-   ```
-
-   > **NOTE**: This method creates a transfer transaction, withdrawing from one account and depositing into another.
-
----
-
-### Check Task 6 work
-
-After completing this task, save your work and run debug with **F5**. While this task does not produce visible output, ensure that the project builds successfully without errors.
-
-> **NOTE**: The output remains the same as the previous step. Ensure the application builds successfully and no errors are introduced.
-
----
-
-## Task 7: Use a `HashSet` to ensure unique transactions
+## Task 7: Use a HashSet to ensure unique transactions
 
 You will use a `HashSet` to ensure that transactions are unique. Each step aligns with a `// Task 7` comment in the `Program.cs` file to help you locate where to add the code.
-
-### Task 7 Steps
 
 1. **Create a `HashSet` for unique transactions**  
    Open the `Program.cs` file and locate the `// Task 7` comment. Add the following code below it:
@@ -458,21 +436,21 @@ You will use a `HashSet` to ensure that transactions are unique. Each step align
 
    > **NOTE**: This displays all unique transactions in the `HashSet`.
 
----
+1. Save the Program.cs file.
 
-### Check Task 7 work
+1. Build and run the application.
 
-After completing this task, save your work and run debug with **F5**. Your app should produce output similar to the following:
+    Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
 
-```plaintext
-Unique Transactions:
-Transaction ID: 1, Type: Deposit, Amount: $500.00, Date: 3/14/2025
-Transaction ID: 2, Type: Withdrawal, Amount: $300.00, Date: 3/14/2025
-```
+1. Review the output in the terminal window.
 
-If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
+    Your app should produce output similar to the following:
 
----
+    ```plaintext
+    Unique Transactions:
+    Transaction ID: 1, Type: Deposit, Amount: $500.00, Date: 3/14/2025
+    Transaction ID: 2, Type: Withdrawal, Amount: $300.00, Date: 3/14/2025
+    ```
 
 ## Task 8: Generate transaction reports using a `Dictionary`
 
@@ -524,27 +502,25 @@ You will generate transaction reports using a `Dictionary` to group transactions
 
    > **NOTE**: This generates a report for a specific account (e.g., account number `12345`).
 
----
+1. Save the Program.cs file.
 
-### Check Task 8 work
+1. Build and run the application.
 
-After completing this task, save your work and run debug with **F5**. Your app should produce output similar to the following:
+    Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
 
-```plaintext
-Transaction Report for Account 12345:
-Transaction ID: 1, Type: Deposit, Amount: $500.00, Date: 3/14/2025
-Transaction ID: 2, Type: Withdrawal, Amount: $300.00, Date: 3/14/2025
-```
+1. Review the output in the terminal window.
 
-If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
+    Your app should produce output similar to the following:
 
----
+    ```plaintext
+    Transaction Report for Account 12345:
+    Transaction ID: 1, Type: Deposit, Amount: $500.00, Date: 3/14/2025
+    Transaction ID: 2, Type: Withdrawal, Amount: $300.00, Date: 3/14/2025
+    ```
 
 ## Task 9: Generate a report of transactions within a date range
 
 You will generate a report of transactions within a specific date range. Each step aligns with a `// Task 9` comment in the `Program.cs` file to help you locate where to add the code.
-
-### Task 9 Steps
 
 1. **Prompt the user for a date range**  
    Open the `Program.cs` file and locate the `// Task 9` comment. Add the following code below it:
@@ -581,32 +557,30 @@ You will generate a report of transactions within a specific date range. Each st
 
    > **NOTE**: This filters and displays transactions that fall within the specified date range.
 
----
+1. Save the Program.cs file.
 
-### Check Task 9 work
+1. Build and run the application.
 
-After completing this task, save your work and run debug with **F5**. Your app should prompt you to enter a date range and produce output similar to the following:
+    Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
 
-```plaintext
-Enter the start date (MM/DD/YYYY):
-3/14/2025
-Enter the end date (MM/DD/YYYY):
-3/15/2025
+1. Review the output in the terminal window.
 
-Transactions within the specified date range:
-Transaction ID: 1, Type: Deposit, Amount: $500.00, Date: 3/14/2025
-Transaction ID: 2, Type: Withdrawal, Amount: $300.00, Date: 3/14/2025
-```
+    Your app should produce output similar to the following:
 
-If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
-
----
+    ```plaintext
+    Enter the start date (MM/DD/YYYY):
+    3/14/2025
+    Enter the end date (MM/DD/YYYY):
+    3/15/2025
+    
+    Transactions within the specified date range:
+    Transaction ID: 1, Type: Deposit, Amount: $500.00, Date: 3/14/2025
+    Transaction ID: 2, Type: Withdrawal, Amount: $300.00, Date: 3/14/2025
+    ```
 
 ## Task 10: Generate a summary report of all transactions
 
 You will generate a summary report of all transactions across all accounts. Each step aligns with a `// Task 10` comment in the `Program.cs` file to help you locate where to add the code.
-
-### Task 10 Steps
 
 1. **Calculate the total number of transactions and total amount**  
    Open the `Program.cs` file and locate the `// Task 10` comment. Add the following code below it:
@@ -638,30 +612,22 @@ You will generate a summary report of all transactions across all accounts. Each
 
    > **NOTE**: This displays the total number of transactions and the total amount in a summary report.
 
----
+1. Save the Program.cs file.
 
-### Check Task 10 work
+1. Build and run the application.
 
-After completing this task, save your work and run debug with **F5**. Your app should produce output similar to the following:
+    Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
 
-```plaintext
-Summary Report:
-Total Transactions: 2
-Total Amount: $800.00
-```
+1. Review the output in the terminal window.
 
-If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
+    Your app should produce output similar to the following:
 
----
-
-## Check your work
-
-After completing all tasks, save your work and run the application to verify that all functionality is implemented correctly. Ensure that the application builds successfully and produces the expected output for each task.
-
----
+    ```plaintext
+    Summary Report:
+    Total Transactions: 2
+    Total Amount: $800.00
+    ```
 
 ## Clean up
 
 Now that you've finished the exercise, consider archiving your project files for review at a later time. Having your own projects available for review can be a valuable resource when you're learning to code. Additionally, building a portfolio of projects can be a great way to demonstrate your skills to potential employers.
-
----

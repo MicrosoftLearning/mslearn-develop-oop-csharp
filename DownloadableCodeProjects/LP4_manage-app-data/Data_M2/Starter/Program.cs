@@ -99,13 +99,5 @@ class Program
         // TASK 10: Step 2 - Retrieve and display transactions from the dictionary
         // Placeholder for retrieving and displaying transactions from the dictionary
 
-
-        // Example: Create a BankCustomer and display their information
-        // BankCustomer exampleCustomer = new BankCustomer("Isabel", "Robledo");
-        // Console.WriteLine($"Example Customer Created: {exampleCustomer.FirstName} {exampleCustomer.LastName}");
-
-        // Example: Use a method of the BankCustomer class
-        // exampleCustomer.AddAccount(new BankAccount(exampleCustomer.CustomerId, 1000.00, "Savings"));
-        // Console.WriteLine($"Account added for {exampleCustomer.FirstName} with balance: {exampleCustomer.Accounts[0].Balance}");
     }
 }
