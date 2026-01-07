@@ -24,16 +24,21 @@ For additional help configuring the Visual Studio Code environment, see <a href=
 
 ## Exercise scenario
 
-Suppose you're a software developer at a tech company working on a banking application. Your team needs to implement collection types to manage customers, accounts, and transactions efficiently. To ensure consistent behavior, you decide to create and implement these operations in a simple console application.
+Suppose you're a software developer at a tech company working on a banking application. Your team needs to implement collection types to manage customers, accounts, and transactions for bank locations. You create a console application to prototype app features.
 
-You've developed an initial version of the app that includes the following files:
+Your prototype app includes the following files:
 
-- `Program.cs`: This file contains the main entry point of the application, demonstrating the creation and manipulation of collection types.
-- `Bank.cs`: This file defines the `Bank` class, which includes methods for managing customers and transaction reports.
-- `BankCustomer.cs`: This file defines the `BankCustomer` class, which includes properties and methods for managing customer accounts.
-- `BankAccount.cs`: This file defines the `BankAccount` class, which includes properties and methods for managing transactions.
-- `Transaction.cs`: This file defines the `Transaction` class, which includes properties for transaction details such as account ID, amount, description, and date.
+- `Program.cs`: This file provides the main entry point to the application and is used to evaluate new app features or functionality.
+- `Bank.cs`: This file defines the Bank class and will be used to manage customer and transaction collections for bank locations.
+- `BankAccount.cs`: This file defines the BankAccount class, which implements the IBankAccount interface and includes properties, constructors, and methods for account operations.
+- `BankCustomer.cs`: This file defines the BankCustomer partial class, which implements the IBankCustomer interface and includes properties and constructors for customer operations.
+- `BankCustomerMethods.cs`: This file defines the BankCustomerMethods partial class, which implements the IBankCustomer interface and contains methods for the BankCustomer class.
+- `CheckingAccount.cs`: This file defines the CheckingAccount class, which inherits from the BankAccount class and includes properties and methods specific to checking accounts.
+- `MoneyMarketAccount.cs`: This file defines the MoneyMarketAccount class, which inherits from the BankAccount class and includes properties and methods specific to money market accounts.
+- `SavingsAccount.cs`: This file defines the SavingsAccount class, which inherits from the BankAccount class and includes properties and methods specific to savings accounts.
+- `Transaction.cs`: This file defines the Transaction class, which includes properties and methods for managing transactions.
 - `SimulateDepositWithdrawTransfer.cs`: This file contains methods for simulating deposits, withdrawals, and transfers.
+- `SimulateTransactions.cs`: This file contains methods for simulating various banking transactions.
 
 This exercise includes the following tasks:
 
@@ -41,13 +46,10 @@ This exercise includes the following tasks:
 1. Implement the Bank class.
 1. Update the BankCustomer class.
 1. Update the BankAccount class.
-1. Create the Transaction class.
-1. Create the SimulateDepositWithdrawTransfer class.
+1. Update the SimulateDepositWithdrawTransfer class.
 1. Create and manage banking objects.
 1. Use a HashSet to ensure unique transactions.
 1. Generate transaction reports using a Dictionary.
-
----
 
 ## Review the banking application project
 
