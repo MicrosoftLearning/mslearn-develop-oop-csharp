@@ -47,7 +47,7 @@ This exercise includes the following tasks:
 1. Update the BankCustomer class.
 1. Update the BankAccount class.
 1. Update the SimulateDepositWithdrawTransfer class.
-1. Create and manage bank objects with customers and accounts.
+1. Manage customer, account, and transaction collections using bank objects.
 1. Use a HashSet to ensure unique transactions.
 1. Generate transaction reports using a Dictionary.
 
@@ -394,7 +394,7 @@ Use the following steps to complete this task:
 
     The functionality implemented in this task doesn't change the output but will be used in subsequent tasks.
 
-## Task 6: Update the SimulateDepositWithdrawTransfer class
+## Task 5: Update the SimulateDepositWithdrawTransfer class
 
 The SimulateDepositWithdrawTransfer class must be able to simulate deposits, withdrawals, and transfers between accounts. This capability is essential for testing account operations.
 
@@ -529,7 +529,7 @@ Use the following steps to complete this task:
 
     The functionality implemented in this task doesn't change the output but will be used in subsequent tasks.
 
-## Create and manage bank objects with customers and accounts
+## Task 6: Manage customer, account, and transaction collections using bank objects
 
 You will implement functionality to create `Bank`, `BankCustomer`, and `BankAccount` objects, add accounts to customers and customers to the bank, simulate transactions, ensure unique transactions using a `HashSet`, and generate a report of transactions within a date range. Each step aligns with a `// Task 1` comment in the `Program.cs` file to help you locate where to add the code.
 
