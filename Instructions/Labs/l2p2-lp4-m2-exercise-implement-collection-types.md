@@ -29,7 +29,7 @@ Suppose you're a software developer at a tech company working on a banking appli
 Your prototype app includes the following files:
 
 - `Program.cs`: This file provides the main entry point to the application and is used to evaluate new app features or functionality.
-- `Bank.cs`: This file defines the Bank class and will be used to manage customer and transaction collections for bank locations.
+- `Bank.cs`: This file defines the Bank class and will be used to manage customer collections for bank locations.
 - `BankAccount.cs`: This file defines the BankAccount class, which implements the IBankAccount interface and includes properties, constructors, and methods for account operations.
 - `BankCustomer.cs`: This file defines the BankCustomer partial class, which implements the IBankCustomer interface and includes properties and constructors for customer operations.
 - `BankCustomerMethods.cs`: This file defines the BankCustomerMethods partial class, which implements the IBankCustomer interface and contains methods for the BankCustomer class.
@@ -42,7 +42,7 @@ Your prototype app includes the following files:
 
 This exercise includes the following tasks:
 
-1. Review the banking application project.
+1. Review the prototype banking application.
 1. Implement the Bank class.
 1. Update the BankCustomer class.
 1. Update the BankAccount class.
@@ -51,7 +51,7 @@ This exercise includes the following tasks:
 1. Use a HashSet to ensure unique transactions.
 1. Generate transaction reports using a Dictionary.
 
-## Review the banking application project
+## Task 1: Review the prototype banking application
 
 In this task, you download the existing version of your banking project and review the code.
 
@@ -85,57 +85,82 @@ Use the following steps to complete this section of the exercise:
 
     - `Interfaces`: The interface files define the core contracts for the banking domain: account behavior and state in IBankAccount.cs, customer interactions in IBankCustomer.cs, and reporting abstractions in IMonthlyReportGenerator.cs, IQuarterlyReportGenerator.cs, and IYearlyReportGenerator.cs. These interfaces decouple the codebase by allowing concrete implementations in Models (various account and customer types) and Services (calculations and report generation) to be swapped or extended without changing consumers like Program.cs or transaction simulators, promoting testability and clear separation of concerns.
 
+    Notice that the IBankCustomer interface needs to be updated. The current app has no way to create a collection of account objects for a customer.
+
 1. Take a couple minutes to review the contents of the Models folder.
 
     - `Models`: The Models folder contains the concrete domain types and behaviors that implement the banking contracts and drive the app’s logic: the bank and customers in Bank.cs and BankCustomer.cs, the account base and variants in BankAccount.cs, CheckingAccount.cs, SavingsAccount.cs, MoneyMarketAccount.cs, and CertificateOfDepositAccount.cs, plus transactional primitives and helpers in Transaction.cs and BankCustomerMethods.cs. It also includes a lightweight workflow harness in SimulateDepositWithdrawTransfer.cs for exercising core operations. Together, these classes realize the IBankAccount/IBankCustomer contracts from Interfaces and supply the state and business rules consumed by Services for calculations and reporting.
+
+    Notice the following:
+
+    - The Bank class needs to be updated. The current app has no way to create a collection of customer objects for a bank.
+    - The BankCustomer class needs to be updated. The current app has no way to create a collection of account objects for a customer.
+    - The BankCustomerMethods class needs to be updated. The current app has no way to add accounts to a customer.
+    - The BankAccount class needs to be updated. The current app has no way to create a collection of transaction objects for an account.
 
 1. Take a couple minutes to review the contents of the Services folder.
 
     - `Services`: The Services folder encapsulates application-level logic built on the domain models and interface contracts: AccountCalculations.cs centralizes balance/interest/fee computations; AccountReportGenerator.cs and CustomerReportGenerator.cs generate monthly/quarterly/yearly outputs aligning with the reporting interfaces; Extensions.cs provides helper extension methods; and SimulateTransactions.cs orchestrates example deposit/withdraw/transfer flows. These services consume model implementations of IBankAccount and IBankCustomer and are invoked by Program.cs and simulators, keeping business rules centralized, reusable, and decoupled from UI or storage concerns.
 
+    Notice that the SimulateDepositWithdrawTransfer class needs to be updated. The current app has no way to simulate transactions between accounts.
+
 1. Take a minute to review the Program.cs file.
 
-    - `Program.cs`: Program.cs serves as the application entry point and orchestrator, wiring together Interfaces, Models, and Services to run the sample banking workflow. It constructs the core domain objects (bank, customers, and accounts), invokes service routines for calculations and report generation, and drives transaction simulations to demonstrate behavior end-to-end. In short, it coordinates execution and output, exercising the concrete implementations behind the interface contracts to showcase the system’s business logic.
+    - `Program.cs`: Program.cs serves as the application entry point and orchestrator, wiring together Interfaces, Models, and Services to evaluate banking scenarios. It can be used to construct the core domain objects (bank, customers, and accounts), invoke service routines for calculations and report generation, and drive transaction simulations to demonstrate behavior end-to-end.
 
 1. Run the app and review the output in the terminal window.
 
-    To run your app, right-click the **Data_M2** project in the Solution Explorer, select **Debug**, and then select **Start New Instance**.
-
-    > **TIP**: If you encounter any issues while completing this exercise, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code. If you're still having trouble, you can review the solution code in the sample apps that you downloaded at the beginning of this exercise. To view the Data_M2 solution, navigate to the LP4SampleApps/Data_M2/Solution folder and open the Solution project in Visual Studio Code.
+    To run your app, right-click the **Data_M2** project under SOLUTION EXPLORER, select **Debug**, and then select **Start New Instance**.
 
 ## Task 2: Implement the Bank class
 
-You will implement functionality to manage customers and transaction reports in the `Bank` class. Each step aligns with a `// Task 2` comment in the `Bank.cs` file to help you locate where to add the code.
+Bank objects must be able to store a collection of customers. This capability is essential for managing the bank's clientele effectively.
 
-1. Open the `Bank.cs` file and locate the `// Task 2` comment.
+In this task, you implement the fields, properties, constructors, and methods required to begin managing a collection of bank customers.
 
-1. Add the following code below the comment:
+Use the following steps to complete this task:
+
+1. Open the Bank.cs file, and then locate the code comment that begins with `// Task 2: Step 1`.
+
+1. To declare the bank's unique identifier and customers listAdd the following code below the comment:
 
    ```csharp
-   public string Name { get; set; }
-   public List<BankCustomer> Customers { get; set; } = new List<BankCustomer>();
+    // Fields
+    private readonly Guid _bankId;
+    private readonly List<BankCustomer> _customers;
+
+    // Properties
+    public Guid BankId => _bankId;
+    public IReadOnlyList<BankCustomer> Customers => _customers.AsReadOnly();
+
    ```
 
-   > **NOTE**: This code adds a property for the bank's name and a list to store its customers.
+   This code adds a private field to store the bank's unique identifier and a private list to store the bank's customers. It also adds public properties to access the bank's ID and a read-only list of customers.
+
+1. Locate the code comment that begins with `// Task 2: Step 2`.
+
+1. To create a constructor for the Bank class that initializes the bank's properties, add the following code:
+
+    ```csharp
+    // Constructors
+    public Bank()
+    {
+        _bankId = Guid.NewGuid();
+        _customers = new List<BankCustomer>();
+    }
+    ```
+
+1. Locate the code comment that begins with `// Task 2: Step 3`.
 
 1. To create a method for adding customers to a bank object, add the following code:
 
-   ```csharp
-   public void AddCustomer(BankCustomer customer)
-   {
-       Customers.Add(customer);
-   }
-   ```
-
-   > **NOTE**: This method allows you to add a customer to the bank.
-
-1. To create a dictionary that stores transaction reports, add the following code:
-
-   ```csharp
-   public Dictionary<string, List<Transaction>> TransactionReports { get; set; } = new Dictionary<string, List<Transaction>>();
-   ```
-
-   > **NOTE**: This dictionary will be used to generate transaction reports.
+    ```csharp
+    //Methods
+    internal void AddCustomer(BankCustomer customer)
+    {
+        _customers.Add(customer);
+    }
+    ```
 
 1. Save the Bank.cs file.
 
@@ -143,65 +168,223 @@ You will implement functionality to manage customers and transaction reports in 
 
     Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
 
-    The functionality implemented in this task will be used in subsequent tasks.
+    The functionality implemented in this task doesn't change the output but will be used in subsequent tasks.
 
 ## Task 3: Update the BankCustomer class
 
-You will update the `BankCustomer` class to manage customer accounts. Each step aligns with a `// Task 3` comment in the `BankCustomer.cs` file to help you locate where to add the code.
+BankCustomer objects must be able to store a collection of accounts. This capability is essential for managing the customer's financial assets effectively.
 
-1. **Add a list of accounts**  
-   Open the `BankCustomer.cs` file and locate the `// Task 3` comment. Add the following code below it:
+In this task, you update the IBankCustomer interface and BankCustomer class to support managing a collection of customer accounts.
+
+Use the following steps to complete this task:
+
+1. Open the IBankCustomer.cs file.
+
+    The IBankCustomer.cs file is located in the Interfaces folder.
+
+1. Locate the code comment that begins with `// Task 3: Step 1`.
+
+1. To expose a property for accessing the customer's accounts, add the following code below the comment:
 
    ```csharp
-   public List<BankAccount> Accounts { get; set; } = new List<BankAccount>();
+   IReadOnlyList<IBankAccount> Accounts { get; }
    ```
 
-   > **NOTE**: This property stores the accounts associated with the customer.
+1. Locate the code comment that begins with `// Task 3: Step 2`.
 
-1. **Add a method to add accounts**  
-   Below the property, add the following method:
+1. To add a method for adding accounts to a customer, add the following code below the comment:
 
    ```csharp
-   public void AddAccount(BankAccount account)
-   {
-       Accounts.Add(account);
-   }
+   void AddAccount(IBankAccount account);
    ```
 
-   > **NOTE**: This method allows you to add an account to the customer.
+1. Save the IBankCustomer.cs file.
+
+1. Open the BankCustomer.cs file, and then locate the code comment that begins with `// Task 3: Step 3`.
+
+    The BankCustomer.cs file is located in the Models folder.
+
+1. To create a private field to store the customer's accounts, add the following code below the comment:
+
+   ```csharp
+   private readonly List<IBankAccount> _accounts;
+   ```
+
+1. Locate the code comment that begins with `// Task 3: Step 4`.
+
+1. To create a public property that exposes the accounts list as a read-only collection, add the following code below the comment:
+
+    ```csharp  
+    public IReadOnlyList<IBankAccount> Accounts => _accounts.AsReadOnly();
+    ```
+
+1. Locate the code comment that begins with `// Task 3: Step 5`.
+
+1. To update the first constructor to initialize the accounts list, add the following code inside the constructor:
+
+   ```csharp
+   _accounts = new List<IBankAccount>();
+   ```
+
+1. Locate the code comment that begins with `// Task 3: Step 6`.
+
+1. To update the second constructor to initialize the accounts list, add the following code inside the constructor:
+
+   ```csharp
+   _accounts = new List<IBankAccount>(existingCustomer._accounts);
+   ```
 
 1. Save the BankCustomer.cs file.
+
+1. Open the BankCustomerMethods.cs file, and then locate the code comment that begins with `// Task 3: Step 7`.
+
+1. To create a method that adds accounts to the customer's accounts list, add the following code below the comment:  
+
+    ```csharp
+    public void AddAccount(IBankAccount account)
+    {
+        _accounts.Add(account);
+    }
+    ```
+
+1. Save the BankCustomerMethods.cs file.
 
 1. Build and run the application.
 
     Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
 
-    The functionality implemented in this task will be used in subsequent tasks.
+    The functionality implemented in this task doesn't change the output but will be used in subsequent tasks.
 
 ## Task 4: Update the BankAccount class
 
-You will update the `BankAccount` class to manage transactions. Each step aligns with a `// Task 4` comment in the `BankAccount.cs` file to help you locate where to add the code.
+BankAccount objects must be able to store a collection of account transactions. This capability is essential for generating reports and for audits.
 
-1. **Add a list of transactions**  
-   Open the `BankAccount.cs` file and locate the `// Task 4` comment. Add the following code below it:
+In this task, you update the `IBankAccount` interface and `BankAccount` class to manage the transactions associated with each account.
 
-   ```csharp
-   public List<Transaction> Transactions { get; set; } = new List<Transaction>();
-   ```
+Use the following steps to complete this task:
+
+1. Open the IBankAccount.cs file.
+
+    The IBankAccount.cs file is located in the Interfaces folder.
+
+1. Locate the code comment that begins with `// Task 4: Step 1`.`
+
+1. To expose properties for accessing the account owner and transactions, add the following code below the comment:
+
+    ```csharp
+    BankCustomer Owner { get; } // This is the BankCustomer object that owns the account
+    IReadOnlyList<Transaction> Transactions { get; } // List of transactions for the account
+    ```
+
+1. Locate the code comment that begins with `// Task 4: Step 2`.`
+
+1. To define methods for logging and retrieving transactions, add the following code below the comment:
+
+    ```csharp
+    void AddTransaction(Transaction transaction);
+    List<Transaction> GetAllTransactions();
+    ```
+
+1. Save the IBankAccount.cs file.
+
+1. Open the `BankAccount.cs` file, and then locate the `// Task 4: Step 3` comment.
+
+1. To define a private readonly list to store transactions, add the following code below the comment:
+
+    ```csharp
+    private readonly List<Transaction> _transactions;
+    ```
+
+1. Locate the code comment that begins with `// Task 4: Step 4`.
+
+1. To provide access to the collections of transactions, add the following code below the comment:
+
+    ```csharp
+    public List<Transaction> Transactions { get; set; } = new List<Transaction>();
+    ```
 
    > **NOTE**: This property stores the transactions associated with the bank account.
 
-1. **Add a method to add transactions**  
-   Below the property, add the following method:
+1. Locate the code comment that begins with `// Task 4: Step 5a`.
 
-   ```csharp
-   public void AddTransaction(Transaction transaction)
-   {
-       Transactions.Add(transaction);
-   }
-   ```
+1. To initialize the transactions list in the first constructor, add the following code inside the constructor:
 
-   > **NOTE**: This method allows you to add a transaction to the account.
+    ```csharp
+    _transactions = new List<Transaction>();
+    ```
+
+1. Locate the code comment that begins with `// Task 4: Step 5b`.
+
+1. To initialize the transactions list in the copy constructor, add the following code inside the constructor:
+
+    ```csharp
+    _transactions = new List<Transaction>(existingAccount._transactions);
+    ```
+
+1. Locate the code comment that begins with `// Task 4: Step 6`.
+
+1. To add the AddTransaction and GetAllTransactions methods, add the following code below the comment:
+
+    ```csharp
+    public void AddTransaction(Transaction transaction)
+    {
+        _transactions.Add(transaction);
+    }
+
+    // Method to return all transactions for the account
+    public List<Transaction> GetAllTransactions()
+    {
+        return _transactions;
+    }
+    ```
+
+   > **NOTE**: The interface provides both `Transactions (IReadOnlyList<Transaction>)` for safe enumeration and `GetAllTransactions()` for a concrete, potentially mutable list (useful for operations that require a `List<T>`). Use `Transactions` when you don’t need to modify the collection.
+
+1. Locate the code comment that begins with `// Task 4: Step 7a`.
+
+1. To add logic that logs the deposit transaction, add the following code below the comment:
+
+    ```csharp
+    AddTransaction(new Transaction(transactionDate, transactionTime, priorBalance, amount, AccountNumber, AccountNumber, transactionType, description));
+
+    ```
+
+1. Locate the code comment that begins with `// Task 4: Step 7b`.
+
+1. To add logic that logs the withdrawal transaction, add the following code below the comment:
+
+    ```csharp
+    AddTransaction(new Transaction(transactionDate, transactionTime, priorBalance, amount, AccountNumber, AccountNumber, transactionType, description));
+
+    ```
+
+1. Locate the code comment that begins with `// Task 4: Step 7c`.
+
+1. To add logic that logs the interest transaction, add the following code below the comment:
+
+    ```csharp
+    AddTransaction(new Transaction(transactionDate, transactionTime, priorBalance, interest, AccountNumber, AccountNumber, AccountType, "Interest"));
+
+    ```
+
+1. Locate the code comment that begins with `// Task 4: Step 7d`.
+
+1. To add logic that logs the refund transaction, add the following code below the comment:
+
+    ```csharp
+    AddTransaction(new Transaction(transactionDate, transactionTime, priorBalance, refund, AccountNumber, AccountNumber, AccountType, "Refund"));
+
+    ```
+
+1. Locate the code comment that begins with `// Task 4: Step 7e`.
+
+1. To add logic that logs the deposit transaction, add the following code below the comment:
+
+    ```csharp
+    AddTransaction(new Transaction(transactionDate, transactionTime, priorBalance, amount, AccountNumber, AccountNumber, AccountType, "Cashier's Check"));
+    AddTransaction(new Transaction(transactionDate, transactionTime, priorBalance, fee, AccountNumber, AccountNumber, AccountType, "Transaction Fee"));
+
+    ```
 
 1. Save the BankAccount.cs file.
 
@@ -209,48 +392,9 @@ You will update the `BankAccount` class to manage transactions. Each step aligns
 
     Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
 
-    The functionality implemented in this task will be used in subsequent tasks.
+    The functionality implemented in this task doesn't change the output but will be used in subsequent tasks.
 
-## Task 5: Create the Transaction class
-
-You will create the `Transaction` class to represent deposits, withdrawals, and transfers. Each step aligns with a `// Task 5` comment in the `Transaction.cs` file to help you locate where to add the code.
-
-1. **Add properties for transaction details**  
-   Open the `Transaction.cs` file and locate the `// Task 5` comment. Add the following code below it:
-
-   ```csharp
-   public string TransactionId { get; set; }
-   public DateTime Date { get; set; }
-   public string Type { get; set; }
-   public double Amount { get; set; }
-   ```
-
-   > **NOTE**: These properties represent the details of a transaction, including its ID, date, type, and amount.
-
-1. **Add a constructor to initialize transaction details**  
-   Below the properties, add the following constructor:
-
-   ```csharp
-   public Transaction(string transactionId, DateTime date, string type, double amount)
-   {
-       TransactionId = transactionId;
-       Date = date;
-       Type = type;
-       Amount = amount;
-   }
-   ```
-
-   > **NOTE**: This constructor initializes a transaction with the provided details.
-
-1. Save the Transaction.cs file.
-
-1. Build and run the application.
-
-    Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
-
-    The functionality implemented in this task will be used in subsequent tasks.
-
-## Task 6: Create the SimulateDepositWithdrawTransfer class
+## Task 6: Update the SimulateDepositWithdrawTransfer class
 
 You will create the `SimulateDepositWithdrawTransfer` class to simulate deposits, withdrawals, and transfers. Each step aligns with a `// Task 6` comment in the `SimulateDepositWithdrawTransfer.cs` file to help you locate where to add the code.
 
@@ -322,7 +466,7 @@ You will create the `SimulateDepositWithdrawTransfer` class to simulate deposits
 
     Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
 
-    The functionality implemented in this task will be used in subsequent tasks.
+    The functionality implemented in this task doesn't change the output but will be used in subsequent tasks.
 
 ## Create and manage bank objects with customers and accounts
 

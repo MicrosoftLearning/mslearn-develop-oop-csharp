@@ -1,12 +1,15 @@
 using System;
-
-// TASK 4: Step 1 - Add System.Collections.Generic namespace
+using System.Collections.Generic;
 
 namespace Data_M2;
 
 public class BankAccount : IBankAccount
 {
     private static int s_nextAccountNumber;
+    protected double priorBalance;
+
+    // Task 4: Step 3 - define a private readonly list to store transactions
+
 
     // Public read-only static properties
     public static double TransactionRate { get; private set; }
@@ -19,6 +22,10 @@ public class BankAccount : IBankAccount
     public double Balance { get; internal set; } = 0;
     public string AccountType { get; set; } = "Checking";
     public virtual double InterestRate { get; protected set; } // Virtual property to allow overriding in derived classes
+    public BankCustomer Owner { get; }
+
+    // Task 4: Step 4 - Add a readonly Transactions property
+
 
     static BankAccount()
     {
@@ -30,104 +37,134 @@ public class BankAccount : IBankAccount
         MaxOverdraftFee = 10; // Maximum overdraft fee for an overdrawn checking account
     }
 
-    public BankAccount(string customerIdNumber, double balance = 200, string accountType = "Checking")
+    public BankAccount(BankCustomer owner, string customerIdNumber, double balance = 200, string accountType = "Checking")
     {
+        Owner = owner;
         this.AccountNumber = s_nextAccountNumber++;
         this.CustomerId = customerIdNumber;
         this.Balance = balance;
         this.AccountType = accountType;
+    
+        // Task 4: Step 5a - Initialize the transactions list
+
+
     }
 
     // Copy constructor for BankAccount
     public BankAccount(BankAccount existingAccount)
     {
+        Owner = existingAccount.Owner;
+
         this.AccountNumber = s_nextAccountNumber++;
         this.CustomerId = existingAccount.CustomerId;
         this.Balance = existingAccount.Balance;
         this.AccountType = existingAccount.AccountType;
+
+        // Task 4: Step 5b - Initialize the transactions list
+
+
     }
 
-    // TASK 4: Update BankAccount Class
-    // Purpose: Add Owner and Transactions properties for customer reference and transaction tracking.
 
-    // TASK 4: Step 2 - Add Owner property to reference BankCustomer
-    // Placeholder for adding a property to reference the owner of the account
+    // TASK 4: Step 6 - Implement AddTransaction and GetAllTransactions methods
 
 
-    // TASK 4: Step 3 - Add List<Transaction> property to track transactions
-    // Placeholder for adding a property to store a list of transactions
 
-
-    // TASK 4: Step 4 - Add methods to log transactions (e.g., AddTransaction)
-    // Placeholder for adding methods to log transactions
-    
     // Method to deposit money into the account
-    public void Deposit(double amount)
+    public virtual void Deposit(double amount, DateOnly transactionDate, TimeOnly transactionTime, string description)
     {
         if (amount > 0)
         {
+            priorBalance = Balance;
             Balance += amount;
-            // TASK 4: Step 4a - Add logic to log the deposit transaction
-            // Placeholder for logging the deposit transaction
+            string transactionType = "Deposit";
+            if (description.Contains("-(TRANSFER)"))
+            {
+                transactionType = "Transfer";
+            }
+            else if(description.Contains("-(BANK REFUND)"))
+            {
+                transactionType = "Bank Refund";
+            }
+            
+            // TASK 4: Step 7a - Add logic to log the deposit transaction
+
+
         }
     }
 
     // Method to withdraw money from the account
-    public virtual bool Withdraw(double amount)
+    public virtual bool Withdraw(double amount, DateOnly transactionDate, TimeOnly transactionTime, string description)
     {
         if (amount > 0 && Balance >= amount)
         {
+            priorBalance = Balance;
             Balance -= amount;
-            // TASK 4: Step 4b - Add logic to log the withdrawal transaction
-            // Placeholder for logging the withdrawal transaction
+            string transactionType = "Withdraw";
+            if (description.Contains("-(TRANSFER)"))
+            {
+                transactionType = "Transfer";
+            }
+            else if (description.Contains("-(BANK FEE)"))
+            {
+                transactionType = "Bank Fee";
+            }
+
+            // TASK 4: Step 7b - Add logic to log the withdrawal transaction
+
+
             return true;
         }
         return false;
     }
 
     // Method to transfer money to another account
-    public bool Transfer(IBankAccount targetAccount, double amount)
+    public virtual bool Transfer(IBankAccount targetAccount, double amount, DateOnly transactionDate, TimeOnly transactionTime, string description)
     {
-        if (Withdraw(amount))
+        description += "-(TRANSFER)";
+        if (Withdraw(amount, transactionDate, transactionTime, description))
         {
-            targetAccount.Deposit(amount);
-            // TASK 4: Step 4c - Add logic to log the transfer transaction
-            // Placeholder for logging the transfer transaction
-
+            targetAccount.Deposit(amount, transactionDate, transactionTime, description);
             return true;
         }
         return false;
     }
 
     // Method to apply interest
-    public void ApplyInterest(double years)
+    public virtual void ApplyInterest(double years, DateOnly transactionDate, TimeOnly transactionTime, string description)
     {
+        priorBalance = Balance;
         double interest = AccountCalculations.CalculateCompoundInterest(Balance, InterestRate, years);
         Balance += interest;
-        // TASK 4: Step 4d - Add logic to log the interest transaction
-        // Placeholder for logging the interest transaction
+
+        // TASK 4: Step 7d - Add logic to log the interest transaction
+
 
     }
 
     // Method to apply refund
-    public void ApplyRefund(double refund)
+    public virtual void ApplyRefund(double refund, DateOnly transactionDate, TimeOnly transactionTime, string description)
     {
+        priorBalance = Balance;
         Balance += refund;
-        // TASK 4: Step 4e - Add logic to log the refund transaction
-        // Placeholder for logging the refund transaction
+        // TASK 4: Step 7e - Add logic to log the refund transaction
+    
 
     }
 
     // Method to issue a cashier's check
-    public bool IssueCashiersCheck(double amount)
+    public virtual bool IssueCashiersCheck(double amount, DateOnly transactionDate, TimeOnly transactionTime, string description)
     {
         if (amount > 0 && Balance >= amount + BankAccount.MaxTransactionFee)
         {
+            priorBalance = Balance;
             Balance -= amount;
             double fee = AccountCalculations.CalculateTransactionFee(amount, BankAccount.TransactionRate, BankAccount.MaxTransactionFee);
             Balance -= fee;
-            // TASK 4: Step 4f - Add logic to log the cashier's check transaction
-            // Placeholder for logging the cashier's check and fee transactions
+
+            // TASK 4: Step 7f - Add logic to log the cashier's check transaction
+        
+
             return true;
         }
         return false;
