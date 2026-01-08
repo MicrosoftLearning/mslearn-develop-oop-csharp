@@ -17,31 +17,52 @@ public class CheckingAccount : BankAccount
         DefaultInterestRate = 0.0;
     }
 
-    public CheckingAccount(string customerIdNumber, double balance = 200, double overdraftLimit = 500)
-        : base(customerIdNumber, balance, "Checking")
+    public CheckingAccount(BankCustomer owner, string customerIdNumber, double balance = 200, double overdraftLimit = 500)
+        : base(owner, customerIdNumber, balance, "Checking")
     {
         OverdraftLimit = overdraftLimit;
-
     }
 
-    public override bool Withdraw(double amount)
+    public override bool Withdraw(double amount, DateOnly transactionDate, TimeOnly transactionTime, string description)
     {
-        if (amount > 0 && Balance + OverdraftLimit >= amount)
-        {
-            Balance -= amount;
+        // try the base class Withdraw method
+        bool result = base.Withdraw(amount, transactionDate, transactionTime, description);
 
-            // Check if the account is overdrawn
-            if (Balance < 0)
+        if (result == false && !description.Contains("-(TRANSFER)"))
+        {
+            // if the base class Withdraw method failed and the transaction isn't an attempted transfer
+            //  - calculate the overdraft fee
+            //  - check the overdraft limit with the fee applied 
+            //  - charge an overdraft fee
+            double overdraftFee = AccountCalculations.CalculateOverdraftFee(Math.Abs(Balance), BankAccount.OverdraftRate, BankAccount.MaxOverdraftFee);
+
+            if (Balance + OverdraftLimit + overdraftFee >= amount)
             {
-                double overdraftFee = AccountCalculations.CalculateOverdraftFee(Math.Abs(Balance), BankAccount.OverdraftRate, BankAccount.MaxOverdraftFee);
+                priorBalance = Balance;
+                Balance -= amount;
+                string transactionType = "Withdraw";
+
+                // Task 4: Step 8a - Create withdrawal transaction
+                
+                
+
+                priorBalance = Balance;
                 Balance -= overdraftFee;
-                Console.WriteLine($"Overdraft fee of ${overdraftFee} applied.");
+                transactionType = "Bank Fee";
+                string overdraftDescription = "Overdraft fee applied";
+
+                // Task 5: Step 2 - Create overdraft fee transaction
+                
+
+
+                return true;
             }
 
-            return true;
         }
-        return false;
+
+        return result;
     }
+
 
     public override string DisplayAccountInfo()
     {

@@ -45,7 +45,7 @@ This exercise includes the following tasks:
 1. Review the prototype banking application.
 1. Implement the Bank class.
 1. Update the BankCustomer class.
-1. Update the BankAccount class.
+1. Update the BankAccount and SavingsAccount classes.
 1. Update the SimulateDepositWithdrawTransfer class.
 1. Manage customer, account, and transaction collections using bank objects.
 1. Use a HashSet to ensure unique transactions.
@@ -255,7 +255,7 @@ Use the following steps to complete this task:
 
     The functionality implemented in this task doesn't change the output but will be used in subsequent tasks.
 
-## Task 4: Update the BankAccount class
+## Task 4: Update the BankAccount and SavingsAccount classes
 
 BankAccount objects must be able to store a collection of account transactions. This capability is essential for generating reports and for audits.
 
@@ -384,6 +384,22 @@ Use the following steps to complete this task:
     AddTransaction(new Transaction(transactionDate, transactionTime, priorBalance, amount, AccountNumber, AccountNumber, AccountType, "Cashier's Check"));
     AddTransaction(new Transaction(transactionDate, transactionTime, priorBalance, fee, AccountNumber, AccountNumber, AccountType, "Transaction Fee"));
 
+    ```
+
+1. Open the CheckingAccount.cs file, and then locate the `// Task 4: Step 8` comment.
+
+1. To add logic that logs the withdrawal transaction, add the following code below the comment:
+
+    ```csharp
+    AddTransaction(new Transaction(transactionDate, transactionTime, priorBalance, amount, AccountNumber, AccountNumber, transactionType, description));
+    ```
+
+1. Locate the `// Task 4: Step 8b` comment.
+
+1. To add logic that logs the overdraft fee transaction, add the following code below the comment:
+
+    ```csharp
+    AddTransaction(new Transaction(transactionDate, transactionTime, priorBalance, overdraftFee, AccountNumber, AccountNumber, transactionType, overdraftDescription));
     ```
 
 1. Save the BankAccount.cs file.
