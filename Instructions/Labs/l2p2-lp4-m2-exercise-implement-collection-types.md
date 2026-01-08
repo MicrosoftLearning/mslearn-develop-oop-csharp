@@ -396,10 +396,75 @@ Use the following steps to complete this task:
 
 ## Task 6: Update the SimulateDepositWithdrawTransfer class
 
-You will create the `SimulateDepositWithdrawTransfer` class to simulate deposits, withdrawals, and transfers. Each step aligns with a `// Task 6` comment in the `SimulateDepositWithdrawTransfer.cs` file to help you locate where to add the code.
+The SimulateDepositWithdrawTransfer class must be able to simulate deposits, withdrawals, and transfers between accounts. This capability is essential for testing account operations.
 
-1. **Add a method to simulate deposits**  
-   Open the `SimulateDepositWithdrawTransfer.cs` file and locate the `// Task 6` comment. Add the following code below it:
+In this task, you update the SimulateDepositWithdrawTransfer class to support simulating deposits, withdrawals, and transfers between accounts.
+
+Use the following steps to complete this task:
+
+1. Open the SimulateDepositWithdrawTransfer.cs file, and then locate the `// Task 6: Step 1` comment.
+
+1. To reset the withdrawal limits for savings accounts at the start of the month, add the following code below the comment:
+
+    ```csharp
+    foreach (BankAccount account in bankCustomer.Accounts)
+    {
+        if (account.AccountType == "Savings")
+        {
+            SavingsAccount savingsAccount = (SavingsAccount)account;
+            savingsAccount.ResetWithdrawalLimit();
+        }
+    }
+    ```
+
+1. Locate the `// Task 6: Step 2` comment.
+
+1. To check the account balance and perform transfers between checking and savings accounts, add the following code below the comment:
+
+    ```csharp
+    DateOnly dateFinalDayOfMonth = new DateOnly(endDate.Year, endDate.Month, DateTime.DaysInMonth(endDate.Year, endDate.Month));
+    if (startDate <= dateFinalDayOfMonth && dateFinalDayOfMonth <= endDate)
+    {
+        if (bankCustomer.Accounts[0].Balance <= minCheckingBalance)
+        {
+            transactions.Add(new TransactionInfo { Date = dateFinalDayOfMonth, Time = new TimeOnly(12, 00), Amount = transferToChecking, Description = "Transfer from savings to checking account", TransactionType = "Transfer" });
+        }
+        else if (bankCustomer.Accounts[0].Balance >= maxCheckingBalance)
+        {
+            transactions.Add(new TransactionInfo { Date = dateFinalDayOfMonth, Time = new TimeOnly(12, 00), Amount = transferToSavings, Description = "Transfer from checking to savings account", TransactionType = "Transfer" });
+        }
+    }
+    ```
+
+1. Locate the `// Task 6: Step 3` comment.
+
+1. To Update accounts for each transaction based on its type, add the following code below the comment:
+
+    ```csharp
+    if (transaction.TransactionType == "Deposit")
+    {
+        bankCustomer.Accounts[0].Deposit(transaction.Amount, transaction.Date, transaction.Time, transaction.Description);
+    }
+    else if (transaction.TransactionType == "Withdraw")
+    {
+        bankCustomer.Accounts[0].Withdraw(transaction.Amount, transaction.Date, transaction.Time, transaction.Description);
+    }
+    else if (transaction.TransactionType == "Transfer")
+    {
+        if (transaction.Description.Contains("savings to checking"))
+        {
+            bankCustomer.Accounts[1].Transfer(bankCustomer.Accounts[0], transaction.Amount, transaction.Date, transaction.Time, transaction.Description);
+        }
+        else if (transaction.Description.Contains("checking to savings"))
+        {
+            bankCustomer.Accounts[0].Transfer(bankCustomer.Accounts[1], transaction.Amount, transaction.Date, transaction.Time, transaction.Description);
+        }
+    }
+    ```
+
+1. Locate the `// Task 6: Step 4` comment.
+
+1. To add a method to simulate deposits, add the following code below the comment:
 
    ```csharp
    public void SimulateDeposit(BankAccount account, double amount)
@@ -414,10 +479,9 @@ You will create the `SimulateDepositWithdrawTransfer` class to simulate deposits
    }
    ```
 
-   > **NOTE**: This method creates a deposit transaction and adds it to the specified account.
+1. Locate the `// Task 6: Step 4` comment.
 
-1. **Add a method to simulate withdrawals**  
-   Below the deposit method, add the following code:
+1. To add a method to simulate withdrawals, add the following code below the comment:
 
    ```csharp
    public void SimulateWithdrawal(BankAccount account, double amount)
@@ -432,10 +496,9 @@ You will create the `SimulateDepositWithdrawTransfer` class to simulate deposits
    }
    ```
 
-   > **NOTE**: This method creates a withdrawal transaction and adds it to the specified account.
+1. Locate the `// Task 6: Step 4` comment.
 
-1. **Add a method to simulate transfers**  
-   Below the withdrawal method, add the following code:
+1. To add a method to simulate transfers, add the following code below the comment:
 
    ```csharp
    public void SimulateTransfer(BankAccount fromAccount, BankAccount toAccount, double amount)
@@ -457,8 +520,6 @@ You will create the `SimulateDepositWithdrawTransfer` class to simulate deposits
        toAccount.AddTransaction(deposit);
    }
    ```
-
-   > **NOTE**: This method creates a transfer transaction, withdrawing from one account and depositing into another.
 
 1. Save the SimulateDepositWithdrawTransfer.cs file.
 
