@@ -14,7 +14,6 @@ public interface IBankCustomer
     string DisplayCustomerInfo();
 
     // TASK 3: Step 2 - Add account-management methods 
-    
 
-    // Task 3: Steps 3 - 6 should be completed in BankCustomer.cs
+
 }

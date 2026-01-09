@@ -109,6 +109,12 @@ Use the following steps to complete this section of the exercise:
 
 1. Run the app and review the output in the terminal window.
 
+    Your app should produce output similar to the following:
+
+    ```plaintext
+    Bank Application - demonstrate the use of Collections, HashSets, and Dictionaries.
+    ```
+
     To run your app, right-click the **Data_M2** project under SOLUTION EXPLORER, select **Debug**, and then select **Start New Instance**.
 
 ## Task 2: Update the Bank class for a customers collection
@@ -334,7 +340,7 @@ Use the following steps to complete this task:
     }
     ```
 
-   > **NOTE**: The interface provides both `Transactions (IReadOnlyList<Transaction>)` for safe enumeration and `GetAllTransactions()` for a concrete, potentially mutable list (useful for operations that require a `List<T>`). Use `Transactions` when you don’t need to modify the collection.
+   > **NOTE**: The application provides `Transactions (IReadOnlyList<Transaction>)` for safe enumeration and `GetAllTransactions()` for a concrete, potentially mutable list (useful for operations that require a `List<T>`).
 
 1. Locate the code comment that begins with `// Task 4: Step 7a`.
 
@@ -382,6 +388,8 @@ Use the following steps to complete this task:
 
     ```
 
+1. Save the BankAccount.cs file.
+
 1. Open the CheckingAccount.cs file, and then locate the `// Task 4: Step 8a` comment.
 
 1. To add logic that logs the withdrawal transaction, add the following code below the comment:
@@ -398,7 +406,7 @@ Use the following steps to complete this task:
     AddTransaction(new Transaction(transactionDate, transactionTime, priorBalance, overdraftFee, AccountNumber, AccountNumber, transactionType, overdraftDescription));
     ```
 
-1. Save the BankAccount.cs file.
+1. Save the CheckingAccount.cs file.
 
 1. Build and run the application.
 
@@ -414,7 +422,7 @@ In this task, you update the SimulateDepositWithdrawTransfer class to support si
 
 Use the following steps to complete this task:
 
-1. Open the SimulateDepositWithdrawTransfer.cs file, and then locate the `// Task 6: Step 1` comment.
+1. Open the SimulateDepositWithdrawTransfer.cs file, and then locate the `// Task 5: Step 1` comment.
 
 1. To reset the withdrawal limits for savings accounts at the start of the month, add the following code below the comment:
 
@@ -429,7 +437,7 @@ Use the following steps to complete this task:
     }
     ```
 
-1. Locate the `// Task 6: Step 2` comment.
+1. Locate the `// Task 5: Step 2` comment.
 
 1. To check the account balance and perform transfers between checking and savings accounts, add the following code below the comment:
 
@@ -448,7 +456,7 @@ Use the following steps to complete this task:
     }
     ```
 
-1. Locate the `// Task 6: Step 3` comment.
+1. Locate the `// Task 5: Step 3` comment.
 
 1. To Update accounts for each transaction based on its type, add the following code below the comment:
 
@@ -473,67 +481,6 @@ Use the following steps to complete this task:
         }
     }
     ```
-
-<!-- 
-1. Locate the `// Task 6: Step 4` comment.
-
-1. To add a method to simulate deposits, add the following code below the comment:
-
-   ```csharp
-   public void SimulateDeposit(BankAccount account, double amount)
-   {
-       var transaction = new Transaction(
-           Guid.NewGuid().ToString(),
-           DateTime.Now,
-           "Deposit",
-           amount
-       );
-       account.AddTransaction(transaction);
-   }
-   ```
-
-1. Locate the `// Task 6: Step 4` comment.
-
-1. To add a method to simulate withdrawals, add the following code below the comment:
-
-   ```csharp
-   public void SimulateWithdrawal(BankAccount account, double amount)
-   {
-       var transaction = new Transaction(
-           Guid.NewGuid().ToString(),
-           DateTime.Now,
-           "Withdrawal",
-           amount
-       );
-       account.AddTransaction(transaction);
-   }
-   ```
-
-1. Locate the `// Task 6: Step 4` comment.
-
-1. To add a method to simulate transfers, add the following code below the comment:
-
-   ```csharp
-   public void SimulateTransfer(BankAccount fromAccount, BankAccount toAccount, double amount)
-   {
-       var withdrawal = new Transaction(
-           Guid.NewGuid().ToString(),
-           DateTime.Now,
-           "Transfer Out",
-           amount
-       );
-       fromAccount.AddTransaction(withdrawal);
-
-       var deposit = new Transaction(
-           Guid.NewGuid().ToString(),
-           DateTime.Now,
-           "Transfer In",
-           amount
-       );
-       toAccount.AddTransaction(deposit);
-   }
-   ```
- -->
 
 1. Save the SimulateDepositWithdrawTransfer.cs file.
 
@@ -666,7 +613,7 @@ Use the following steps to complete this task:
     Your app should produce output similar to the following:
 
     ```plaintext
-    Bank Application - demonstrate using object collections and dictionaries.
+    Bank Application - demonstrate the use of Collections, HashSets, and Dictionaries.
     
     Bank object created...
     
@@ -871,32 +818,34 @@ Use the following steps to complete this task:
     Your app should produce a monthly statement similar to the following:
 
     ```plaintext
+    Monthly statement showing Transfers, Deposits, and Withdrawals...
+    
     Monthly Statement for Ni Kang - December 2025
     Date Range: 12/1/2025 to 12/31/2025
     Summary: Deposits=2, Withdrawals=14, Transfers (unique)=1
     
     Transfers (unique):
-    12/31/2025 12:00 - Transfer $800.00 - Transfer from checking to savings account
+    12/31/2025 12:00 - Transfer $900.00 - Transfer from checking to savings account
     
     Deposits:
-    12/15/2025 12:00 - Deposit $3,272.00 (Checking)
-    12/31/2025 12:00 - Deposit $3,272.00 (Checking)
+    12/15/2025 12:00 - Deposit $3,780.00 (Checking)
+    12/31/2025 12:00 - Deposit $3,780.00 (Checking)
     
     Withdrawals:
     12/1/2025 08:00 - Withdrawal $400.00 (Checking)
-    12/1/2025 12:00 - Withdrawal $2,845.60 (Checking)
-    12/6/2025 21:00 - Withdrawal $197.00 (Checking)
+    12/1/2025 12:00 - Withdrawal $3,050.00 (Checking)
+    12/6/2025 21:00 - Withdrawal $171.00 (Checking)
     12/8/2025 08:00 - Withdrawal $400.00 (Checking)
-    12/13/2025 21:00 - Withdrawal $154.00 (Checking)
+    12/13/2025 21:00 - Withdrawal $173.00 (Checking)
     12/15/2025 08:00 - Withdrawal $400.00 (Checking)
-    12/20/2025 12:00 - Withdrawal $67.00 (Checking)
-    12/20/2025 12:00 - Withdrawal $81.00 (Checking)
-    12/20/2025 12:00 - Withdrawal $102.00 (Checking)
-    12/20/2025 12:00 - Withdrawal $141.00 (Checking)
-    12/20/2025 21:00 - Withdrawal $196.00 (Checking)
+    12/20/2025 12:00 - Withdrawal $61.00 (Checking)
+    12/20/2025 12:00 - Withdrawal $80.00 (Checking)
+    12/20/2025 12:00 - Withdrawal $138.00 (Checking)
+    12/20/2025 12:00 - Withdrawal $132.00 (Checking)
+    12/20/2025 21:00 - Withdrawal $174.00 (Checking)
     12/22/2025 08:00 - Withdrawal $400.00 (Checking)
-    12/27/2025 21:00 - Withdrawal $185.00 (Checking)
-    12/31/2025 12:00 - Withdrawal $1,428.00 (Checking)
+    12/27/2025 21:00 - Withdrawal $164.00 (Checking)
+    12/31/2025 12:00 - Withdrawal $1,673.00 (Checking)
     ```
 
 ## Clean up

@@ -6,7 +6,6 @@ namespace Data_M2;
 
 public partial class BankCustomer : IBankCustomer
 {
-    // TASK 3: Steps 1 and 2 should be completed in the IBankCustomer interface  
     private static int s_nextCustomerId;
     private string _firstName = "Tim";
     private string _lastName = "Shao";
@@ -58,6 +57,4 @@ public partial class BankCustomer : IBankCustomer
         // TASK 3: Step 6 - initialize the Accounts field by copying from existingCustomer
         
     }
-
-    // TASK 3: Step 7 - should be completed in BankCustomerMethods.cs
 }

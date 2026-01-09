@@ -6,7 +6,7 @@ class Program
 {
     static void Main()
     {
-        Console.WriteLine("Bank Application - demonstrate using object collections and dictionaries.");
+        Console.WriteLine("Bank Application - demonstrate the use of Collections, HashSets, and Dictionaries.");
 
         // TASK 6: Create and Manage Bank, Customers, and Accounts
         // This task will set up a bank with customers, accounts, and transactions using object collections.

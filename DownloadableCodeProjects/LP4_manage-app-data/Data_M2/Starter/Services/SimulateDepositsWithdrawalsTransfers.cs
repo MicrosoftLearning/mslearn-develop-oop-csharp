@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Data_M2;
 
-// TASK 6: Update SimulateDepositWithdrawTransfer Class
+// TASK 5: Update SimulateDepositWithdrawTransfer Class
 // Purpose: Simulate and log transactions using accounts collection for a customer.
 
 public class SimulateDepositsWithdrawalsTransfers
@@ -66,7 +66,7 @@ public class SimulateDepositsWithdrawalsTransfers
     private static BankCustomer SimulateActivityForPeriod(DateOnly startDate, DateOnly endDate, BankCustomer bankCustomer)
     {
 
-        // Task 6: Step 1 - Reset withdrawal limits for savings accounts at the start of the month
+        // Task 5: Step 1 - Reset withdrawal limits for savings accounts at the start of the month
 
 
         double[] monthlyExpenses = ReturnMonthlyExpenses();
@@ -210,7 +210,7 @@ public class SimulateDepositsWithdrawalsTransfers
             transactions.Add(new TransactionInfo { Date = feeDate2, Time = new TimeOnly(12, 00), Amount = 50.00, Description = "-(BANK FEE)", TransactionType = "Withdraw" });
         }
 
-        // Task 6: Step 2 - Check account balance and perform transfers between checking and savings accounts at the end of the month
+        // Task 5: Step 2 - Check account balance and perform transfers between checking and savings accounts at the end of the month
 
 
 
@@ -221,7 +221,7 @@ public class SimulateDepositsWithdrawalsTransfers
         foreach (var transaction in transactions)
         {
 
-            // Task 6: Step 3 - Update accounts for each transaction based on its type
+            // Task 5: Step 3 - Update accounts for each transaction based on its type
 
 
 
@@ -283,17 +283,6 @@ public class SimulateDepositsWithdrawalsTransfers
 
         return monthlyExpenses;
     }
-
-    // TASK 6: Step 4 - Add methods to simulate deposits
-
-
-
-    // TASK 6: Step 5 - Add methods to simulate withdrawals
-
-
-
-    // TASK 6: Step 6 - Add methods to simulate transfers
-
 
 }
 

@@ -17,12 +17,4 @@ public class Bank
     // TASK 2: Step 3 - Implement AddCustomer method
 
 
-    // TASK 10: Add Dictionary for Reports
-    // Purpose: Manage transaction data for reports in the Bank class.
-
-    // TASK 10: Step 1 - Add a method to add transactions to the dictionary
-    // Placeholder for AddTransactionToReport method
-
-    // TASK 10: Step 2 - Add a method to retrieve transactions for a specific key
-    // Placeholder for GetTransactionsForKey method
 }
