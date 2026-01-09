@@ -51,7 +51,7 @@ public class CheckingAccount : BankAccount
                 transactionType = "Bank Fee";
                 string overdraftDescription = "Overdraft fee applied";
 
-                // Task 5: Step 2 - Create overdraft fee transaction
+                // Task 4: Step 8b - Create overdraft fee transaction
                 
 
 

@@ -137,7 +137,7 @@ public class BankAccount : IBankAccount
         double interest = AccountCalculations.CalculateCompoundInterest(Balance, InterestRate, years);
         Balance += interest;
 
-        // TASK 4: Step 7d - Add logic to log the interest transaction
+        // TASK 4: Step 7c - Add logic to log the interest transaction
 
 
     }
@@ -147,7 +147,7 @@ public class BankAccount : IBankAccount
     {
         priorBalance = Balance;
         Balance += refund;
-        // TASK 4: Step 7e - Add logic to log the refund transaction
+        // TASK 4: Step 7d - Add logic to log the refund transaction
     
 
     }
@@ -162,7 +162,7 @@ public class BankAccount : IBankAccount
             double fee = AccountCalculations.CalculateTransactionFee(amount, BankAccount.TransactionRate, BankAccount.MaxTransactionFee);
             Balance -= fee;
 
-            // TASK 4: Step 7f - Add logic to log the cashier's check transaction
+            // TASK 4: Step 7e - Add logic to log the cashier's check transaction
         
 
             return true;

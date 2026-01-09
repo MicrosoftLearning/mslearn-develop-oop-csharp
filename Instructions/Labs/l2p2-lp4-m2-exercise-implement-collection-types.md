@@ -43,13 +43,12 @@ Your prototype app includes the following files:
 This exercise includes the following tasks:
 
 1. Review the prototype banking application.
-1. Implement the Bank class.
-1. Update the BankCustomer class.
-1. Update the BankAccount and SavingsAccount classes.
+1. Update the Bank class for a customers collection.
+1. Update IBankCustomer and BankCustomer for an accounts collection.
+1. Update IBankAccount, BankAccount, and CheckingAccount for account transactions.
 1. Update the SimulateDepositWithdrawTransfer class.
 1. Manage customer, account, and transaction collections using bank objects.
-1. Use a HashSet to ensure unique transactions.
-1. Generate transaction reports using a Dictionary.
+1. Create a monthly statement using a HashSet and Dictionary.
 
 ## Task 1: Review the prototype banking application
 
@@ -112,7 +111,7 @@ Use the following steps to complete this section of the exercise:
 
     To run your app, right-click the **Data_M2** project under SOLUTION EXPLORER, select **Debug**, and then select **Start New Instance**.
 
-## Task 2: Implement the Bank class
+## Task 2: Update the Bank class for a customers collection
 
 Bank objects must be able to store a collection of customers. This capability is essential for managing the bank's clientele effectively.
 
@@ -170,7 +169,7 @@ Use the following steps to complete this task:
 
     The functionality implemented in this task doesn't change the output but will be used in subsequent tasks.
 
-## Task 3: Update the BankCustomer class
+## Task 3: Update IBankCustomer and BankCustomer for an accounts collection
 
 BankCustomer objects must be able to store a collection of accounts. This capability is essential for managing the customer's financial assets effectively.
 
@@ -255,11 +254,11 @@ Use the following steps to complete this task:
 
     The functionality implemented in this task doesn't change the output but will be used in subsequent tasks.
 
-## Task 4: Update the BankAccount and SavingsAccount classes
+## Task 4: Update IBankAccount, BankAccount, and CheckingAccount for account transactions
 
 BankAccount objects must be able to store a collection of account transactions. This capability is essential for generating reports and for audits.
 
-In this task, you update the `IBankAccount` interface and `BankAccount` class to manage the transactions associated with each account.
+In this task, you update the `IBankAccount` interface, `BankAccount` class, and `CheckingAccount` class to manage the transactions associated with each account.
 
 Use the following steps to complete this task:
 
@@ -272,7 +271,6 @@ Use the following steps to complete this task:
 1. To expose properties for accessing the account owner and transactions, add the following code below the comment:
 
     ```csharp
-    BankCustomer Owner { get; } // This is the BankCustomer object that owns the account
     IReadOnlyList<Transaction> Transactions { get; } // List of transactions for the account
     ```
 
@@ -297,13 +295,11 @@ Use the following steps to complete this task:
 
 1. Locate the code comment that begins with `// Task 4: Step 4`.
 
-1. To provide access to the collections of transactions, add the following code below the comment:
+1. To provide readonly access to the transactions collection, add the following code below the comment:
 
     ```csharp
-    public List<Transaction> Transactions { get; set; } = new List<Transaction>();
+    public IReadOnlyList<Transaction> Transactions => _transactions.AsReadOnly();
     ```
-
-   > **NOTE**: This property stores the transactions associated with the bank account.
 
 1. Locate the code comment that begins with `// Task 4: Step 5a`.
 
@@ -386,7 +382,7 @@ Use the following steps to complete this task:
 
     ```
 
-1. Open the CheckingAccount.cs file, and then locate the `// Task 4: Step 8` comment.
+1. Open the CheckingAccount.cs file, and then locate the `// Task 4: Step 8a` comment.
 
 1. To add logic that logs the withdrawal transaction, add the following code below the comment:
 
@@ -412,7 +408,7 @@ Use the following steps to complete this task:
 
 ## Task 5: Update the SimulateDepositWithdrawTransfer class
 
-The SimulateDepositWithdrawTransfer class must be able to simulate deposits, withdrawals, and transfers between accounts. This capability is essential for testing account operations.
+The SimulateDepositWithdrawTransfer class must be able to simulate deposits, withdrawals, and transfers between accounts. Each of these actions will be logged as a transaction and added to the corresponding account's transaction history. The ability to simulate these actions is essential for testing account operations.
 
 In this task, you update the SimulateDepositWithdrawTransfer class to support simulating deposits, withdrawals, and transfers between accounts.
 
@@ -478,6 +474,7 @@ Use the following steps to complete this task:
     }
     ```
 
+<!-- 
 1. Locate the `// Task 6: Step 4` comment.
 
 1. To add a method to simulate deposits, add the following code below the comment:
@@ -536,6 +533,7 @@ Use the following steps to complete this task:
        toAccount.AddTransaction(deposit);
    }
    ```
+ -->
 
 1. Save the SimulateDepositWithdrawTransfer.cs file.
 
@@ -547,293 +545,115 @@ Use the following steps to complete this task:
 
 ## Task 6: Manage customer, account, and transaction collections using bank objects
 
-You will implement functionality to create `Bank`, `BankCustomer`, and `BankAccount` objects, add accounts to customers and customers to the bank, simulate transactions, ensure unique transactions using a `HashSet`, and generate a report of transactions within a date range. Each step aligns with a `// Task 1` comment in the `Program.cs` file to help you locate where to add the code.
+Bank objects can be used to build and manage collections of customer objects. These customer objects associated with a bank location can be used to manage the customer accounts. The customer account objects can be used to log the transaction history for each of the customer's accounts. These capabilities are essential for simulating real-world banking operations.
 
-1. **Create a `Bank` object**  
-   Open the `Program.cs` file and locate the `// Task 1` comment. Add the following code below it:
+In this task, you use the Bank, BankCustomer, and BankAccount classes to create and manage collections of customers, accounts, and transactions.
 
-   ```csharp
-   // Task 1: Create a Bank object
-   Bank myBank = new Bank("MyBank");
-   ```
+Use the following steps to complete this task:
 
-   > **NOTE**: This creates a bank named "MyBank" that will hold customers and their accounts.
+1. Open the Program.cs file, and then locate the `// Task 6: Step 1` comment.
 
-1. **Create `BankCustomer` and `BankAccount` objects**  
-   Add the following code below the previous step:
+1. To create a Bank object, add the following code below the comment:
 
-   ```csharp
-   // Task 1: Create BankCustomer and BankAccount objects
-   BankCustomer customer1 = new BankCustomer("Alice", "Smith");
-   BankAccount account1 = new CheckingAccount(customer1.CustomerId, 1000);
-   ```
-
-   > **NOTE**: This creates a customer named Alice Smith and a checking account with a $1,000 balance.
-
-1. **Add accounts to customers and customers to the bank**  
-   Add the following code below the previous step:
-
-   ```csharp
-   // Task 1: Add accounts to customers and customers to the bank
-   customer1.AddAccount(account1);
-   myBank.AddCustomer(customer1);
-   ```
-
-   > **NOTE**: This links the account to the customer and the customer to the bank.
-
-1. **Simulate deposits, withdrawals, and transfers**  
-   Add the following code below the previous step:
-
-   ```csharp
-   // Task 1: Simulate deposits, withdrawals, and transfers
-   SimulateDepositWithdrawTransfer simulator = new SimulateDepositWithdrawTransfer();
-   simulator.SimulateDeposit(account1, 500);
-   simulator.SimulateWithdrawal(account1, 300);
-   ```
-
-   > **NOTE**: This adds $500 to the account and then removes $300.
-
-1. **Use a `HashSet` to ensure unique transactions**  
-   Add the following code below the previous step:
-
-   ```csharp
-   // Task 1: Use a HashSet to ensure unique transactions
-   HashSet<Transaction> uniqueTransactions = new HashSet<Transaction>(account1.Transactions);
-   ```
-
-   > **NOTE**: This ensures that duplicate transactions are not added to the list.
-
-1. **Generate a report of transactions within a date range**  
-   Add the following code below the previous step:
-
-   ```csharp
-   // Task 1: Generate a report of transactions within a date range
-   Console.WriteLine("\nTransaction Report:");
-   foreach (var transaction in uniqueTransactions)
-   {
-       Console.WriteLine($"Transaction ID: {transaction.TransactionId}, Type: {transaction.Type}, Amount: {transaction.Amount:C}, Date: {transaction.Date}");
-   }
-   ```
-
-   > **NOTE**: This displays all unique transactions for the account.
-
-1. Save the Program.cs file.
-
-1. Build and run the application.
-
-    Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
-
-1. Review the output in the terminal window.
-
-    Your app should produce output similar to the following:
-
-    ```plaintext
-    Transaction Report:
-    Transaction ID: 1, Type: Deposit, Amount: $500.00, Date: 3/14/2025
-    Transaction ID: 2, Type: Withdrawal, Amount: $300.00, Date: 3/14/2025
+    ```csharp
+    Bank myBank = new Bank();
+    Console.WriteLine($"\nBank object created...");
     ```
 
-## Task 7: Use a HashSet to ensure unique transactions
+1. Locate the `// Task 6: Step 2` comment.
 
-You will use a `HashSet` to ensure that transactions are unique. Each step aligns with a `// Task 7` comment in the `Program.cs` file to help you locate where to add the code.
+1. To create a BankCustomer and BankAccount using the myBank object, add the following code below the comment:
 
-1. **Create a `HashSet` for unique transactions**  
-   Open the `Program.cs` file and locate the `// Task 7` comment. Add the following code below it:
+    ```csharp
+    Console.WriteLine($"\nUse myBank object to add a customer and an account...");
+    myBank.AddCustomer(new BankCustomer("Remy", "Morris"));
+    myBank.Customers[0].AddAccount(new BankAccount(myBank.Customers[0], myBank.Customers[0].CustomerId, 1500.00, "Checking"));
+    Console.WriteLine($"{myBank.Customers[0].Accounts[0].AccountType} account object created and added to {myBank.Customers[0].ReturnFullName()}'s account collection.");
 
-   ```csharp
-   HashSet<Transaction> uniqueTransactions = new HashSet<Transaction>(account1.Transactions);
-   ```
-
-   > **NOTE**: This creates a `HashSet` from the transactions in `account1`, ensuring that duplicate transactions are not added.
-
-1. **Display unique transactions**  
-   Below the `HashSet` creation, add the following code:
-
-   ```csharp
-   Console.WriteLine("\nUnique Transactions:");
-   foreach (var transaction in uniqueTransactions)
-   {
-       Console.WriteLine($"Transaction ID: {transaction.TransactionId}, Type: {transaction.Type}, Amount: {transaction.Amount:C}, Date: {transaction.Date}");
-   }
-   ```
-
-   > **NOTE**: This displays all unique transactions in the `HashSet`.
-
-1. Save the Program.cs file.
-
-1. Build and run the application.
-
-    Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
-
-1. Review the output in the terminal window.
-
-    Your app should produce output similar to the following:
-
-    ```plaintext
-    Unique Transactions:
-    Transaction ID: 1, Type: Deposit, Amount: $500.00, Date: 3/14/2025
-    Transaction ID: 2, Type: Withdrawal, Amount: $300.00, Date: 3/14/2025
     ```
 
-## Task 8: Generate transaction reports using a `Dictionary`
+1. Locate the `// Task 6: Step 3` comment.
 
-You will generate transaction reports using a `Dictionary` to group transactions by account. Each step aligns with a `// Task 8` comment in the `Program.cs` file to help you locate where to add the code.
+1. To create BankCustomer and BankAccount objects and then add them to collections, add the following code below the comment:
 
-### Task 8 Steps
-
-1. **Create a `Dictionary` to group transactions by account**  
-   Open the `Program.cs` file and locate the `// Task 8` comment. Add the following code below it:
-
-   ```csharp
-   Dictionary<string, List<Transaction>> transactionReports = new Dictionary<string, List<Transaction>>();
-   ```
-
-   > **NOTE**: This dictionary will group transactions by account number.
-
-1. **Populate the `Dictionary` with transactions**  
-   Below the dictionary creation, add the following code:
-
-   ```csharp
-   foreach (var customer in myBank.Customers)
-   {
-       foreach (var account in customer.Accounts)
-       {
-           transactionReports[account.AccountNumber.ToString()] = account.Transactions;
-       }
-   }
-   ```
-
-   > **NOTE**: This loops through all customers and their accounts, adding transactions to the dictionary.
-
-1. **Generate a report for a specific account**  
-   Below the dictionary population, add the following code:
-
-   ```csharp
-   Console.WriteLine("\nTransaction Report for Account 12345:");
-   if (transactionReports.ContainsKey("12345"))
-   {
-       foreach (var transaction in transactionReports["12345"])
-       {
-           Console.WriteLine($"Transaction ID: {transaction.TransactionId}, Type: {transaction.Type}, Amount: {transaction.Amount:C}, Date: {transaction.Date}");
-       }
-   }
-   else
-   {
-       Console.WriteLine("No transactions found for Account 12345.");
-   }
-   ```
-
-   > **NOTE**: This generates a report for a specific account (e.g., account number `12345`).
-
-1. Save the Program.cs file.
-
-1. Build and run the application.
-
-    Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
-
-1. Review the output in the terminal window.
-
-    Your app should produce output similar to the following:
-
-    ```plaintext
-    Transaction Report for Account 12345:
-    Transaction ID: 1, Type: Deposit, Amount: $500.00, Date: 3/14/2025
-    Transaction ID: 2, Type: Withdrawal, Amount: $300.00, Date: 3/14/2025
-    ```
-
-## Task 9: Generate a report of transactions within a date range
-
-You will generate a report of transactions within a specific date range. Each step aligns with a `// Task 9` comment in the `Program.cs` file to help you locate where to add the code.
-
-1. **Prompt the user for a date range**  
-   Open the `Program.cs` file and locate the `// Task 9` comment. Add the following code below it:
-
-   ```csharp
-   Console.WriteLine("\nEnter the start date (MM/DD/YYYY):");
-   DateTime startDate = DateTime.Parse(Console.ReadLine());
-
-   Console.WriteLine("Enter the end date (MM/DD/YYYY):");
-   DateTime endDate = DateTime.Parse(Console.ReadLine());
-   ```
-
-   > **NOTE**: This prompts the user to enter a start and end date for the transaction report.
-
-1. **Filter transactions by date range**  
-   Below the user input, add the following code:
-
-   ```csharp
-   Console.WriteLine("\nTransactions within the specified date range:");
-   foreach (var customer in myBank.Customers)
-   {
-       foreach (var account in customer.Accounts)
-       {
-           foreach (var transaction in account.Transactions)
-           {
-               if (transaction.Date >= startDate && transaction.Date <= endDate)
-               {
-                   Console.WriteLine($"Transaction ID: {transaction.TransactionId}, Type: {transaction.Type}, Amount: {transaction.Amount:C}, Date: {transaction.Date}");
-               }
-           }
-       }
-   }
-   ```
-
-   > **NOTE**: This filters and displays transactions that fall within the specified date range.
-
-1. Save the Program.cs file.
-
-1. Build and run the application.
-
-    Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
-
-1. Review the output in the terminal window.
-
-    Your app should produce output similar to the following:
-
-    ```plaintext
-    Enter the start date (MM/DD/YYYY):
-    3/14/2025
-    Enter the end date (MM/DD/YYYY):
-    3/15/2025
+    ```csharp
+    Console.WriteLine($"\nAdd new customer and account objects to the bank...");
+    BankCustomer customer1 = new BankCustomer("Ni", "Kang");
+    BankAccount account1 = new BankAccount(customer1, customer1.CustomerId, 1000.00, "Checking");
     
-    Transactions within the specified date range:
-    Transaction ID: 1, Type: Deposit, Amount: $500.00, Date: 3/14/2025
-    Transaction ID: 2, Type: Withdrawal, Amount: $300.00, Date: 3/14/2025
+    customer1.AddAccount(account1);
+    myBank.AddCustomer(customer1);
+    
+    foreach (BankCustomer bankCustomer in myBank.Customers)
+    {
+        Console.WriteLine($"{bankCustomer.ReturnFullName()} has {bankCustomer.Accounts.Count} accounts.");
+    
+    }
     ```
 
-## Task 10: Generate a summary report of all transactions
+1. Locate the `// Task 6: Step 4` comment.
 
-You will generate a summary report of all transactions across all accounts. Each step aligns with a `// Task 10` comment in the `Program.cs` file to help you locate where to add the code.
+1. To use the myBank.Customers collection to add accounts to all customers, add the following code below the comment:
 
-1. **Calculate the total number of transactions and total amount**  
-   Open the `Program.cs` file and locate the `// Task 10` comment. Add the following code below it:
+    ```csharp
+    Console.WriteLine($"\nUse the Customers collection to add SavingsAccount and MoneyMarketAccount to all customers...");
+    foreach (BankCustomer bankCustomer in myBank.Customers)
+    {
+        bankCustomer.AddAccount(new SavingsAccount(bankCustomer, bankCustomer.CustomerId, 3000.00, 6));
+        bankCustomer.AddAccount(new MoneyMarketAccount(bankCustomer, bankCustomer.CustomerId, 15000.00, 1000.00));
+        Console.WriteLine($"{bankCustomer.ReturnFullName()} has {bankCustomer.Accounts.Count} accounts.");
+    
+    }
+    ```
 
-   ```csharp
-   int totalTransactions = 0;
-   double totalAmount = 0;
+1. Locate the `// Task 6: Step 5` comment.
 
-   foreach (var customer in myBank.Customers)
-   {
-       foreach (var account in customer.Accounts)
-       {
-           totalTransactions += account.Transactions.Count;
-           totalAmount += account.Transactions.Sum(t => t.Amount);
-       }
-   }
-   ```
-
-   > **NOTE**: This calculates the total number of transactions and the total amount across all accounts.
-
-1. **Display the summary report**  
-   Below the calculations, add the following code:
+1. To generate two months of transactions for customer Ni Kang, add the following code below the comment:
 
    ```csharp
-   Console.WriteLine("\nSummary Report:");
-   Console.WriteLine($"Total Transactions: {totalTransactions}");
-   Console.WriteLine($"Total Amount: {totalAmount:C}");
+        Console.WriteLine($"\nGenerate two months of transactions for customer \"Ni Kang\"...");
+        foreach (BankCustomer bankCustomer in myBank.Customers)
+        {
+            if (bankCustomer.ReturnFullName() == "Ni Kang")
+            {
+                DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now);
+
+                DateOnly startDate = currentDate.AddMonths(-2);
+                DateOnly endDate = currentDate;
+                BankCustomer customer = bankCustomer;
+
+                customer = SimulateDepositsWithdrawalsTransfers.SimulateActivityDateRange(startDate, endDate, customer);
+                
+                int totalTransactions = 0;
+                foreach (BankAccount account in bankCustomer.Accounts)
+                {
+                    totalTransactions += account.Transactions.Count;
+                }
+                Console.WriteLine($"{bankCustomer.ReturnFullName()} had {totalTransactions} transactions in the past two months.");
+            }
+        }
    ```
 
-   > **NOTE**: This displays the total number of transactions and the total amount in a summary report.
+1. Locate the `// Task 6: Step 6` comment.
+
+1. To display all transactions for all accounts, add the following code below the comment:
+
+    ```csharp
+    Console.WriteLine($"\nDisplay all transactions for all accounts...");
+    foreach (BankCustomer bankCustomer in myBank.Customers)
+    {
+        Console.WriteLine($"\nTransactions for {bankCustomer.ReturnFullName()}:");
+    
+        foreach (BankAccount account in bankCustomer.Accounts)
+        {
+            Console.WriteLine($"\nAccount Type: {account.AccountType}, Account Number: {account.AccountNumber}");
+            foreach (Transaction transaction in account.Transactions)
+            {
+                Console.WriteLine(transaction.ReturnTransaction());
+            }
+        }
+    }
+    ```
 
 1. Save the Program.cs file.
 
@@ -846,9 +666,237 @@ You will generate a summary report of all transactions across all accounts. Each
     Your app should produce output similar to the following:
 
     ```plaintext
-    Summary Report:
-    Total Transactions: 2
-    Total Amount: $800.00
+    Bank Application - demonstrate using object collections and dictionaries.
+    
+    Bank object created...
+    
+    Use myBank object to add a customer and an account...
+    Checking account object created and added to Remy Morris's account collection.
+    
+    Add new customer and account objects to the bank...
+    Remy Morris has 1 accounts.
+    Ni Kang has 1 accounts.
+    
+    Use the Customers collection to add SavingsAccount and MoneyMarketAccount to all customers...
+    Remy Morris has 3 accounts.
+    Ni Kang has 3 accounts.
+    
+    Generate two months of transactions for customer "Ni Kang"...
+    Ni Kang had 42 transactions in the past two months.
+    
+    Display all transactions for all accounts...
+    
+    Transactions for Remy Morris:
+    
+    Account Type: Checking, Account Number: 11906837
+    
+    Account Type: Savings, Account Number: 11906839
+    
+    Account Type: Money Market, Account Number: 11906840
+    
+    Transactions for Ni Kang:
+    
+    Account Type: Checking, Account Number: 11906838
+    Transaction ID: 2081a1ce-1f11-4d4f-b0fa-37cd43c58b00, Type: Withdraw, Date: 11/8/2025, Time: 9:00 PM, Prior Balance: $1,000.00 Amount: $177.00, Source Account: 11906838, Target Account: 11906838, Description: Debit card purchase
+    Transaction ID: ed508f94-9b5f-477e-9524-4d8d38d3fdcc, Type: Withdraw, Date: 11/10/2025, Time: 8:00 AM, Prior Balance: $823.00 Amount: $400.00, Source Account: 11906838, Target Account: 11906838, Description: Withdraw for expenses
+    Transaction ID: 8a02081d-6990-4382-9706-ddcc99f1c191, Type: Bank Fee, Date: 11/10/2025, Time: 12:00 PM, Prior Balance: $423.00 Amount: $50.00, Source Account: 11906838, Target Account: 11906838, Description: -(BANK FEE)
+    Transaction ID: 1e050949-7910-4484-96dc-808bba93dd18, Type: Deposit, Date: 11/14/2025, Time: 12:00 PM, Prior Balance: $373.00 Amount: $3,224.00, Source Account: 11906838, Target Account: 11906838, Description: Bi-monthly salary deposit
+    Transaction ID: cf039ed7-3223-43f1-a66d-b45e8cce31dd, Type: Withdraw, Date: 11/15/2025, Time: 9:00 PM, Prior Balance: $3,597.00 Amount: $219.00, Source Account: 11906838, Target Account: 11906838, Description: Debit card purchase
+    Transaction ID: 4694e7eb-365a-45f0-a935-9cb49b9a5c5c, Type: Withdraw, Date: 11/17/2025, Time: 8:00 AM, Prior Balance: $3,378.00 Amount: $400.00, Source Account: 11906838, Target Account: 11906838, Description: Withdraw for expenses
+    Transaction ID: 9b9f4221-e6d2-409c-b8ed-f82b39994454, Type: Withdraw, Date: 11/20/2025, Time: 12:00 PM, Prior Balance: $2,978.00 Amount: $136.00, Source Account: 11906838, Target Account: 11906838, Description: Auto-pay gas and electric bill
+    Transaction ID: 6631120d-b624-43ea-8d7a-6f02e165e05a, Type: Withdraw, Date: 11/20/2025, Time: 12:00 PM, Prior Balance: $2,842.00 Amount: $86.00, Source Account: 11906838, Target Account: 11906838, Description: Auto-pay water and sewer bill
+    Transaction ID: 6453603e-c01b-487f-99e3-cacfeb54663e, Type: Withdraw, Date: 11/20/2025, Time: 12:00 PM, Prior Balance: $2,756.00 Amount: $68.00, Source Account: 11906838, Target Account: 11906838, Description: Auto-pay waste management bill
+    Transaction ID: bd9ef088-69ac-4563-98d7-c05447b47e92, Type: Withdraw, Date: 11/20/2025, Time: 12:00 PM, Prior Balance: $2,688.00 Amount: $137.00, Source Account: 11906838, Target Account: 11906838, Description: Auto-pay health club membership
+    Transaction ID: c6684c8b-f6d4-4758-b6a2-76d8915fc023, Type: Withdraw, Date: 11/22/2025, Time: 9:00 PM, Prior Balance: $2,551.00 Amount: $166.00, Source Account: 11906838, Target Account: 11906838, Description: Debit card purchase
+    Transaction ID: 0ef6b90b-c881-4c23-a7b2-511946591353, Type: Withdraw, Date: 11/24/2025, Time: 8:00 AM, Prior Balance: $2,385.00 Amount: $400.00, Source Account: 11906838, Target Account: 11906838, Description: Withdraw for expenses
+    Transaction ID: d23500e3-96d9-48dc-83a3-765cd7bd9d7f, Type: Deposit, Date: 11/28/2025, Time: 12:00 PM, Prior Balance: $1,985.00 Amount: $3,224.00, Source Account: 11906838, Target Account: 11906838, Description: Bi-monthly salary deposit
+    Transaction ID: da465aa4-6a64-4c33-8b0c-d70c9035a632, Type: Withdraw, Date: 11/28/2025, Time: 12:00 PM, Prior Balance: $5,209.00 Amount: $1,539.00, Source Account: 11906838, Target Account: 11906838, Description: Auto-pay credit card bill
+    Transaction ID: be0e4c26-7a08-4d7c-b48f-f0db9d3ac223, Type: Transfer, Date: 11/30/2025, Time: 12:00 PM, Prior Balance: $3,670.00 Amount: $2,000.00, Source Account: 11906838, Target Account: 11906838, Description: Transfer from savings to checking account-(TRANSFER)
+    Transaction ID: 6a5b09d7-314f-4eb5-865c-c1bf791bdebf, Type: Withdraw, Date: 12/1/2025, Time: 8:00 AM, Prior Balance: $5,670.00 Amount: $400.00, Source Account: 11906838, Target Account: 11906838, Description: Withdraw for expenses
+    Transaction ID: 6a687598-dc2d-41b3-8a07-6b71cd703e86, Type: Withdraw, Date: 12/1/2025, Time: 12:00 PM, Prior Balance: $5,270.00 Amount: $2,945.50, Source Account: 11906838, Target Account: 11906838, Description: Rent payment
+    Transaction ID: eaa4d1fb-65aa-46bb-8e3b-81fac9b58967, Type: Bank Fee, Date: 12/3/2025, Time: 12:00 PM, Prior Balance: $2,324.50 Amount: $50.00, Source Account: 11906838, Target Account: 11906838, Description: -(BANK FEE)
+    Transaction ID: 363ccb20-f4a6-4b3d-9c26-5be2fff5c033, Type: Bank Refund, Date: 12/5/2025, Time: 12:00 PM, Prior Balance: $2,274.50 Amount: $100.00, Source Account: 11906838, Target Account: 11906838, Description: Refund for overcharge -(BANK REFUND)
+    Transaction ID: 8abec699-81d3-41d2-b819-5b30b024795e, Type: Withdraw, Date: 12/6/2025, Time: 9:00 PM, Prior Balance: $2,374.50 Amount: $188.00, Source Account: 11906838, Target Account: 11906838, Description: Debit card purchase
+    Transaction ID: e9c4822a-a4b2-4938-b1ff-ccac2bf2561f, Type: Withdraw, Date: 12/8/2025, Time: 8:00 AM, Prior Balance: $2,186.50 Amount: $400.00, Source Account: 11906838, Target Account: 11906838, Description: Withdraw for expenses
+    Transaction ID: d1b2e8e4-7db2-42c0-ac5c-01d3d1e28b6c, Type: Bank Fee, Date: 12/10/2025, Time: 12:00 PM, Prior Balance: $1,786.50 Amount: $50.00, Source Account: 11906838, Target Account: 11906838, Description: -(BANK FEE)
+    Transaction ID: 46fe844b-6f9f-4744-bfc2-bf85bcdb5bc4, Type: Withdraw, Date: 12/13/2025, Time: 9:00 PM, Prior Balance: $1,736.50 Amount: $201.00, Source Account: 11906838, Target Account: 11906838, Description: Debit card purchase
+    Transaction ID: 21e8785e-5805-43ca-ba58-5ab3143a0406, Type: Withdraw, Date: 12/15/2025, Time: 8:00 AM, Prior Balance: $1,535.50 Amount: $400.00, Source Account: 11906838, Target Account: 11906838, Description: Withdraw for expenses
+    Transaction ID: 3afbc7ee-9b2d-49cc-b72e-30eb55374ce0, Type: Deposit, Date: 12/15/2025, Time: 12:00 PM, Prior Balance: $1,135.50 Amount: $3,755.00, Source Account: 11906838, Target Account: 11906838, Description: Bi-monthly salary deposit
+    Transaction ID: 985b9857-ff80-4bb1-a8f4-385ea8837125, Type: Withdraw, Date: 12/20/2025, Time: 12:00 PM, Prior Balance: $4,890.50 Amount: $64.00, Source Account: 11906838, Target Account: 11906838, Description: Auto-pay waste management bill
+    Transaction ID: cb289a5d-dab6-477f-82a8-ae3cf4671745, Type: Withdraw, Date: 12/20/2025, Time: 12:00 PM, Prior Balance: $4,826.50 Amount: $84.00, Source Account: 11906838, Target Account: 11906838, Description: Auto-pay water and sewer bill
+    Transaction ID: c1e14c14-3af1-4c4b-9255-3ca7c8e69dfb, Type: Withdraw, Date: 12/20/2025, Time: 12:00 PM, Prior Balance: $4,742.50 Amount: $101.00, Source Account: 11906838, Target Account: 11906838, Description: Auto-pay gas and electric bill
+    Transaction ID: 3677c3ef-54d3-4326-b463-c443df826fe1, Type: Withdraw, Date: 12/20/2025, Time: 12:00 PM, Prior Balance: $4,641.50 Amount: $120.00, Source Account: 11906838, Target Account: 11906838, Description: Auto-pay health club membership
+    Transaction ID: 2cca578d-490f-4876-84eb-f6c63e46fc4a, Type: Withdraw, Date: 12/20/2025, Time: 9:00 PM, Prior Balance: $4,521.50 Amount: $192.00, Source Account: 11906838, Target Account: 11906838, Description: Debit card purchase
+    Transaction ID: 7b86bf35-8121-431c-b923-e58db7199853, Type: Withdraw, Date: 12/22/2025, Time: 8:00 AM, Prior Balance: $4,329.50 Amount: $400.00, Source Account: 11906838, Target Account: 11906838, Description: Withdraw for expenses
+    Transaction ID: e9651f3d-50a1-4b67-9602-907fe0c115cc, Type: Withdraw, Date: 12/27/2025, Time: 9:00 PM, Prior Balance: $3,929.50 Amount: $171.00, Source Account: 11906838, Target Account: 11906838, Description: Debit card purchase
+    Transaction ID: 62486675-b5a8-448b-985b-8efab9083379, Type: Withdraw, Date: 12/31/2025, Time: 12:00 PM, Prior Balance: $3,758.50 Amount: $1,460.75, Source Account: 11906838, Target Account: 11906838, Description: Auto-pay credit card bill
+    Transaction ID: cad2736e-9725-409a-87d0-de7894bcb599, Type: Deposit, Date: 12/31/2025, Time: 12:00 PM, Prior Balance: $2,297.75 Amount: $3,755.00, Source Account: 11906838, Target Account: 11906838, Description: Bi-monthly salary deposit
+    Transaction ID: f38b73a2-a9a3-44e9-b658-d3dd8e0be72e, Type: Transfer, Date: 12/31/2025, Time: 12:00 PM, Prior Balance: $6,052.75 Amount: $900.00, Source Account: 11906838, Target Account: 11906838, Description: Transfer from checking to savings account-(TRANSFER)
+    Transaction ID: 6075f724-198c-4afa-9767-800e750f49cf, Type: Withdraw, Date: 1/1/2026, Time: 12:00 PM, Prior Balance: $5,152.75 Amount: $2,950.40, Source Account: 11906838, Target Account: 11906838, Description: Rent payment
+    Transaction ID: 19b208bf-ad09-456b-a5fd-768e2122d865, Type: Bank Fee, Date: 1/3/2026, Time: 12:00 PM, Prior Balance: $2,202.35 Amount: $50.00, Source Account: 11906838, Target Account: 11906838, Description: -(BANK FEE)
+    Transaction ID: 821d33e7-2cb5-4711-8ad8-ac0b919a632c, Type: Withdraw, Date: 1/3/2026, Time: 9:00 PM, Prior Balance: $2,152.35 Amount: $198.00, Source Account: 11906838, Target Account: 11906838, Description: Debit card purchase
+    Transaction ID: 3bd100e4-dd88-4302-87e0-b8563e0069ea, Type: Withdraw, Date: 1/5/2026, Time: 8:00 AM, Prior Balance: $1,954.35 Amount: $400.00, Source Account: 11906838, Target Account: 11906838, Description: Withdraw for expenses
+    Transaction ID: c530ebec-7359-4378-b8a1-3d3c189c7f06, Type: Bank Refund, Date: 1/5/2026, Time: 12:00 PM, Prior Balance: $1,554.35 Amount: $100.00, Source Account: 11906838, Target Account: 11906838, Description: Refund for overcharge -(BANK REFUND)
+    
+    Account Type: Savings, Account Number: 11906841
+    Transaction ID: 42014e15-2afc-4891-adb0-dc0a22164a52, Type: Transfer, Date: 11/30/2025, Time: 12:00 PM, Prior Balance: $3,000.00 Amount: $2,000.00, Source Account: 11906841, Target Account: 11906841, Description: Transfer from savings to checking account-(TRANSFER)
+    Transaction ID: 2e9ca986-c92f-49d3-948f-c0a8946b1cf3, Type: Transfer, Date: 12/31/2025, Time: 12:00 PM, Prior Balance: $1,000.00 Amount: $900.00, Source Account: 11906841, Target Account: 11906841, Description: Transfer from checking to savings account-(TRANSFER)
+    
+    Account Type: Money Market, Account Number: 11906842
+    ```
+
+1. Notice that transfers between accounts are logged as transactions in both the source and target accounts.
+
+    For example, when transferring money from a savings account to a checking account, the transaction is recorded in both accounts' transaction histories. This behavior is essential for accurate record-keeping and auditing purposes. However, customers may prefer to see transfers between accounts reported separately in there monthly statements.
+
+## Task 7: Create a monthly statement using a HashSet and Dictionary
+
+A HashSet can be used to store unique transactions, while a Dictionary can be used to generate transaction reports. These data structures are useful for managing and organizing transaction data efficiently.
+
+In this task, you create a monthly statement using a `HashSet` to store unique transactions and a `Dictionary` to generate transaction reports.
+
+Use the following steps to complete this task:
+
+1. Open the Program.cs file, and then locate the `// Task 7: Step 1` comment.
+
+1. To locate customer Ni Kang using the Customers collection, add the following code below the comment:
+
+    ```csharp
+    Console.WriteLine("\nMonthly statement showing Transfers, Deposits, and Withdrawals...");
+
+    BankCustomer? reportCustomer = null;
+    foreach (BankCustomer bc in myBank.Customers)
+    {
+        if (bc.ReturnFullName() == "Ni Kang")
+        {
+            reportCustomer = bc;
+            break;
+        }
+    }
+    ```
+
+1. Locate the `// Task 7: Step 2` comment.
+
+1. To set the reporting date range to the previous month, add the following code below the comment:
+
+    ```csharp
+    DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+    DateOnly reportStart = new DateOnly(today.Year, today.Month, 1).AddMonths(-1);
+    DateOnly reportEnd = new DateOnly(reportStart.Year, reportStart.Month, DateTime.DaysInMonth(reportStart.Year, reportStart.Month));
+    ```
+
+1. Locate the `// Task 7: Step 3` comment.
+
+1. To create a HashSet and Dictionary, add the following code below the comment:
+
+    ```csharp
+    // HashSet to track unique transfer signatures across accounts
+    HashSet<string> uniqueTransferKeys = new HashSet<string>();
+
+    // Dictionary to organize monthly activity by transaction type
+    Dictionary<string, List<string>> monthlyActivity = new Dictionary<string, List<string>>
+    {
+        { "Deposits", new List<string>() },
+        { "Withdrawals", new List<string>() },
+        { "Transfers", new List<string>() }
+    };
+    ```
+
+1. Locate the `// Task 7: Step 4` comment.
+
+1. To populate the HashSet and Dictionary with transactions, add the following code below the comment:
+
+    ```csharp
+    if (reportCustomer != null)
+    {
+        foreach (BankAccount acct in reportCustomer.Accounts)
+        {
+            foreach (Transaction txn in acct.Transactions)
+            {
+                if (txn.TransactionDate < reportStart || txn.TransactionDate > reportEnd)
+                    continue;
+
+                string dateStr = txn.TransactionDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                string timeStr = txn.TransactionTime.ToString("HH:mm", CultureInfo.InvariantCulture);
+                string desc = txn.Description.Replace("-(TRANSFER)", string.Empty).Trim();
+
+                if (txn.TransactionType == "Transfer")
+                {
+                    // Build a signature that uniquely identifies a single transfer across accounts
+                    string signature = $"{dateStr}|{timeStr}|{txn.TransactionAmount:F2}|{desc}";
+                    if (uniqueTransferKeys.Add(signature))
+                    {
+                        monthlyActivity["Transfers"].Add($"{txn.TransactionDate} {timeStr} - Transfer {txn.TransactionAmount:C} - {desc}");
+                    }
+                    // else: duplicate entry for the paired account; skip
+                }
+                else if (txn.TransactionType == "Deposit")
+                {
+                    monthlyActivity["Deposits"].Add($"{txn.TransactionDate} {timeStr} - Deposit {txn.TransactionAmount:C} ({acct.AccountType})");
+                }
+                else if (txn.TransactionType == "Withdraw")
+                {
+                    monthlyActivity["Withdrawals"].Add($"{txn.TransactionDate} {timeStr} - Withdrawal {txn.TransactionAmount:C} ({acct.AccountType})");
+                }
+            }
+        }
+
+        Console.WriteLine($"\nMonthly Statement for {reportCustomer.ReturnFullName()} - {reportStart.ToString("MMMM yyyy", CultureInfo.InvariantCulture)}");
+        Console.WriteLine($"Date Range: {reportStart} to {reportEnd}");
+        Console.WriteLine($"Summary: Deposits={monthlyActivity["Deposits"].Count}, Withdrawals={monthlyActivity["Withdrawals"].Count}, Transfers (unique)={monthlyActivity["Transfers"].Count}");
+
+        Console.WriteLine("\nTransfers (unique):");
+        foreach (var line in monthlyActivity["Transfers"]) Console.WriteLine(line);
+
+        Console.WriteLine("\nDeposits:");
+        foreach (var line in monthlyActivity["Deposits"]) Console.WriteLine(line);
+
+        Console.WriteLine("\nWithdrawals:");
+        foreach (var line in monthlyActivity["Withdrawals"]) Console.WriteLine(line);
+    }
+    else
+    {
+        Console.WriteLine("Customer for monthly statement not found.");
+    }
+    ```
+
+1. Save the Program.cs file.
+
+1. Build and run the application.
+
+    Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
+
+1. Review the output in the terminal window.
+
+    Your app should produce a monthly statement similar to the following:
+
+    ```plaintext
+    Monthly Statement for Ni Kang - December 2025
+    Date Range: 12/1/2025 to 12/31/2025
+    Summary: Deposits=2, Withdrawals=14, Transfers (unique)=1
+    
+    Transfers (unique):
+    12/31/2025 12:00 - Transfer $800.00 - Transfer from checking to savings account
+    
+    Deposits:
+    12/15/2025 12:00 - Deposit $3,272.00 (Checking)
+    12/31/2025 12:00 - Deposit $3,272.00 (Checking)
+    
+    Withdrawals:
+    12/1/2025 08:00 - Withdrawal $400.00 (Checking)
+    12/1/2025 12:00 - Withdrawal $2,845.60 (Checking)
+    12/6/2025 21:00 - Withdrawal $197.00 (Checking)
+    12/8/2025 08:00 - Withdrawal $400.00 (Checking)
+    12/13/2025 21:00 - Withdrawal $154.00 (Checking)
+    12/15/2025 08:00 - Withdrawal $400.00 (Checking)
+    12/20/2025 12:00 - Withdrawal $67.00 (Checking)
+    12/20/2025 12:00 - Withdrawal $81.00 (Checking)
+    12/20/2025 12:00 - Withdrawal $102.00 (Checking)
+    12/20/2025 12:00 - Withdrawal $141.00 (Checking)
+    12/20/2025 21:00 - Withdrawal $196.00 (Checking)
+    12/22/2025 08:00 - Withdrawal $400.00 (Checking)
+    12/27/2025 21:00 - Withdrawal $185.00 (Checking)
+    12/31/2025 12:00 - Withdrawal $1,428.00 (Checking)
     ```
 
 ## Clean up
