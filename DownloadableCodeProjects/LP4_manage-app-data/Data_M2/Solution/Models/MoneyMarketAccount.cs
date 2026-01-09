@@ -20,8 +20,8 @@ public class MoneyMarketAccount : BankAccount
         DefaultMinimumOpeningBalance = 2000; // Default minimum opening balance
     }
 
-    public MoneyMarketAccount(string customerIdNumber, double balance = 2000, double minimumBalance = 1000)
-        : base(customerIdNumber, balance, "Money Market")
+    public MoneyMarketAccount(BankCustomer owner,string customerIdNumber, double balance = 2000, double minimumBalance = 1000)
+        : base(owner, customerIdNumber, balance, "Money Market")
     {
         if (balance < DefaultMinimumOpeningBalance)
         {
@@ -32,12 +32,14 @@ public class MoneyMarketAccount : BankAccount
         MinimumOpeningBalance = DefaultMinimumOpeningBalance; // Set the minimum opening balance to the default value
     }
 
-    public override bool Withdraw(double amount)
+    public override bool Withdraw(double amount, DateOnly transactionDate, TimeOnly transactionTime, string description)
     {
         if (amount > 0 && Balance - amount >= MinimumBalance)
         {
-            Balance -= amount;
-            return true;
+            // Call the base class Withdraw method
+            bool result = base.Withdraw(amount, transactionDate, transactionTime, description);
+
+            return result;
         }
         return false;
     }

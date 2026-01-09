@@ -8,46 +8,37 @@ namespace Data_M2;
 
 public class Bank
 {
-    // TASK 2: Step 1 - Add Name and List<BankCustomer> properties
-    public string Name { get; set; } // Removed 'required' keyword
-    public List<BankCustomer> Customers { get; private set; }
+    // TASK 2: Step 1 - Add bank's unique identifier and customers list
+    // Fields
+    private readonly Guid _bankId;
+    private readonly List<BankCustomer> _customers;
 
-    // TASK 2: Step 2 - Add a Dictionary<string, List<Transaction>> for transaction reports
-    public Dictionary<string, List<Transaction>> TransactionReports { get; private set; }
+    // Properties
+    public Guid BankId => _bankId;
+    public IReadOnlyList<BankCustomer> Customers => _customers.AsReadOnly();
 
-    // Constructor to initialize properties
-    public Bank(string name)
+
+    // TASK 2: Step 2 - Add constructor to initialize properties
+    // Constructors
+    public Bank()
     {
-        Name = name; // Initialize the Name property
-        Customers = new List<BankCustomer>();
-        TransactionReports = new Dictionary<string, List<Transaction>>();
+        _bankId = Guid.NewGuid();
+        _customers = new List<BankCustomer>();
     }
 
     // TASK 2: Step 3 - Implement AddCustomer method
-    public void AddCustomer(BankCustomer customer)
+    //Methods
+    internal void AddCustomer(BankCustomer customer)
     {
-        if (customer != null && !Customers.Contains(customer))
-        {
-            Customers.Add(customer);
-        }
+        _customers.Add(customer);
     }
 
     // TASK 10: Add Dictionary for Reports
     // Purpose: Manage transaction data for reports in the Bank class.
 
     // TASK 10: Step 1 - Add a method to add transactions to the dictionary
-    public void AddTransactionToReport(string key, Transaction transaction)
-    {
-        if (!TransactionReports.ContainsKey(key))
-        {
-            TransactionReports[key] = new List<Transaction>();
-        }
-        TransactionReports[key].Add(transaction);
-    }
+    // Placeholder for AddTransactionToReport method
 
     // TASK 10: Step 2 - Add a method to retrieve transactions for a specific key
-    public List<Transaction> GetTransactionsForKey(string key)
-    {
-        return TransactionReports.ContainsKey(key) ? TransactionReports[key] : new List<Transaction>();
-    }
+    // Placeholder for GetTransactionsForKey method
 }

@@ -1,173 +1,183 @@
 ﻿using Data_M2;
 using System.Globalization;
-// TASK 7: Step 1 - Add System.Collections.Generic namespace
 using System.Collections.Generic;
 
 class Program
 {
     static void Main()
     {
-        // TASK 1: Create and Manage Bank, Customers, and Accounts
-        // This task will set up the initial structure for the bank system.
+        Console.WriteLine("Bank Application - demonstrate using object collections and dictionaries.");
 
-        // TASK 1: Step 1 - Create a Bank object
-        Bank myBank = new Bank("MyBank");
+        // TASK 6: Create and Manage Bank, Customers, and Accounts
+        // This task will set up a bank with customers, accounts, and transactions using object collections.
 
-        // TASK 1: Step 2 - Create BankCustomer and BankAccount objects
-        BankCustomer customer1 = new BankCustomer("Alice", "Smith");
-        BankCustomer customer2 = new BankCustomer("Bob", "Johnson");
+        // TASK 6: Step 1 - Create a Bank object
+        Bank myBank = new Bank();
+        Console.WriteLine($"\nBank object created...");
 
-        BankAccount account1 = new CheckingAccount(customer1.CustomerId, 1000);
-        BankAccount account2 = new SavingsAccount(customer2.CustomerId, 2000);
 
-        // TASK 1: Step 3 - Add accounts to customers and customers to the bank
+        // TASK 6: Step 2 - Create a BankCustomer and BankAccount using the myBank object
+        Console.WriteLine($"\nUse myBank object to add a customer and an account...");
+        myBank.AddCustomer(new BankCustomer("Remy", "Morris"));
+        myBank.Customers[0].AddAccount(new CheckingAccount(myBank.Customers[0], myBank.Customers[0].CustomerId, 1500.00, 500.00));
+        Console.WriteLine($"{myBank.Customers[0].Accounts[0].AccountType} account object created and added to {myBank.Customers[0].ReturnFullName()}'s account collection.");
+
+
+        // TASK 6: Step 3 - Create BankCustomer and BankAccount objects and then add them to collections
+        Console.WriteLine($"\nAdd new customer and account objects to the bank...");
+        BankCustomer customer1 = new BankCustomer("Ni", "Kang");
+        BankAccount account1 = new CheckingAccount(customer1, customer1.CustomerId, 1000.00, 500.00);
+
         customer1.AddAccount(account1);
-        customer2.AddAccount(account2);
-
         myBank.AddCustomer(customer1);
-        myBank.AddCustomer(customer2);
 
-        // TASK 1: Step 4 - Simulate deposits, withdrawals, and transfers
-        SimulateDepositWithdrawTransfer simulator = new SimulateDepositWithdrawTransfer();
-        simulator.SimulateDeposit(account1, 500);
-        simulator.SimulateWithdrawal(account2, 300);
-        simulator.SimulateTransfer(account1, account2, 200);
-
-        // TASK 1: Step 5 - Use a HashSet to ensure unique transactions
-        HashSet<Transaction> uniqueTransactions = new HashSet<Transaction>(account1.Transactions);
-        uniqueTransactions.UnionWith(account2.Transactions);
-
-        // TASK 1: Step 6 - Generate a report of transactions within a date range
-        Console.WriteLine("\nTransaction Report:");
-        foreach (var transaction in uniqueTransactions)
+        foreach (BankCustomer bankCustomer in myBank.Customers)
         {
-            Console.WriteLine($"Transaction ID: {transaction.TransactionId}, Type: {transaction.Type}, Amount: {transaction.Amount:C}, Date: {transaction.Date}");
+            Console.WriteLine($"{bankCustomer.ReturnFullName()} has {bankCustomer.Accounts.Count} accounts.");
+
         }
 
-        // TASK 1: Step 7 - Display bank and customer information
-        // Purpose: Test the program by displaying all customers and their accounts.
-        Console.WriteLine("\nBank and Customer Information:");
-        foreach (var customer in myBank.Customers)
+        // TASK 6: Step 4 - Use the myBank.Customers collection to add a SavingsAccount and MoneyMarketAccount to all customers
+        Console.WriteLine($"\nUse the Customers collection to add SavingsAccount and MoneyMarketAccount to all customers...");
+        foreach (BankCustomer bankCustomer in myBank.Customers)
         {
-            Console.WriteLine($"Customer: {customer.ReturnFullName()}");
-            foreach (var account in customer.Accounts)
+            bankCustomer.AddAccount(new SavingsAccount(bankCustomer, bankCustomer.CustomerId, 11000.00, 6));
+            bankCustomer.AddAccount(new MoneyMarketAccount(bankCustomer, bankCustomer.CustomerId, 35000.00, 1000.00));
+            Console.WriteLine($"{bankCustomer.ReturnFullName()} has {bankCustomer.Accounts.Count} accounts.");
+
+        }
+
+
+        // TASK 6: Step 5 - Generate two months of transactions for customer "Ni Kang"
+        Console.WriteLine($"\nGenerate two months of transactions for customer \"Ni Kang\"...");
+        foreach (BankCustomer bankCustomer in myBank.Customers)
+        {
+            if (bankCustomer.ReturnFullName() == "Ni Kang")
             {
-                Console.WriteLine(account.DisplayAccountInfo());
+                DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now);
+
+                DateOnly startDate = currentDate.AddMonths(-2);
+                DateOnly endDate = currentDate;
+                BankCustomer customer = bankCustomer;
+
+                customer = SimulateDepositsWithdrawalsTransfers.SimulateActivityDateRange(startDate, endDate, customer);
+
+                int totalTransactions = 0;
+                foreach (BankAccount account in bankCustomer.Accounts)
+                {
+                    totalTransactions += account.Transactions.Count;
+                }
+                Console.WriteLine($"{bankCustomer.ReturnFullName()} had {totalTransactions} transactions in the past two months.");
             }
         }
 
-        // TASK 7: Use HashSet in Program.cs
-        // Purpose: Ensure unique transactions in reports.
 
-        // TASK 7: Step 3 - Replace List<Transaction> with HashSet<Transaction> and generate a report of unique transactions
-        // This step ensures:
-        //   - Transactions are stored in a HashSet<Transaction> to avoid duplicates.
-        //   - Logic is updated to work with HashSet<Transaction> instead of List<Transaction>.
-        //   - A report of unique transactions is generated and displayed.
-        Console.WriteLine("\nUnique Transactions Report:");
-        foreach (var transaction in uniqueTransactions)
+        // TASK 6: Step 6 - Display all transactions for all accounts
+        Console.WriteLine($"\nDisplay all transactions for all accounts...");
+        foreach (BankCustomer bankCustomer in myBank.Customers)
         {
-            Console.WriteLine($"Transaction ID: {transaction.TransactionId}, Type: {transaction.Type}, Amount: {transaction.Amount:C}, Date: {transaction.Date}");
-        }
+            Console.WriteLine($"\nTransactions for {bankCustomer.ReturnFullName()}:");
 
-        // TASK 8: Generate Reports in Program.cs
-        // Purpose: Loop through customers, accounts, and transactions to generate date-range reports.
-
-        // TASK 8: Step 1 - Define a date range for the report
-        DateTime startDate = new DateTime(2025, 1, 1); // Example start date
-        DateTime endDate = new DateTime(2025, 12, 31); // Example end date
-
-        Console.WriteLine("\nDate-Range Transaction Report");
-
-        // TASK 8: Step 2 - Loop through customers, accounts, and filter transactions by date range
-        // This step performs the following:
-        //   - Loops through each customer and their accounts.
-        //   - Filters transactions within the specified date range.
-        //   - Displays the transaction details for each filtered transaction.
-        foreach (var customer in myBank.Customers)
-        {
-            Console.WriteLine($"\nCustomer: {customer.ReturnFullName()}");
-
-            foreach (var account in customer.Accounts)
+            foreach (BankAccount account in bankCustomer.Accounts)
             {
-                Console.WriteLine($"  Account Number: {account.AccountNumber}, Type: {account.AccountType}");
-
-                var filteredTransactions = account.Transactions
-                    .Where(t => t.Date >= startDate && t.Date <= endDate);
-
-                foreach (var transaction in filteredTransactions)
+                Console.WriteLine($"\nAccount Type: {account.AccountType}, Account Number: {account.AccountNumber}");
+                foreach (Transaction transaction in account.Transactions)
                 {
-                    Console.WriteLine($"    Transaction ID: {transaction.TransactionId}, Type: {transaction.Type}, Amount: {transaction.Amount:C}, Date: {transaction.Date}");
+                    Console.WriteLine(transaction.ReturnTransaction());
                 }
             }
         }
 
-        // TASK 9: Handle Transfer Duplication
-        // Purpose: Avoid counting the same transfer twice in reports.
-        // This step ensures:
-        //   - Transfers between accounts are only counted once.
-        //   - A HashSet<Transaction> is used to track unique transfer transactions.
-        //   - The Transaction class does not include SourceAccount or TargetAccount properties,
-        //     so only basic transfer details are displayed.
 
-        // TASK 9: Step 1 - Create a HashSet to store unique transfer transactions
-        HashSet<Transaction> uniqueTransfers = new HashSet<Transaction>();
+        // TASK 7: Create a monthly statement using a HashSet and Dictionary
+        // This task will create a monthly statement for a specific customer. The statement will use a HashSet
+        // to track unique transfers across multiple accounts and a Dictionary to organize the monthly activity 
+        // by transaction.
 
-        // TASK 9: Step 2 - Loop through customers and their accounts
-        foreach (var customer in myBank.Customers)
+
+        // Task 7: Step 1 - Use the Customers collection to locate the customer
+        Console.WriteLine("\nMonthly statement showing Transfers, Deposits, and Withdrawals...");
+
+        BankCustomer? reportCustomer = null;
+        foreach (BankCustomer bc in myBank.Customers)
         {
-            foreach (var account in customer.Accounts)
+            if (bc.ReturnFullName() == "Ni Kang")
             {
-                // TASK 9: Step 3 - Filter transfer transactions and add them to the HashSet
-                var transferTransactions = account.Transactions
-                    .Where(t => t.Type == "Transfer");
+                reportCustomer = bc;
+                break;
+            }
+        }
 
-                foreach (var transaction in transferTransactions)
+        // Task 7: Step 2 - Set the reporting date range (previous month)
+        DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+        DateOnly reportStart = new DateOnly(today.Year, today.Month, 1).AddMonths(-1);
+        DateOnly reportEnd = new DateOnly(reportStart.Year, reportStart.Month, DateTime.DaysInMonth(reportStart.Year, reportStart.Month));
+
+
+        // Task 7: Step 3 - Create a HashSet and Dictionary to track unique transfers and organize activity
+        // HashSet to track unique transfer signatures across accounts
+        HashSet<string> uniqueTransferKeys = new HashSet<string>();
+
+        // Dictionary to organize monthly activity by transaction type
+        Dictionary<string, List<string>> monthlyActivity = new Dictionary<string, List<string>>
+        {
+            { "Deposits", new List<string>() },
+            { "Withdrawals", new List<string>() },
+            { "Transfers", new List<string>() }
+        };
+
+
+        // Task 7: Step 4 - Populate the HashSet and Dictionary with transactions
+        if (reportCustomer != null)
+        {
+            foreach (BankAccount acct in reportCustomer.Accounts)
+            {
+                foreach (Transaction txn in acct.Transactions)
                 {
-                    uniqueTransfers.Add(transaction);
+                    if (txn.TransactionDate < reportStart || txn.TransactionDate > reportEnd)
+                        continue;
+
+                    string dateStr = txn.TransactionDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    string timeStr = txn.TransactionTime.ToString("HH:mm", CultureInfo.InvariantCulture);
+                    string desc = txn.Description.Replace("-(TRANSFER)", string.Empty).Trim();
+
+                    if (txn.TransactionType == "Transfer")
+                    {
+                        // Build a signature that uniquely identifies a single transfer across accounts
+                        string signature = $"{dateStr}|{timeStr}|{txn.TransactionAmount:F2}|{desc}";
+                        if (uniqueTransferKeys.Add(signature))
+                        {
+                            monthlyActivity["Transfers"].Add($"{txn.TransactionDate} {timeStr} - Transfer {txn.TransactionAmount:C} - {desc}");
+                        }
+                        // else: duplicate entry for the paired account; skip
+                    }
+                    else if (txn.TransactionType == "Deposit")
+                    {
+                        monthlyActivity["Deposits"].Add($"{txn.TransactionDate} {timeStr} - Deposit {txn.TransactionAmount:C} ({acct.AccountType})");
+                    }
+                    else if (txn.TransactionType == "Withdraw")
+                    {
+                        monthlyActivity["Withdrawals"].Add($"{txn.TransactionDate} {timeStr} - Withdrawal {txn.TransactionAmount:C} ({acct.AccountType})");
+                    }
                 }
             }
-        }
 
-        // TASK 9: Step 4 - Display the unique transfer transactions
-        Console.WriteLine("\nUnique Transfers Report");
-        foreach (var transaction in uniqueTransfers)
+            Console.WriteLine($"\nMonthly Statement for {reportCustomer.ReturnFullName()} - {reportStart.ToString("MMMM yyyy", CultureInfo.InvariantCulture)}");
+            Console.WriteLine($"Date Range: {reportStart} to {reportEnd}");
+            Console.WriteLine($"Summary: Deposits={monthlyActivity["Deposits"].Count}, Withdrawals={monthlyActivity["Withdrawals"].Count}, Transfers (unique)={monthlyActivity["Transfers"].Count}");
+
+            Console.WriteLine("\nTransfers (unique):");
+            foreach (var line in monthlyActivity["Transfers"]) Console.WriteLine(line);
+
+            Console.WriteLine("\nDeposits:");
+            foreach (var line in monthlyActivity["Deposits"]) Console.WriteLine(line);
+
+            Console.WriteLine("\nWithdrawals:");
+            foreach (var line in monthlyActivity["Withdrawals"]) Console.WriteLine(line);
+        }
+        else
         {
-            Console.WriteLine($"Transfer ID: {transaction.TransactionId}, Amount: {transaction.Amount:C}, Date: {transaction.Date}");
+            Console.WriteLine("Customer for monthly statement not found.");
         }
-
-        // TASK 10: Add Dictionary for Reports
-        // Purpose: Manage transaction data for reports in the Bank class.
-
-        // TASK 10: Step 1 - Populate the dictionary with transaction data
-        foreach (var customer in myBank.Customers)
-        {
-            foreach (var account in customer.Accounts)
-            {
-                foreach (var transaction in account.Transactions)
-                {
-                    myBank.AddTransactionToReport(account.AccountNumber.ToString(), transaction);
-                }
-            }
-        }
-
-        // TASK 10: Step 2 - Retrieve and display transactions from the dictionary
-        Console.WriteLine("\nTransactions from the Dictionary:");
-        foreach (var key in myBank.TransactionReports.Keys)
-        {
-            Console.WriteLine($"Account: {key}");
-            foreach (var transaction in myBank.TransactionReports[key])
-            {
-                Console.WriteLine($"  Transaction ID: {transaction.TransactionId}, Type: {transaction.Type}, Amount: {transaction.Amount:C}, Date: {transaction.Date}");
-            }
-        }
-
-        // Example: Create a BankCustomer and display their information
-        BankCustomer exampleCustomer = new BankCustomer("Isabel", "Robledo");
-        Console.WriteLine($"Example Customer Created: {exampleCustomer.FirstName} {exampleCustomer.LastName}");
-
-        // Example: Use a method from the BankCustomer class
-        exampleCustomer.AddAccount(new BankAccount("Savings", 1000.00));
-        Console.WriteLine($"Account added for {exampleCustomer.FirstName} with balance: {exampleCustomer.Accounts[0].Balance}");
     }
 }
