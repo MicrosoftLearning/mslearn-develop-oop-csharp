@@ -1,99 +1,103 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace BankApp
+namespace BankApp;
+
+// TASK 2: Define Enum, Struct, and Record types
+
+// TASK 2: Step 1 - Define the BankAccountType enum with Checking, Savings, and Business values
+
+public enum BankAccountType
 {
-    // TASK 1: Define the AccountType enum
-    // TASK 1: Step 1 - Define the AccountType enum
-    public enum AccountType
+    Checking,
+    Savings,
+    Business
+}
+
+// TASK 2: Step 2 - Define an extension method to provide descriptions for each BankAccountType value
+public static class BankAccountTypeExtensions
+{
+    // TASK 1: Step 2 - Add an extension method to provide descriptions for each AccountType.
+    public static string GetDescription(this BankAccountType accountType)
     {
-        Checking,
-        Savings,
-        Business
+        return accountType switch
+        {
+            BankAccountType.Checking => "A standard checking account.",
+            BankAccountType.Savings => "A savings account with interest.",
+            BankAccountType.Business => "A business account for companies.",
+            _ => "Unknown account type."
+        };
+    }
+}
+
+// TASK 2: Step 3 - Define the BankAccountNumber struct
+public readonly struct BankAccountNumber
+{
+    public string Value { get; }
+    public BankAccountNumber(string value)
+    {
+        // Simple format: 12 digits (demo-friendly)
+        if (value is null || value.Length != 12 || !value.All(char.IsDigit))
+            throw new ArgumentException("Account numbers must be 12 digits.");
+        Value = value;
+    }
+    public override string ToString() => Value;
+}
+
+// TASK 2: Step 4 - Define the AccountHolderDetails record
+public record AccountHolderDetails(string Name, string CustomerId, string Address);
+
+// TASK 2: Step 5 - Define the Transaction record
+public record Transaction(decimal Amount, DateTime Date, string Description)
+{
+    public override string ToString()
+    {
+        return $"{Date.ToShortDateString()}: {Description} - {Amount:C}";
+    }
+}
+
+
+public class BankAccount
+{
+    // TASK 3: Implement the BankAccount class
+    // TASK 3: Step 1 - Add properties for BankAccountNumber, BankAccountType, Balance, AccountHolderDetails, and a Transactions list.
+    public BankAccountNumber AccountNumber { get; }
+    public BankAccountType AccountType { get; }
+    public decimal Balance { get; private set; }
+    public AccountHolderDetails AccountHolder { get; }
+    private List<Transaction> Transactions { get; } = new();
+
+
+    // TASK 3: Step 2 - Add a constructor to initialize the properties.
+    public BankAccount(BankAccountNumber accountNumber, BankAccountType accountType, AccountHolderDetails accountHolder, decimal initialBalance = 0)
+    {
+        AccountNumber = accountNumber;
+        AccountType = accountType;
+        AccountHolder = accountHolder;
+        Balance = initialBalance;
     }
 
-    public static class AccountTypeExtensions
+    // TASK 3: Step 3 - Add a method for deposits/withdrawals that updates the balance and records the transaction.
+    public void AddTransaction(decimal amount, string description)
     {
-        // TASK 1: Step 2 - Add an extension method to provide descriptions for each AccountType.
-        public static string GetDescription(this AccountType accountType)
-        {
-            return accountType switch
-            {
-                AccountType.Checking => "A standard checking account.",
-                AccountType.Savings => "A savings account with interest.",
-                AccountType.Business => "A business account for companies.",
-                _ => "Unknown account type."
-            };
-        }
+        Balance += amount;
+        Transactions.Add(new Transaction(amount, DateTime.Now, description));
     }
 
-    // TASK 2: Define the Transaction struct
-    // TASK 2: Step 1 - Define the Transaction struct
-    public readonly struct Transaction
+    // TASK 3: Step 4 - Add a method to display account information.
+    public string DisplayAccountInfo()
     {
-        public double Amount { get; }
-        public DateTime Date { get; }
-        public string Description { get; }
-
-        public Transaction(double amount, DateTime date, string description)
-        {
-            Amount = amount;
-            Date = date;
-            Description = description;
-        }
-
-        public override string ToString()
-        {
-            return $"{Date.ToShortDateString()}: {Description} - {Amount:C}";
-        }
+        return $"Account Holder: {AccountHolder.Name}, Account Number: {AccountNumber}, Type: {AccountType}, Balance: {Balance:C}";
     }
 
-    // TASK 3: Define the Customer record
-    // TASK 3: Step 1 - Define the Customer record
-    public record Customer(string Name, string CustomerId, string Address);
-
-    // TASK 4: Implement the BankAccount class
-    // TASK 4: Step 1 - Add properties for AccountNumber, Balance, AccountHolder, and Type.
-    public class BankAccount
+    // TASK 3: Step 5 - Add a method to display transactions.
+    public void DisplayTransactions()
     {
-        public int AccountNumber { get; }
-        public AccountType Type { get; }
-        public Customer AccountHolder { get; }
-        public double Balance { get; private set; }
-
-        // TASK 4: Step 2 - Add a constructor to initialize the properties.
-        public BankAccount(int accountNumber, AccountType type, Customer accountHolder, double initialBalance = 0)
+        Console.WriteLine("Transactions:");
+        foreach (var transaction in Transactions)
         {
-            AccountNumber = accountNumber;
-            Type = type;
-            AccountHolder = accountHolder;
-            Balance = initialBalance;
-        }
-
-        // TASK 4: Step 3 - Add a method to deposit money into the account.
-        public void AddTransaction(double amount, string description)
-        {
-            Balance += amount;
-            Transactions.Add(new Transaction(amount, DateTime.Now, description));
-        }
-
-        // TASK 4: Step 4 - Add a method to withdraw money from the account.
-        public string DisplayAccountInfo()
-        {
-            return $"Account Holder: {AccountHolder.Name}, Account Number: {AccountNumber}, Type: {Type}, Balance: {Balance:C}";
-        }
-
-        // TASK 4: Step 5 - Add a method to display account information.
-        private List<Transaction> Transactions { get; } = new();
-
-        // TASK 4: Step 6 - Add a list to track transactions.
-        public void DisplayTransactions()
-        {
-            Console.WriteLine("Transactions:");
-            foreach (var transaction in Transactions)
-            {
-                Console.WriteLine(transaction);
-            }
+            Console.WriteLine(transaction);
         }
     }
 }

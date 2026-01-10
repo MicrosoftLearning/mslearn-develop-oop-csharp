@@ -24,28 +24,22 @@ For additional help configuring the Visual Studio Code environment, see <a href=
 
 ## Exercise scenario
 
-Suppose you're a software developer at a tech company working on a new project. Your team needs to implement a banking application that uses enums, structs, and records to manage account types, transactions, and customer details. To ensure consistent behavior, you decide to create and implement these features in a simple console application.
+Suppose you're a software developer at a tech company working on a new project. Your team needs to implement a banking application that uses enums, structs, and records to manage account types, transactions, and customer details. To ensure consistent behavior, you decide to implement these features in a simple console application.
 
-You've developed an initial version of the app that includes the following files:
-
-- `Program.cs`: This file contains the main entry point of the application, demonstrating how to use enums, structs, and records in a banking application.
-- `Bank.cs`: This file defines the `AccountType` enum, `Transaction` struct, `Customer` record, and `BankAccount` class.
+You've planned an initial version of the console app that includes the Bank.cs and Program.cs placeholder files.
 
 This exercise includes the following tasks:
 
-1. Define the `AccountType` enum.
-1. Define the `Transaction` struct.
-1. Define the `Customer` record.
-1. Implement the `BankAccount` class.
+1. Download and review the starter project.
+1. Define Enum, Struct, and Record types.
+1. Implement the BankAccount class.
 1. Display basic bank account information.
-1. Perform transactions.
-1. Display transaction history.
-1. Demonstrate record comparison.
-1. Demonstrate immutability of structs.
+1. Demonstrate using the Transaction record.
+1. Demonstrate record comparison and the immutability of readonly structs.
 
-## Review the current version of your project
+## Task 1: Download and review the starter project
 
-In this task, you download the existing version of your project and review the code.
+In this task, you download the existing version of your project and review the placeholder files.
 
 Use the following steps to complete this section of the exercise:
 
@@ -71,36 +65,36 @@ Use the following steps to complete this section of the exercise:
     - Program.cs
     - Bank.cs
 
-1. Take a few minutes to open and review the Program.cs and Bank.cs files.
+1. Take a minute to open and review the Program.cs and Bank.cs files.
 
-    - `Program.cs`: This file contains the main entry point of the application, demonstrating how to use enums, structs, and records in a banking application.
-    - `Bank.cs`: This file defines the `AccountType` enum, `Transaction` struct, `Customer` record, and `BankAccount` class.
+1. Run the app and verify that the output matches the sample output listed below.
 
-1. Run the app and review the output in the terminal window.
+    The expected output should look similar to the following:
 
-    To run your app, right-click the **Data_M3** project in the Solution Explorer, select **Debug**, and then select **Start New Instance**.
+    ```console
+    Welcome to the Bank App!
+    ```
 
-    > **TIP**: If you encounter any issues while completing this exercise, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code. If you're still having trouble, you can review the solution code in the sample apps that you downloaded at the beginning of this exercise. To view the Data_M3 solution, navigate to the LP4SampleApps/Data_M3/Solution folder and open the Solution project in Visual Studio Code.
+    This exercise will guide you through implementing the intended functionality.
 
-## Task 1: Define the `AccountType` enum
+## Task 2: Define Enum, Struct, and Record types
 
-In this task, you'll define an enum named `AccountType` to represent different types of bank accounts. Enums are a great way to define a set of named constants, making your code more readable and maintainable.
+An Enum is a special "value type" that allows you to define a set of named constants. Enums are a great way to define a set of named constants, making your code more readable and maintainable.
+
+A Struct is a value type that's typically used to encapsulate small groups of related variables.
+
+A Record is a reference type that provides built-in functionality for encapsulating data. Records are ideal for representing data with value-based equality.
+
+In this task, you'll define an enum named `AccountType` to represent different types of bank accounts, a struct named `BankAccountNumber` to represent bank account numbers, and two records named `AccountHolderDetails` and `Transaction` to represent customer details and individual transactions, respectively.
 
 Use the following steps to complete this task:
 
-1. Open the `Bank.cs` file in the **Starter** folder.
+1. Open the Bank.cs file, and then locate the code comment that begins with **Task 2: Step 1**.
 
-1. Locate the placeholder comment for **Task 1**.
-
-1. Define an enum named `AccountType` with the following values:
-    - `Checking`
-    - `Savings`
-    - `Business`
-
-    Your `AccountType` enum should look like this:
+1. To define an enum named BankAccountType with Checking, Savings, and Business values, enter the following code:
 
     ```csharp
-    public enum AccountType
+    public enum BankAccountType
     {
         Checking,
         Savings,
@@ -108,49 +102,60 @@ Use the following steps to complete this task:
     }
     ```
 
-1. Save your changes.
+1. Locate the **Task 2: Step 2** comment.
 
-### What you should see
-
-The `AccountType` enum defines a set of named constants (`Checking`, `Savings`, `Business`) that represent different types of bank accounts. This makes the code more readable and ensures consistent account type values throughout the application.
-
----
-
-## Task 2: Define the `Transaction` struct
-
-In this task, you'll define a struct named `Transaction` to represent individual transactions in the banking application. Structs are value types in C# that are ideal for representing small, immutable objects.
-
-Use the following steps to complete this task:
-
-1. Open the `Bank.cs` file in the **Starter** folder.
-
-1. Locate the placeholder comment for **Task 2**.
-
-1. Define a struct named `Transaction` with the following properties:
-    - `Amount` (type: `double`)
-    - `Date` (type: `DateTime`)
-    - `Description` (type: `string`)
-
-1. Add a constructor to initialize the properties of the `Transaction` struct.
-
-1. Override the `ToString` method to return a formatted string that includes the date, description, and amount of the transaction.
-
-    Your `Transaction` struct should look like this:
+1. To define an extension method named GetDescription that provides descriptions for each BankAccountType value, enter the following code:
 
     ```csharp
-    public readonly struct Transaction
+    public static class BankAccountTypeExtensions
     {
-        public double Amount { get; }
-        public DateTime Date { get; }
-        public string Description { get; }
-
-        public Transaction(double amount, DateTime date, string description)
+        public static string GetDescription(this BankAccountType accountType)
         {
-            Amount = amount;
-            Date = date;
-            Description = description;
+            return accountType switch
+            {
+                BankAccountType.Checking => "A standard checking account.",
+                BankAccountType.Savings => "A savings account with interest.",
+                BankAccountType.Business => "A business account for companies.",
+                _ => "Unknown account type."
+            };
         }
+    }
+    ```
 
+1. Locate the **Task 2: Step 3** comment.
+
+1. To define a struct named BankAccountNumber that represents a bank account number, add the following code:
+
+    ```csharp
+    public readonly struct BankAccountNumber
+    {
+        public string Value { get; }
+        public BankAccountNumber(string value)
+        {
+            // Simple format: 12 digits (demo-friendly)
+            if (value is null || value.Length != 12 || !value.All(char.IsDigit))
+                throw new ArgumentException("Account numbers must be 12 digits.");
+            Value = value;
+        }
+        public override string ToString() => Value;
+    }
+    ```
+
+1. Locate the **Task 2: Step 4** comment.
+
+1. To define a record named AccountHolderDetails with Name, CustomerId, and Address properties, add the following code:
+
+    ```csharp
+    public record AccountHolderDetails(string Name, string CustomerId, string Address);
+    ```
+
+1. Locate the **Task 2: Step 5** comment.
+
+1. To define a record named Transaction with Amount, Date, and Description properties, add the following code:
+
+    ```csharp
+    public record Transaction(decimal Amount, DateTime Date, string Description)
+    {
         public override string ToString()
         {
             return $"{Date.ToShortDateString()}: {Description} - {Amount:C}";
@@ -160,64 +165,29 @@ Use the following steps to complete this task:
 
 1. Save your changes.
 
-### What you should see
-
-The `Transaction` struct represents individual transactions with properties for the amount, date, and description. It uses a constructor for initialization and overrides the `ToString` method to format transaction details for display.
-
----
-
-## Task 3: Define the `Customer` record
-
-In this task, you'll define a record named `Customer` to represent customer details in the banking application. Records are immutable reference types in C# that are ideal for representing data with value-based equality.
-
-Use the following steps to complete this task:
-
-1. Open the `Bank.cs` file in the **Starter** folder.
-
-1. Locate the placeholder comment for **Task 3**.
-
-1. Define a record named `Customer` with the following properties:
-    - `Name` (type: `string`)
-    - `CustomerId` (type: `string`)
-    - `Address` (type: `string`)
-
-    Your `Customer` record should look like this:
-
-    ```csharp
-    public record Customer(string Name, string CustomerId, string Address);
-    ```
-
-1. Save your changes.
-
-### What you should see
-
-The `Customer` record is an immutable data type that represents customer details, such as name, ID, and address. Records in C# provide value-based equality, making them ideal for representing data objects.
-
----
-
-## Task 4: Implement the `BankAccount` class
+## Task 3: Implement the BankAccount class
 
 In this task, you'll implement the `BankAccount` class to manage bank accounts in the application. This class will include properties, a constructor, and methods to handle account operations such as deposits, withdrawals, and displaying account information.
 
 Use the following steps to complete this task:
 
-1. Open the `Bank.cs` file in the **Starter** folder.
+1. Ensure that you have the Bank.cs file open.
 
-1. Locate the placeholder comment for **Task 4**.
+1. Locate the **Task 3: Step 1** comment.
 
-1. Add the following properties to the `BankAccount` class:
-    - `AccountNumber` (type: `int`, read-only)
-    - `Type` (type: `AccountType`, read-only)
-    - `AccountHolder` (type: `Customer`, read-only)
-    - `Balance` (type: `double`, private set)
+1. To add public properties and a private list of transactions to the BankAccount class, enter the following code:
 
-1. Add a constructor to initialize the properties of the `BankAccount` class. The constructor should accept the following parameters:
-    - `accountNumber` (type: `int`)
-    - `type` (type: `AccountType`)
-    - `accountHolder` (type: `Customer`)
-    - `initialBalance` (type: `double`, optional, default value: `0`)
+    ```csharp
+        public BankAccountNumber AccountNumber { get; }
+        public BankAccountType AccountType { get; }
+        public decimal Balance { get; private set; }
+        public AccountHolderDetails AccountHolder { get; }
+        private List<Transaction> Transactions { get; } = new();
+    ```
 
-    Your constructor should look like this:
+1. Locate the **Task 3: Step 2** comment.
+
+1. To add a constructor that initializes the properties of the `BankAccount` class, enter the following code:
 
     ```csharp
     public BankAccount(int accountNumber, AccountType type, Customer accountHolder, double initialBalance = 0)
@@ -229,30 +199,32 @@ Use the following steps to complete this task:
     }
     ```
 
-1. Add a method named `AddTransaction` to deposit money into the account. This method should:
-    - Accept two parameters: `amount` (type: `double`) and `description` (type: `string`).
-    - Update the `Balance` property by adding the `amount`.
-    - Add a new `Transaction` to a private list of transactions.
+1. Locate the **Task 3: Step 3** comment.
 
-1. Add a method named `DisplayAccountInfo` to return a formatted string with the account holder's name, account number, account type, and balance.
+1. To add a method for deposits/withdrawals that updates the balance and records the transaction, enter the following code:
 
-    Your `DisplayAccountInfo` method should look like this:
+    ```csharp
+    public void AddTransaction(decimal amount, string description)
+    {
+        Balance += amount;
+        Transactions.Add(new Transaction(amount, DateTime.Now, description));
+    }
+    ```
+
+1. Locate the **Task 3: Step 4** comment.
+
+1. To add a method that displays account information, enter the following code:
 
     ```csharp
     public string DisplayAccountInfo()
     {
-        return $"Account Holder: {AccountHolder.Name}, Account Number: {AccountNumber}, Type: {Type}, Balance: {Balance:C}";
+        return $"Account Holder: {AccountHolder.Name}, Account Number: {AccountNumber}, Type: {AccountType}, Balance: {Balance:C}";
     }
     ```
 
-1. Add a private list of transactions to the class:
-    ```csharp
-    private List<Transaction> Transactions { get; } = new();
-    ```
+1. Locate the **Task 3: Step 5** comment.
 
-1. Add a method named `DisplayTransactions` to iterate through the list of transactions and print each transaction to the console.
-
-    Your `DisplayTransactions` method should look like this:
+1. To add method that displays the list of transactions, enter the following code:
 
     ```csharp
     public void DisplayTransactions()
@@ -267,297 +239,187 @@ Use the following steps to complete this task:
 
 1. Save your changes.
 
-### What you should see
+## Task 4: Display basic bank account information
 
-The `BankAccount` class ties together the `AccountType` enum, `Transaction` struct, and `Customer` record to manage bank accounts. It includes properties, a constructor, and methods for handling deposits, withdrawals, and displaying account information.
+Developers use a record class like AccountHolderDetails when they want rich, immutable data carriers with value-based equality and object semantics. A small readonly struct like BankAccountNumber is used by developers when they need a compact, immutable value type with domain validation and value semantics.
 
----
-
-## Task 5: Display Basic Bank Account Information
-
-In this task, you'll use the `BankAccount` class to display basic account information, including the account holder's name, account number, account type, and balance.
+In this task, you use AccountHolderDetails and BankAccountNumber to create a new bank account. Then, you display the account type description and account details.
 
 Use the following steps to complete this task:
 
-1. Open the `Program.cs` file in the **Starter** folder.
+1. Open the Program.cs file.
 
-1. Locate the placeholder comment for **Task 5**.
+1. Locate the **Task 4: Step 1** comment.
 
-1. Create a `Customer` object to represent the account holder. Use the following values:
-    - `Name`: `"Tim Shao"`
-    - `CustomerId`: `"C123456789"`
-    - `Address`: `"123 Elm Street"`
-
-    Your `Customer` object should look like this:
+1. To create AccountHolderDetails and BankAccountNumber for a new bank account, enter the following code:
 
     ```csharp
-    Customer customer1 = new("Tim Shao", "C123456789", "123 Elm Street");
+    AccountHolderDetails accountHolderDetails = new("Tim Shao", "123456789", "123 Elm Street");
+    BankAccountNumber accountNumber = new BankAccountNumber("000012345678");
     ```
 
-1. Create a `BankAccount` object to represent the account. Use the following values:
-    - `AccountNumber`: `12345678`
-    - `Type`: `AccountType.Checking`
-    - `AccountHolder`: `customer1`
-    - `InitialBalance`: `500`
+1. Locate the **Task 4: Step 2** comment.
 
-    Your `BankAccount` object should look like this:
+1. To create a Checking account with $500 using accountHolderDetails and accountNumber, enter the following code:
 
     ```csharp
-    BankAccount account = new(12345678, AccountType.Checking, customer1, 500);
+    BankAccount bankAccount = new(accountNumber, BankAccountType.Checking, accountHolderDetails, 500m);
     ```
 
-1. Call the `DisplayAccountInfo` method on the `BankAccount` object and print the result to the console.
+1. Locate the **Task 4: Step 3** comment.
 
-    Your code should look like this:
+1. To display the account type description and account details, enter the following code:
 
     ```csharp
-    Console.WriteLine(account.DisplayAccountInfo());
+    Console.WriteLine("\nTASK 4: Display basic bank account information");
+    Console.WriteLine($"Account type description: {bankAccount.AccountType.GetDescription()}");
+    Console.WriteLine(bankAccount.DisplayAccountInfo());
     ```
 
-1. Save your changes.
+1. Save the Program.cs file.
 
-### What you should see
+1. Build and run the application.
 
-The `DisplayAccountInfo` method outputs the account holder's name, account number, account type, and balance. This demonstrates how the `BankAccount` class integrates with the `Customer` record and `AccountType` enum.
+    Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
 
-### Run the project
+1. Review the output in the terminal window.
 
-Save your changes and run the project to verify the output. You should see the following in the terminal:
+    Your app should produce output similar to the following:
 
-```console
-Account Holder: Tim Shao, Account Number: 12345678, Type: Checking, Balance: $500.00
-```
+    ```plaintext
+    Welcome to the Bank App!
+    
+    TASK 4: Display basic bank account information
+    Account type description: A standard checking account.
+    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $500.00
+    ```
 
----
+## Task 5: Demonstrate using the Transaction record
 
-## Task 6: Perform Transactions
+As a record class, `Transaction` has value-based equality and is naturally immutable, making it well-suited as an append-only ledger entry. Transactions are added to the `BankAccount` class to track deposits and withdrawals.
 
-In this task, you'll use the `BankAccount` class to perform transactions, including deposits and withdrawals. You'll also display the updated account information after each transaction.
+In this task, you'll use the `AddTransaction` method to perform deposits and withdrawals, and then display the updated account information.
+
+1. Ensure that the Program.cs file is open.
+
+1. Locate the **Task 5: Step 1** comment.
+
+1. To use the AddTransaction method for deposits and withdrawals, enter the following code:
+
+    ```csharp
+    bankAccount.AddTransaction(200m, "Deposit");
+    bankAccount.AddTransaction(-50m, "ATM Withdrawal");
+    ```
+
+1. Locate the **Task 5: Step 2** comment.
+
+1. To display account information and transactions, enter the following code:
+
+    ```csharp
+    Console.WriteLine("\nTASK 5: Demonstrate using the Transaction record");
+    Console.WriteLine(bankAccount.DisplayAccountInfo());
+    bankAccount.DisplayTransactions();
+    ```
+
+1. Save the Program.cs file.
+
+1. Build and run the application.
+
+    Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
+
+1. Review the output in the terminal window.
+
+    Your app should produce output similar to the following:
+
+    ```plaintext
+    Welcome to the Bank App!
+    
+    TASK 4: Display basic bank account information
+    Account type description: A standard checking account.
+    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $500.00
+    
+    TASK 5: Demonstrate using the Transaction record
+    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $650.00
+    Transactions:
+    1/9/2026: Deposit - $200.00
+    1/9/2026: ATM Withdrawal - ($50.00)
+    ```
+
+## TASK 6: Demonstrate record comparison and the immutability of readonly structs
+
+Records in C# support value-based equality, meaning that two record instances with identical property values are considered equal. This is particularly useful for data-centric applications where the focus is on the data itself rather than the identity of the object.
+
+Readonly structs in C# are immutable, meaning that once an instance is created, its properties cannot be changed. This immutability ensures data integrity and consistency, especially when dealing with value types.
+
+In this task, you'll demonstrate record comparison by creating two `AccountHolderDetails` objects with identical properties and comparing them. You'll also demonstrate the immutability of the `BankAccountNumber` struct by attempting to change its property.
 
 Use the following steps to complete this task:
 
-1. Open the `Program.cs` file in the **Starter** folder.
+1. Ensure that the Program.cs file is open.
 
-1. Locate the placeholder comment for **Task 6**.
+1. Locate the **Task 6: Step 1** comment.
 
-1. Call the `AddTransaction` method on the `BankAccount` object to perform a deposit. Use the following values:
-    - `Amount`: `200`
-    - `Description`: `"Deposit"`
-
-    Your code should look like this:
+1. To create a second AccountHolderDetails object with identical properties, enter the following code:
 
     ```csharp
-    account.AddTransaction(200, "Deposit");
+    AccountHolderDetails customer2 = new("Tim Shao", "123456789", "123 Elm Street");
     ```
 
-1. Print the updated account information to the console by calling the `DisplayAccountInfo` method.
+1. Locate the **Task 6: Step 2** comment.
 
-    Your code should look like this:
+1. To compare the two Customer objects using the == operator, enter the following code:
 
     ```csharp
-    Console.WriteLine("After deposit:");
-    Console.WriteLine(account.DisplayAccountInfo());
+    Console.WriteLine("\nTASK 6: Demonstrate record comparison and struct immutability");
+    Console.WriteLine($"Are customers equal? {accountHolderDetails == customer2}");
     ```
 
-1. Call the `AddTransaction` method on the `BankAccount` object to perform a withdrawal. Use the following values:
-    - `Amount`: `-50`
-    - `Description`: `"ATM Withdrawal"`
+1. Locate the **Task 6: Step 3** comment.
 
-    Your code should look like this:
+1. To create an instance of the readonly struct BankAccountNumber, enter the following code:
 
     ```csharp
-    account.AddTransaction(-50, "ATM Withdrawal");
+    BankAccountNumber accountNumber2 = new BankAccountNumber("000123456789");
+    Console.WriteLine($"Original Account Number: {accountNumber2}");
     ```
 
-1. Print the updated account information to the console by calling the `DisplayAccountInfo` method.
+1. Save the Program.cs file.
 
-    Your code should look like this:
+1. Build and run the application.
+
+    Ensure that the project builds successfully without errors. If you encounter any issues, review the provided code snippets and compare them to your own code. Pay close attention to the syntax and structure of the code.
+
+1. Review the output in the terminal window.
+
+    Your app should produce output similar to the following:
+
+    ```plaintext
+    Welcome to the Bank App!
+    
+    TASK 4: Display basic bank account information
+    Account type description: A standard checking account.
+    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $500.00
+    
+    TASK 5: Demonstrate using the Transaction record
+    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $650.00
+    Transactions:
+    1/9/2026: Deposit - $200.00
+    1/9/2026: ATM Withdrawal - ($50.00)
+    
+    TASK 6: Demonstrate record comparison and struct immutability
+    Are customers equal? True
+    Original Account Number: 000123456789
+    ```
+
+1. Locate the **Task 6: Step 4** comment.
+
+1. Attempt to change the Value property of the BankAccountNumber struct by uncommenting the following code:
 
     ```csharp
-    Console.WriteLine("After withdrawal:");
-    Console.WriteLine(account.DisplayAccountInfo());
+    // accountNumber2.Value = "000987654321"; // Uncommenting this line will cause an error
     ```
 
-1. Save your changes.
-
-### What you should see
-
-The `AddTransaction` method updates the account balance and records each transaction in a list. This demonstrates how the `Transaction` struct is used to track deposits and withdrawals.
-
-
-
-### Run the project
-
-Save your changes and run the project to verify the output. You should see the following in the terminal:
-
-```console
-After deposit: Account Holder: Tim Shao, Account Number: 12345678, Type: Checking, Balance: $700.00
-
-After withdrawal: Account Holder: Tim Shao, Account Number: 12345678, Type: Checking, Balance: $650.00
-```
-
----
-
-## Task 7: Display Transaction History
-
-In this task, you'll use the `BankAccount` class to display the transaction history for an account. This will include all deposits and withdrawals made on the account.
-
-Use the following steps to complete this task:
-
-1. Open the `Program.cs` file in the **Starter** folder.
-
-1. Locate the placeholder comment for **Task 7**.
-
-1. Call the `DisplayTransactions` method on the `BankAccount` object to print the transaction history to the console.
-
-    Your code should look like this:
-
-    ```csharp
-    account.DisplayTransactions();
-    ```
-
-1. Save your changes.
-
-### What you should see
-
-The `DisplayTransactions` method iterates through the list of transactions and prints each one to the console. This demonstrates how the `Transaction` struct and collections work together to manage and display transaction history.
-
-### Run the project
-
-Save your changes and run the project to verify the output. You should see the following in the terminal:
-
-```console
-Transactions: 4/1/2025: Deposit - $200.00 4/1/2025: ATM Withdrawal - ($50.00)
-```
-
----
-
-## Task 8: Demonstrate Record Comparison
-
-In this task, you'll demonstrate how C# records support value-based equality by creating and comparing two `Customer` objects with identical properties.
-
-Use the following steps to complete this task:
-
-1. Open the `Program.cs` file in the **Starter** folder.
-
-1. Locate the placeholder comment for **Task 8**.
-
-1. Create two `Customer` objects with identical properties. Use the following values for both objects:
-    - `Name`: `"Tim Shao"`
-    - `CustomerId`: `"C123456789"`
-    - `Address`: `"123 Elm Street"`
-
-    Your code should look like this:
-
-    ```csharp
-    Customer customer1 = new("Tim Shao", "C123456789", "123 Elm Street");
-    Customer customer2 = new("Tim Shao", "C123456789", "123 Elm Street");
-    ```
-
-1. Compare the two `Customer` objects using the `==` operator and print the result to the console.
-
-    Your code should look like this:
-
-    ```csharp
-    Console.WriteLine($"Are customers equal? {customer1 == customer2}");
-    ```
-
-1. Save your changes.
-
-### What you should see
-
-The comparison of two `Customer` objects demonstrates value-based equality in C# records. Even though the objects are separate instances, they are considered equal because their property values are identical.
-
-### Run the project
-
-Save your changes and run the project to verify the output. You should see the following in the terminal:
-
-```console
-Are customers equal? True
-```
-
----
-
-## Task 9: Demonstrate Immutability of Structs
-
-In this task, you'll demonstrate the immutability of structs by creating a `Transaction` object and displaying its details. Structs in C# are value types and are immutable when their properties are read-only.
-
-Use the following steps to complete this task:
-
-1. Open the `Program.cs` file in the **Starter** folder.
-
-1. Locate the placeholder comment for **Task 9**.
-
-1. Create a `Transaction` object to represent a transaction. Use the following values:
-    - `Amount`: `100`
-    - `Date`: `DateTime.Now`
-    - `Description`: `"Test Transaction"`
-
-    Your code should look like this:
-
-    ```csharp
-    Transaction transaction = new(100, DateTime.Now, "Test Transaction");
-    ```
-
-1. Print the details of the `Transaction` object to the console by calling its `ToString` method.
-
-    Your code should look like this:
-
-    ```csharp
-    Console.WriteLine($"Immutable Transaction: {transaction}");
-    ```
-
-1. Save your changes.
-
-### What you should see
-
-The `Transaction` struct is immutable because its properties are read-only. Once a `Transaction` object is created, its values cannot be changed, ensuring data integrity.
-
-### Run the project
-
-Save your changes and run the project to verify the output. You should see the following in the terminal:
-
-```console
-Immutable Transaction: 4/1/2025: Test Transaction - $100.00
-```
-
----
-
-## Check your work
-
-After completing all tasks, save your work and run the application to verify that all functionality is implemented correctly. Ensure that the application builds successfully and produces the expected output for each task.
-
-### Run the project
-
-1. Open the `Program.cs` file in the **Starter** folder.
-
-1. Run the application by selecting **Debug** > **Start Without Debugging** in Visual Studio Code or by using the terminal command:
-
-    ```bash
-    dotnet run
-    ```
-
-1. Verify that the application produces the following output in the terminal:
-
-```console
-Account Holder: Tim Shao, Account Number: 12345678, Type: Checking, Balance: $500.00
-
-After deposit:
-Account Holder: Tim Shao, Account Number: 12345678, Type: Checking, Balance: $700.00
-
-After withdrawal:
-Account Holder: Tim Shao, Account Number: 12345678, Type: Checking, Balance: $650.00
-
-Transactions:
-4/1/2025: Deposit - $200.00
-4/1/2025: ATM Withdrawal - ($50.00)
-
-Are customers equal? True
-
-Immutable Transaction: 4/1/2025: Test Transaction - $100.00
-```
-
----
+1. Notice that uncommenting the line will result in a compilation error, demonstrating the immutability of the readonly struct.
 
 ## Clean up
 
