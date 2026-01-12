@@ -34,7 +34,7 @@ You've developed an initial version of the app that includes the following files
     - enum `BankAccountType`: A closed set of allowed account categories (Checking/Savings/Business).
     - static class `BankAccountTypeExtensions`: An extension method that converts an enum value into a friendly description.
     - readonly struct `BankAccountNumber`: A small value type that wraps and validates a 12-digit account number.
-    - record `AccountHolderDetails`: An immutable data model for customer identity/address info (value-based equality).
+    - record `BankAccountNumber`: An immutable data model for customer identity/address info (value-based equality).
     - record `Transaction`: An immutable data model for a single ledger entry (amount, date, description).
     - class `BankAccount`: The main domain object that holds account state (balance) and behavior (recording/displaying transactions).
 
@@ -73,7 +73,7 @@ Use the following steps to complete this section of the exercise:
 1. Take a few minutes to open and review the Program.cs and Bank.cs files.
 
     - `Program.cs`: This file contains the main entry point of the application, demonstrating how to use generics and anonymous types in a banking application.
-    - `Bank.cs`: This file defines the `AccountType` enum, `Transaction` struct, `Customer` record, and `BankAccount` class.
+    - `Bank.cs`: This file defines the `BankAccountType` enum, `BankAccountNumber` struct, `BankAccountNumber` and `Transaction` records, and `BankAccount` class.
 
 1. Run the app and review the output in the terminal window.
 
@@ -81,15 +81,12 @@ Use the following steps to complete this section of the exercise:
 
     ```plaintext
     Welcome to the Bank App!
-    
     Account type description: A standard checking account.
     Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $500.00
-    
     Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $650.00
     Transactions:
     1/12/2026: Deposit - $200.00
     1/12/2026: ATM Withdrawal - ($50.00)
-    
     Are customers equal? True
     Original Account Number: 000123456789
     ```
@@ -124,17 +121,17 @@ Use the following steps to complete this task:
 
 1. Locate the **Task 2: Step 2** comment.
 
-1. Add a public read-only view so callers can read transactions without mutating the list.
-
-    Add this property to `BankAccount`:
+1. To create a public read-only Property that exposes transactions as `IReadOnlyList<Transaction>`, enter the following code:
 
     ```csharp
     public IReadOnlyList<Transaction> Transactions => _transactions;
     ```
 
+    This code exposes a public read-only view so callers can read transactions without mutating the list.
+
 1. Locate the **Task 2: Step 3** comment.
 
-1. Update `AddTransaction(...)` to add to `_transactions`.
+1. Update the `AddTransaction(...)` method to use `_transactions` instead of `Transactions`.
 
     Before:
 
@@ -155,6 +152,8 @@ Use the following steps to complete this task:
         _transactions.Add(new Transaction(amount, DateTime.Now, description));
     }
     ```
+
+    Notice that the method now adds to the private backing list, not the public property.
 
 1. Locate the **Task 2: Step 4** comment.
 
@@ -198,11 +197,11 @@ Use the following steps to complete this task:
     public IEnumerable<Transaction> GetTransactions() => Transactions;
     ```
 
-1. Update `Program.cs` so it reads transactions using the read-only API.
+1. Open the `Program.cs` file.
 
-    If you keep `DisplayTransactions()`, no change is required.
+1. Locate the `DisplayTransactions()` method call.
 
-    If you want to print transactions directly from `Program.cs`, add something like:
+    You updated the `DisplayTransactions()` method to read transactions using the read-only API, so no changes are needed here. However, if you wanted to print transactions directly from `Program.cs`, you could replace the method call with something similar to the following code:
 
     ```csharp
     Console.WriteLine("Transactions (from Program):");
@@ -218,15 +217,12 @@ Use the following steps to complete this task:
 
     ```plaintext
     Welcome to the Bank App!
-    
     Account type description: A standard checking account.
     Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $500.00
-    
     Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $650.00
     Transactions:
     1/12/2026: Deposit - $200.00
     1/12/2026: ATM Withdrawal - ($50.00)
-    
     Are customers equal? True
     Original Account Number: 000123456789
     ```
@@ -272,18 +268,31 @@ Use the following steps to complete this task:
 
 1. Review the generic field and methods in the `Bank` class.
 
-    Key generic usage to call out:
+    Notice the following line of code:
 
     ```csharp
     private readonly Dictionary<BankAccountNumber, BankAccount> _accounts = new();
     ```
 
-    This is compile-time type safe:
+    The 'generics' part of this line is the `Dictionary<BankAccountNumber, BankAccount>`:
 
-    - Keys must be `BankAccountNumber`
-    - Values must be `BankAccount`
+    `Dictionary<TKey, TValue>` is a generic .NET collection type. It takes two type parameters:
+    - TKey = BankAccountNumber (the type you look up by)
+    - TValue = BankAccount (the type you get back)
 
-1. Update `Program.cs` to create 2–3 accounts and open them with the bank.
+    So `_accounts` is a strongly-typed map: given a BankAccountNumber, you can store and retrieve a BankAccount.
+
+    Why generics matter here:
+
+    - Type safety at compile time: you can’t accidentally add a key/value of the wrong type (e.g., a string key or an int value).
+    - No casting when reading: `_accounts[number]` (or TryGetValue) gives you a BankAccount directly—no (BankAccount) casts.
+    - Performance: generic collections avoid boxing/unboxing for value types. Here, BankAccountNumber is a readonly struct, so using it as the key stays efficient.
+
+1. Open the `Program.cs` file.
+
+1. Locate the code comment that begins with **Task 3: Step 2**.
+
+1. Update `Program.cs` to create a bank object and a second bank account, and then open the accounts using the bank object.
 
     Before (existing single-account creation):
 
@@ -293,51 +302,54 @@ Use the following steps to complete this task:
     BankAccount bankAccount = new(accountNumber, BankAccountType.Checking, accountHolderDetails, 500m);
     ```
 
-    After (create multiple accounts and register them):
+    After (create two accounts and add them to the dictionary):
 
     ```csharp
     var bank = new Bank();
-    
-    var holder1 = new AccountHolderDetails("Tim Shao", "123456789", "123 Elm Street");
-    var number1 = new BankAccountNumber("000012345678");
-    var checking = new BankAccount(number1, BankAccountType.Checking, holder1, 500m);
+
+    var accountHolderDetails = new AccountHolderDetails("Tim Shao", "123456789", "123 Elm Street");
+    var accountNumber = new BankAccountNumber("000012345678");
+    var checking = new BankAccount(accountNumber, BankAccountType.Checking, accountHolderDetails, 500m);
+
+    var accountHolderDetails3 = new AccountHolderDetails("Ni Kang", "987654321", "456 Oak Avenue");
+    var accountNumber3 = new BankAccountNumber("000123456789");
+    var savings = new BankAccount(accountNumber3, BankAccountType.Savings, accountHolderDetails3, 1200m);
+
     bank.OpenAccount(checking);
-    
-    var holder2 = new AccountHolderDetails("Ava Patel", "987654321", "456 Oak Avenue");
-    var number2 = new BankAccountNumber("000123456789");
-    var savings = new BankAccount(number2, BankAccountType.Savings, holder2, 1200m);
     bank.OpenAccount(savings);
 
     // Keep a reference named `bankAccount` for the reporting tasks later in this lab.
     var bankAccount = checking;
     ```
 
-1. Add a small flow that retrieves an account by account number and performs a transaction.
+1. Locate the code comment that begins with **Task 3: Step 3**.
+
+1. Add code that retrieves an account by account number and performs transactions.
 
     Add this below the code above:
 
     ```csharp
-    var selected = bank.GetAccount(number1);
+    var selected = bank.GetAccount(accountNumber);
     selected.AddTransaction(200m, "Deposit");
     selected.AddTransaction(-50m, "ATM Withdrawal");
     Console.WriteLine(selected.DisplayAccountInfo());
     ```
 
-1. Run the app and confirm you can add/retrieve multiple accounts.
+1. Run the app, and then review the output to confirm that you can add/retrieve multiple accounts.
 
     Your output should be similar to the following:
 
     ```plaintext
     Welcome to the Bank App!
-    
-    Account type description: A standard checking account.
-    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $500.00
-    
     Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $650.00
+    Account type description: A standard checking account.
+    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $650.00
+    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $800.00
     Transactions:
     1/12/2026: Deposit - $200.00
     1/12/2026: ATM Withdrawal - ($50.00)
-    
+    1/12/2026: Deposit - $200.00
+    1/12/2026: ATM Withdrawal - ($50.00)
     Are customers equal? True
     Original Account Number: 000123456789
     ```
@@ -350,9 +362,9 @@ In this task, you implement a generic class that can store different kinds of �
 
 Use the following steps to complete this task:
 
-1. In `Bank.cs`, define a small interface `ILedgerEntry` with:
+1. Open the Bank.cs file, and then locate the code comment that begins with **Task 4: Step 1**.
 
-    Add the following code near the other type definitions:
+1. To define an interface named `ILedgerEntry`, enter the following code:
 
     ```csharp
     public interface ILedgerEntry
@@ -362,6 +374,8 @@ Use the following steps to complete this task:
         string Description { get; }
     }
     ```
+
+1. Locate the code comment that begins with **Task 4: Step 2**.
 
 1. Update the `Transaction` record to implement `ILedgerEntry`.
 
@@ -389,9 +403,9 @@ Use the following steps to complete this task:
     }
     ```
 
-1. Create a new generic class `Ledger<TEntry>` constrained to `ILedgerEntry`:
+1. Locate the code comment that begins with **Task 4: Step 3**.
 
-    Add the following class to `Bank.cs` (below the other types):
+1. Create a new generic class `Ledger<TEntry>` constrained to `ILedgerEntry`:
 
     ```csharp
     public sealed class Ledger<TEntry> where TEntry : ILedgerEntry
@@ -410,20 +424,25 @@ Use the following steps to complete this task:
     }
     ```
 
-1. Confirm the `Ledger<TEntry>` uses generics + constraints.
-
-    Key line:
+1. Take a minute to consider the generic class declaration you just created.
 
     ```csharp
     public sealed class Ledger<TEntry> where TEntry : ILedgerEntry
     ```
+
+    In this code, `TEntry` can be any type that implements `ILedgerEntry`, ensuring type safety while allowing flexibility.
+
+1. Locate the code comment that begins with **Task 4: Step 4**.
 
 1. Refactor `BankAccount` to replace its transaction list with `Ledger<Transaction>`.
 
     Before (fields in `BankAccount`):
 
     ```csharp
+   // Task 2: Step 1 - Replace the transactions collection with a private backing field.
     private readonly List<Transaction> _transactions = new();
+
+    // Task 2: Step 2 - Expose transactions as a read-only generic view (IReadOnlyList<Transaction>).
     public IReadOnlyList<Transaction> Transactions => _transactions;
     ```
 
@@ -434,12 +453,16 @@ Use the following steps to complete this task:
     public IReadOnlyList<Transaction> Transactions => _ledger.Entries;
     ```
 
+1. Locate the code comment that begins with **Task 4: Step 5**.
+
 1. Update `AddTransaction(...)` to call `ledger.Add(...)`.
 
     Before:
 
     ```csharp
     Balance += amount;
+
+    // Task 2: Step 3 - Update AddTransaction to add to the backing field.
     _transactions.Add(new Transaction(amount, DateTime.Now, description));
     ```
 
@@ -450,9 +473,9 @@ Use the following steps to complete this task:
     _ledger.Add(new Transaction(amount, DateTime.Now, description));
     ```
 
-1. Update transaction display logic to iterate `ledger.Entries`.
+1. Locate the code comment that begins with **Task 4: Step 6**.
 
-    If you expose `Transactions => _ledger.Entries`, your existing loop can remain:
+1. Take a minute to consider the code that iterates through Transactions.
 
     ```csharp
     foreach (var transaction in Transactions)
@@ -461,13 +484,17 @@ Use the following steps to complete this task:
     }
     ```
 
-1. Create a second entry type (e.g., `Fee` or `InterestPayment`) that implements `ILedgerEntry`.
+    This code continues to work because `Transactions` now returns `_ledger.Entries`, which is an `IReadOnlyList<Transaction>`.
 
-    Add this record (example):
+1. Locate the code comment that begins with **Task 4: Step 7**.
+
+1. To create a second entry type named `Fee` that implements `ILedgerEntry`, enter the following code:
 
     ```csharp
     public record Fee(decimal Amount, DateTime Date, string Description) : ILedgerEntry;
     ```
+
+1. Open Program.cs, and then locate the code comment that begins with **Task 4: Step 8**.
 
 1. Demonstrate in `Program.cs` that `Ledger<Fee>` works without rewriting ledger logic.
 
@@ -479,7 +506,25 @@ Use the following steps to complete this task:
     Console.WriteLine($"Fee ledger total: {feeLedger.Total():C}");
     ```
 
-1. Run the app.
+1. Run the app, and then review the output to confirm the expected behavior.
+
+    Your output should be similar to the following:
+
+    ```plaintext
+    Welcome to the Bank App!
+    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $650.00
+    Account type description: A standard checking account.
+    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $650.00
+    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $800.00
+    Transactions:
+    1/12/2026: Deposit - $200.00
+    1/12/2026: ATM Withdrawal - ($50.00)
+    1/12/2026: Deposit - $200.00
+    1/12/2026: ATM Withdrawal - ($50.00)
+    Fee ledger total: ($2.50)
+    Are customers equal? True
+    Original Account Number: 000123456789
+    ```
 
 ## Task 5: Create reports using anonymous types (LINQ projections)
 
@@ -489,30 +534,9 @@ In this task, you use anonymous types to produce report “rows” quickly witho
 
 Use the following steps to complete this task:
 
-1. Ensure `BankAccount` exposes transactions in a queryable way (Task 1 or Task 3 complete).
+1. Open the `Program.cs` file, and then locate the code comment that begins with **Task 5: Step 1**.
 
-1. Ensure `Program.cs` has the LINQ extension methods available.
-
-    Before:
-
-    ```csharp
-    using System;
-    
-    namespace BankApp;
-    ```
-
-    After:
-
-    ```csharp
-    using System;
-    using System.Linq;
-    
-    namespace BankApp;
-    ```
-
-1. In `Program.cs`, build a basic transaction report using a projection:
-
-    Add the following after you have some transactions:
+1. To add a basic transaction report using a projection, enter the following code:
 
     ```csharp
     var rows = bankAccount.Transactions
@@ -523,11 +547,7 @@ Use the following steps to complete this task:
             t.Amount,
             Kind = t.Amount >= 0 ? "Credit" : "Debit"
         });
-    ```
 
-1. Print the report rows.
-
-    ```csharp
     Console.WriteLine("Transaction report:");
     foreach (var row in rows)
     {
@@ -535,7 +555,9 @@ Use the following steps to complete this task:
     }
     ```
 
-1. Build a “daily totals” report:
+1. Locate the code comment that begins with **Task 5: Step 2**.
+
+1. To build a "daily totals" report, enter the following code:
 
     ```csharp
     var dailyTotals = bankAccount.Transactions
@@ -547,11 +569,7 @@ Use the following steps to complete this task:
             Count = g.Count()
         })
         .OrderBy(x => x.Day);
-    ```
 
-1. Print the daily totals.
-
-    ```csharp
     Console.WriteLine("Daily totals:");
     foreach (var day in dailyTotals)
     {
@@ -559,7 +577,9 @@ Use the following steps to complete this task:
     }
     ```
 
-1. Add a “top 3 debits” report using `Where(t => t.Amount < 0)` and ordering.
+1. Locate the code comment that begins with **Task 5: Step 3**.
+
+1. To add a "top 3 debits" report using `Where(t => t.Amount < 0)` and ordering.
 
     ```csharp
     var topDebits = bankAccount.Transactions
@@ -575,9 +595,37 @@ Use the following steps to complete this task:
     }
     ```
 
-1. Run the app and confirm outputs make sense.
+1. Run the app, and then review the output to confirm the expected behavior.
 
-## Task 6: Decide the boundary: anonymous types vs named result types
+    Your output should be similar to the following:
+
+    ```plaintext
+    Welcome to the Bank App!
+    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $650.00
+    Account type description: A standard checking account.
+    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $650.00
+    Fee ledger total: ($2.50)
+    Transaction report:
+    1/12/2026 | Credit |    $200.00 | Deposit
+    1/12/2026 | Debit  |   ($50.00) | ATM Withdrawal
+    1/12/2026 | Credit |    $200.00 | Deposit
+    1/12/2026 | Debit  |   ($50.00) | ATM Withdrawal
+    Daily totals:
+    1/12/2026: $300.00 (4 tx)
+    Top debits:
+    1/12/2026 |   ($50.00) | ATM Withdrawal
+    1/12/2026 |   ($50.00) | ATM Withdrawal
+    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $800.00
+    Transactions:
+    1/12/2026: Deposit - $200.00
+    1/12/2026: ATM Withdrawal - ($50.00)
+    1/12/2026: Deposit - $200.00
+    1/12/2026: ATM Withdrawal - ($50.00)
+    Are customers equal? True
+    Original Account Number: 000123456789
+    ```
+
+## Task 6: Decide the boundary - anonymous types vs named result types
 
 Anonymous types are not ideal for public APIs. You can introduce records/tuples for results that cross method/file boundaries.
 
@@ -585,27 +633,9 @@ In this task, you use anonymous types for local shaping and records/tuples for r
 
 Use the following steps to complete this task:
 
-1. Attempt to create a method (e.g., on `BankAccount` or `Bank`) that returns the “daily totals” report as a public method.
+1. Open the Bank.cs file.
 
-    Example of what you might try (this does not work well as a public API because the return type is anonymous):
-
-    ```csharp
-    // This is fine inside a method body...
-    var query = Transactions
-        .GroupBy(t => DateOnly.FromDateTime(t.Date))
-        .Select(g => new { Day = g.Key, Total = g.Sum(x => x.Amount), Count = g.Count() });
-    ```
-
-1. Notice you can’t easily declare a public return type for the anonymous projection.
-
-    For example, this won’t compile because `var` is not allowed as a method return type:
-
-    ```csharp
-    // ❌ Not allowed
-    public var GetDailyTotals() => Transactions
-        .GroupBy(t => DateOnly.FromDateTime(t.Date))
-        .Select(g => new { Day = g.Key, Total = g.Sum(x => x.Amount), Count = g.Count() });
-    ```
+1. Locate the code comment that begins with **Task 6: Step 1**.
 
 1. Create a named record for the report result, for example:
 
@@ -615,7 +645,9 @@ Use the following steps to complete this task:
     public record DailyTotal(DateOnly Day, decimal Total, int Count);
     ```
 
-1. Refactor the daily totals query to return `IEnumerable<DailyTotal>`.
+1. Locate the code comment that begins with **Task 6: Step 1**.
+
+1. To create a daily totals method that returns `IEnumerable<DailyTotal>`, enter the following code:
 
     Add a method to `BankAccount` (or `Bank`) like:
 
@@ -629,51 +661,70 @@ Use the following steps to complete this task:
     }
     ```
 
+1. Open the Program.cs file.
+
+1. Locate the code comment that begins with **Task 6: Step 3**.
+
 1. Update call sites in `Program.cs` to consume the named record.
 
     Before (anonymous type usage):
 
     ```csharp
-    // var dailyTotals = bankAccount.Transactions...
+    // Task 5: Step 2 - Add an anonymous-type daily totals report (GroupBy(...) + Select(...)).
+    var dailyTotals = bankAccount.Transactions
+        .GroupBy(t => DateOnly.FromDateTime(t.Date))
+        .Select(g => new
+        {
+            Day = g.Key,
+            Total = g.Sum(x => x.Amount),
+            Count = g.Count()
+        })
+        .OrderBy(x => x.Day);
+
+    Console.WriteLine("Daily totals:");
+    foreach (var day in dailyTotals)
+    {
+        Console.WriteLine($"{day.Day}: {day.Total:C} ({day.Count} tx)");
+    }
     ```
 
     After:
 
     ```csharp
+    Console.WriteLine("Daily totals:");
     foreach (var day in bankAccount.GetDailyTotals())
     {
         Console.WriteLine($"{day.Day}: {day.Total:C} ({day.Count} tx)");
     }
     ```
 
-1. (Optional comparison) Implement a variant returning tuples:
+1. Run the app, and then review the output to confirm the expected behavior.
 
-    Example signature + implementation:
+    Your output should be similar to the following:
 
-    ```csharp
-    public IEnumerable<(DateOnly Day, decimal Total, int Count)> GetDailyTotalsAsTuples()
-    {
-        return Transactions
-            .GroupBy(t => DateOnly.FromDateTime(t.Date))
-            .Select(g => (g.Key, g.Sum(x => x.Amount), g.Count()))
-            .OrderBy(x => x.Key);
-    }
+    ```plaintext
+    Welcome to the Bank App!
+    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $650.00
+    Account type description: A standard checking account.
+    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $650.00
+    Fee ledger total: ($2.50)
+    Transaction report:
+    1/12/2026 | Credit |    $200.00 | Deposit
+    1/12/2026 | Debit  |   ($50.00) | ATM Withdrawal
+    1/12/2026 | Credit |    $200.00 | Deposit
+    1/12/2026 | Debit  |   ($50.00) | ATM Withdrawal
+    Daily totals:
+    1/12/2026: $300.00 (4 tx)
+    Top debits:
+    1/12/2026 |   ($50.00) | ATM Withdrawal
+    1/12/2026 |   ($50.00) | ATM Withdrawal
+    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $800.00
+    Transactions:
+    1/12/2026: Deposit - $200.00
+    1/12/2026: ATM Withdrawal - ($50.00)
+    1/12/2026: Deposit - $200.00
+    1/12/2026: ATM Withdrawal - ($50.00)
+    Are customers equal? True
+    Original Account Number: 000123456789
     ```
 
-1. Discuss tradeoffs: readability, API clarity, tooling support, and versioning.
-
-1. Run the app.
-
-## Stretch goals (optional)
-
-- Add a generic repository abstraction: `IRepository<TKey, TValue>` and an `InMemoryRepository<TKey, TValue>` implementation using `Dictionary<TKey, TValue>`.
-- Add validation rules using generic helpers (e.g., guard methods) that keep compile-time type safety.
-- Add a bank-wide report that aggregates across all accounts (LINQ + grouping).
-
-## Wrap-up / reflection
-
-1. Where did generics reduce casting or runtime checks?
-
-1. Where did anonymous types speed up development without harming maintainability?
-
-1. Which results should remain anonymous vs become a named record in a real codebase?

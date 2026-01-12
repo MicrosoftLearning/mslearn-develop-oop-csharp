@@ -47,10 +47,7 @@ public readonly struct BankAccountNumber
 
 public record AccountHolderDetails(string Name, string CustomerId, string Address);
 
-// TODO: Task 6: Step 3 - Add the DailyTotal record near the record/type definitions.
-public record DailyTotal(DateOnly Day, decimal Total, int Count);
-
-// TODO: Task 4: Step 1 - Add the ILedgerEntry interface near the record/type definitions.
+// Task 4: Step 1 - Add the ILedgerEntry interface near the record/type definitions.
 public interface ILedgerEntry
 {
     decimal Amount { get; }
@@ -58,7 +55,7 @@ public interface ILedgerEntry
     string Description { get; }
 }
 
-// TODO: Task 4: Step 2 - Update Transaction to implement ILedgerEntry.
+// Task 4: Step 2 - Update Transaction to implement ILedgerEntry.
 public record Transaction(decimal Amount, DateTime Date, string Description) : ILedgerEntry
 {
     public override string ToString()
@@ -67,24 +64,8 @@ public record Transaction(decimal Amount, DateTime Date, string Description) : I
     }
 }
 
-// TODO: Task 4: Step 3 - Add the generic Ledger<TEntry> class (where TEntry : ILedgerEntry).
-public sealed class Ledger<TEntry> where TEntry : ILedgerEntry
-{
-    private readonly List<TEntry> _entries = new();
-
-    public IReadOnlyList<TEntry> Entries => _entries;
-
-    public void Add(TEntry entry)
-    {
-        if (entry is null) throw new ArgumentNullException(nameof(entry));
-        _entries.Add(entry);
-    }
-
-    public decimal Total() => _entries.Sum(e => e.Amount);
-}
-
-// TODO: Task 4: Step 8 - Add a second ledger entry type (e.g., Fee) that implements ILedgerEntry.
-public record Fee(decimal Amount, DateTime Date, string Description) : ILedgerEntry;
+// Task 6: Step 1 - Add the DailyTotal record near the record/type definitions.
+public record DailyTotal(DateOnly Day, decimal Total, int Count);
 
 public class BankAccount
 {
@@ -93,12 +74,10 @@ public class BankAccount
     public decimal Balance { get; private set; }
     public AccountHolderDetails AccountHolder { get; }
 
-    // TODO: Task 2: Step 1 - Replace the transactions collection with a private backing field.
-    // TODO: Task 2: Step 3 - Expose transactions as a read-only generic view (IReadOnlyList<Transaction>).
-    // TODO: Task 4: Step 5 - Refactor BankAccount to store transactions in Ledger<Transaction>.
+    // Task 4: Step 4 - Refactor BankAccount to store transactions in Ledger<Transaction>.
     private readonly Ledger<Transaction> _ledger = new();
-
     public IReadOnlyList<Transaction> Transactions => _ledger.Entries;
+
 
     public BankAccount(BankAccountNumber accountNumber, BankAccountType accountType, AccountHolderDetails accountHolder, decimal initialBalance = 0)
     {
@@ -110,9 +89,8 @@ public class BankAccount
 
     public void AddTransaction(decimal amount, string description)
     {
-        // TODO: Task 2: Step 4 - Update AddTransaction to add to the backing field.
-        // TODO: Task 4: Step 6 - Update AddTransaction to call _ledger.Add(...) once Ledger<Transaction> is introduced.
 
+        // Task 4: Step 5 - Update AddTransaction to call _ledger.Add(...) once Ledger<Transaction> is introduced.
         Balance += amount;
         _ledger.Add(new Transaction(amount, DateTime.Now, description));
     }
@@ -124,20 +102,21 @@ public class BankAccount
 
     public void DisplayTransactions()
     {
-        // TODO: Task 2: Step 5 - Update DisplayTransactions to iterate the public read-only Transactions view.
-        // TODO: Task 4: Step 7 - Ensure display iterates _ledger.Entries (or the Transactions view backed by it).
-
         Console.WriteLine("Transactions:");
+
+        // Task 4: Step 6 - Ensure display iterates _ledger.Entries (or the Transactions view backed by it).
+        // Task 2: Step 4 - Update DisplayTransactions to iterate the public read-only Transactions view.
         foreach (var transaction in Transactions)
         {
             Console.WriteLine(transaction);
         }
     }
 
-    // TODO: Task 2: Step 6 - (Optional) Add GetTransactions() returning IEnumerable<Transaction>.
+    // Task 2: Step 5 - Add GetTransactions() returning IEnumerable<Transaction>.
     public IEnumerable<Transaction> GetTransactions() => Transactions;
 
-    // TODO: Task 6: Step 4 - Add GetDailyTotals() returning IEnumerable<DailyTotal>.
+
+    // Task 6: Step 2 - Add GetDailyTotals() returning IEnumerable<DailyTotal>.
     public IEnumerable<DailyTotal> GetDailyTotals()
     {
         return Transactions
@@ -148,8 +127,7 @@ public class BankAccount
 
 }
 
-// TODO: Task 3: Step 1 - Add the Bank class that stores accounts in Dictionary<BankAccountNumber, BankAccount>.
-
+// Task 3: Step 1 - Add the Bank class that stores accounts in Dictionary<BankAccountNumber, BankAccount>.
 public sealed class Bank
 {
     private readonly Dictionary<BankAccountNumber, BankAccount> _accounts = new();
@@ -175,7 +153,21 @@ public sealed class Bank
         => _accounts.Remove(number);
 }
 
-// TODO: Task 4: Step 3 - Add the generic Ledger<TEntry> class (where TEntry : ILedgerEntry).
+// Task 4: Step 3 - Add the generic Ledger<TEntry> class (where TEntry : ILedgerEntry).
+public sealed class Ledger<TEntry> where TEntry : ILedgerEntry
+{
+    private readonly List<TEntry> _entries = new();
 
-// TODO: Task 4: Step 8 - Add a second ledger entry type (e.g., Fee) that implements ILedgerEntry.
+    public IReadOnlyList<TEntry> Entries => _entries;
 
+    public void Add(TEntry entry)
+    {
+        if (entry is null) throw new ArgumentNullException(nameof(entry));
+        _entries.Add(entry);
+    }
+
+    public decimal Total() => _entries.Sum(e => e.Amount);
+}
+
+// Task 4: Step 7 - Add a second ledger entry type (e.g., Fee) that implements ILedgerEntry.
+public record Fee(decimal Amount, DateTime Date, string Description) : ILedgerEntry;
