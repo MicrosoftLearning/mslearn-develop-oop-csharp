@@ -1,35 +1,44 @@
 using System;
+using System.Linq;
 
-namespace BankApp
+namespace BankApp;
+
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Welcome to the Bank App!");
+        Console.WriteLine("Welcome to the Bank App!");
 
-            // TASK 5: Display Basic Bank Account Information
-            // placeholder - Create a BankAccount object and display its information.
+        // TODO: Task 3: Step 3 - Update Program to create a Bank and open 2–3 accounts.
 
-            BankAccount account = new BankAccount(12345678, 500);
-            Console.WriteLine(account.DisplayAccountInfo());
+        AccountHolderDetails accountHolderDetails = new("Tim Shao", "123456789", "123 Elm Street");
+        BankAccountNumber accountNumber = new BankAccountNumber("000012345678");
 
-            // TASK 6: Perform Transactions
-            // placeholder - Add a deposit and a withdrawal, then display updated account information.
+        BankAccount bankAccount = new(accountNumber, BankAccountType.Checking, accountHolderDetails, 500m);
 
-            account.Deposit(200);
-            Console.WriteLine("After deposit:");
-            Console.WriteLine(account.DisplayAccountInfo());
+        Console.WriteLine($"Account type description: {bankAccount.AccountType.GetDescription()}");
+        Console.WriteLine(bankAccount.DisplayAccountInfo());
 
-            bool success = account.Withdraw(100);
-            Console.WriteLine(success ? "Withdrawal successful." : "Withdrawal failed.");
-            Console.WriteLine("After withdrawal:");
-            Console.WriteLine(account.DisplayAccountInfo());
+        bankAccount.AddTransaction(200m, "Deposit");
+        bankAccount.AddTransaction(-50m, "ATM Withdrawal");
 
-            // TASK 7: Display Transaction History
-            // placeholder - Add and display transactions using the Transaction struct.
+        // TODO: Task 5: Step 3 - Add an anonymous-type transaction report (Select(...) into new { ... }).
 
-            Console.WriteLine("Features to be implemented...");
-        }
+        // TODO: Task 5: Step 5 - Add an anonymous-type daily totals report (GroupBy(...) + Select(...)).
+
+        // TODO: Task 5: Step 7 - Add an anonymous-type "top debits" report (Where/OrderBy/Take).
+
+        // TODO: Task 6: Step 5 - Update Program to call bankAccount.GetDailyTotals() (named record) for API-friendly reporting.
+
+        Console.WriteLine(bankAccount.DisplayAccountInfo());
+        bankAccount.DisplayTransactions();
+
+        AccountHolderDetails customer2 = new("Tim Shao", "123456789", "123 Elm Street");
+
+        Console.WriteLine($"Are customers equal? {accountHolderDetails == customer2}");
+
+        BankAccountNumber accountNumber2 = new BankAccountNumber("000123456789");
+        Console.WriteLine($"Original Account Number: {accountNumber2}");
+
     }
 }

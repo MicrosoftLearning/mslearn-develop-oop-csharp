@@ -95,7 +95,7 @@ public class BankAccount
     public void DisplayTransactions()
     {
         Console.WriteLine("Transactions:");
-        foreach (var transaction in Transactions)
+        foreach (Transaction transaction in Transactions)
         {
             Console.WriteLine(transaction);
         }

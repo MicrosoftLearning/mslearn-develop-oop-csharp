@@ -1,106 +1,181 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace BankApp
+namespace BankApp;
+
+// Component overview (C# types used in this file):
+// - enum `BankAccountType`: A closed set of allowed account categories (Checking/Savings/Business).
+// - static class `BankAccountTypeExtensions`: An extension method that converts an enum value into a friendly description.
+// - readonly struct `BankAccountNumber`: A small value type that wraps and validates a 12-digit account number.
+// - record `AccountHolderDetails`: An immutable data model for customer identity/address info (value-based equality).
+// - record `Transaction`: An immutable data model for a single ledger entry (amount, date, description).
+// - class `BankAccount`: The main domain object that holds account state (balance) and behavior (recording/displaying transactions).
+
+public enum BankAccountType
 {
-    // TASK 1: Define the AccountType enum
-    public enum AccountType
+    Checking,
+    Savings,
+    Business
+}
+public static class BankAccountTypeExtensions
+{
+    public static string GetDescription(this BankAccountType accountType)
     {
-        // TASK 1: Step 1 - Add enum values like Checking, Savings, and Business to categorize accounts.
-        Checking,
-        Savings,
-        Business
-    }
-
-    // TASK 2: Define the Transaction struct
-    public struct Transaction
-    {
-        // TASK 2: Step 1 - Add properties for Amount, Date, and Description to store transaction details.
-        public double Amount { get; }
-        public DateTime Date { get; }
-        public string Description { get; }
-
-        // TASK 2: Step 2 - Add a constructor to initialize the properties for a transaction.
-        public Transaction(double amount, DateTime date, string description)
+        return accountType switch
         {
-            Amount = amount;
-            Date = date;
-            Description = description;
-        }
-
-        // TASK 2: Step 3 - Override the ToString method to format transaction details for display.
-        public override string ToString()
-        {
-            return $"{Date.ToShortDateString()}: {Description} - {Amount:C}";
-        }
-    }
-
-    // TASK 3: Define the Customer record
-    public record Customer
-    {
-        // TASK 3: Step 1 - Add properties for Name, CustomerId, and Address to represent customer details.
-        public string Name { get; init; }
-        public string CustomerId { get; init; }
-        public string Address { get; init; }
-    }
-
-    // TASK 4: Implement the BankAccount class
-    public class BankAccount
-    {
-        // TASK 4: Step 1 - Add properties for AccountNumber, Balance, AccountHolder, and Type to represent account details.
-        public int AccountNumber { get; }
-        public double Balance { get; private set; }
-        public Customer AccountHolder { get; }
-        public AccountType Type { get; }
-
-        // TASK 4: Step 6 - Add a list to track transactions for the account.
-        private List<Transaction> _transactions = new();
-
-        // TASK 4: Step 2 - Add a constructor to initialize the properties for a bank account.
-        public BankAccount(int accountNumber, double initialBalance, Customer accountHolder, AccountType type)
-        {
-            AccountNumber = accountNumber;
-            Balance = initialBalance;
-            AccountHolder = accountHolder;
-            Type = type;
-        }
-
-        // TASK 4: Step 3 - Add a method to deposit money into the account and update the balance.
-        public void Deposit(double amount, string description)
-        {
-            if (amount > 0)
-            {
-                Balance += amount;
-                _transactions.Add(new Transaction(amount, DateTime.Now, description));
-            }
-        }
-
-        // TASK 4: Step 4 - Add a method to withdraw money from the account and update the balance.
-        public bool Withdraw(double amount, string description)
-        {
-            if (amount > 0 && Balance >= amount)
-            {
-                Balance -= amount;
-                _transactions.Add(new Transaction(-amount, DateTime.Now, description));
-                return true;
-            }
-            return false;
-        }
-
-        // TASK 4: Step 5 - Add a method to display account information, including AccountHolder and Type.
-        public string DisplayAccountInfo()
-        {
-            return $"Account Number: {AccountNumber}, Balance: {Balance:C}, Account Holder: {AccountHolder.Name}, Type: {Type}";
-        }
-
-        // TASK 4: Step 7 - Add a method to display all transactions for the account.
-        public void DisplayTransactions()
-        {
-            Console.WriteLine("Transaction History:");
-            foreach (var transaction in _transactions)
-            {
-                Console.WriteLine(transaction);
-            }
-        }
+            BankAccountType.Checking => "A standard checking account.",
+            BankAccountType.Savings => "A savings account with interest.",
+            BankAccountType.Business => "A business account for companies.",
+            _ => "Unknown account type."
+        };
     }
 }
+
+public readonly struct BankAccountNumber
+{
+    public string Value { get; }
+    public BankAccountNumber(string value)
+    {
+        // Simple format: 12 digits (demo-friendly)
+        if (value is null || value.Length != 12 || !value.All(char.IsDigit))
+            throw new ArgumentException("Account numbers must be 12 digits.");
+        Value = value;
+    }
+    public override string ToString() => Value;
+}
+
+public record AccountHolderDetails(string Name, string CustomerId, string Address);
+
+// TODO: Task 6: Step 3 - Add the DailyTotal record near the record/type definitions.
+public record DailyTotal(DateOnly Day, decimal Total, int Count);
+
+// TODO: Task 4: Step 1 - Add the ILedgerEntry interface near the record/type definitions.
+public interface ILedgerEntry
+{
+    decimal Amount { get; }
+    DateTime Date { get; }
+    string Description { get; }
+}
+
+// TODO: Task 4: Step 2 - Update Transaction to implement ILedgerEntry.
+public record Transaction(decimal Amount, DateTime Date, string Description) : ILedgerEntry
+{
+    public override string ToString()
+    {
+        return $"{Date.ToShortDateString()}: {Description} - {Amount:C}";
+    }
+}
+
+// TODO: Task 4: Step 3 - Add the generic Ledger<TEntry> class (where TEntry : ILedgerEntry).
+public sealed class Ledger<TEntry> where TEntry : ILedgerEntry
+{
+    private readonly List<TEntry> _entries = new();
+
+    public IReadOnlyList<TEntry> Entries => _entries;
+
+    public void Add(TEntry entry)
+    {
+        if (entry is null) throw new ArgumentNullException(nameof(entry));
+        _entries.Add(entry);
+    }
+
+    public decimal Total() => _entries.Sum(e => e.Amount);
+}
+
+// TODO: Task 4: Step 8 - Add a second ledger entry type (e.g., Fee) that implements ILedgerEntry.
+public record Fee(decimal Amount, DateTime Date, string Description) : ILedgerEntry;
+
+public class BankAccount
+{
+    public BankAccountNumber AccountNumber { get; }
+    public BankAccountType AccountType { get; }
+    public decimal Balance { get; private set; }
+    public AccountHolderDetails AccountHolder { get; }
+
+    // TODO: Task 2: Step 1 - Replace the transactions collection with a private backing field.
+    // TODO: Task 2: Step 3 - Expose transactions as a read-only generic view (IReadOnlyList<Transaction>).
+    // TODO: Task 4: Step 5 - Refactor BankAccount to store transactions in Ledger<Transaction>.
+    private readonly Ledger<Transaction> _ledger = new();
+
+    public IReadOnlyList<Transaction> Transactions => _ledger.Entries;
+
+    public BankAccount(BankAccountNumber accountNumber, BankAccountType accountType, AccountHolderDetails accountHolder, decimal initialBalance = 0)
+    {
+        AccountNumber = accountNumber;
+        AccountType = accountType;
+        AccountHolder = accountHolder;
+        Balance = initialBalance;
+    }
+
+    public void AddTransaction(decimal amount, string description)
+    {
+        // TODO: Task 2: Step 4 - Update AddTransaction to add to the backing field.
+        // TODO: Task 4: Step 6 - Update AddTransaction to call _ledger.Add(...) once Ledger<Transaction> is introduced.
+
+        Balance += amount;
+        _ledger.Add(new Transaction(amount, DateTime.Now, description));
+    }
+
+    public string DisplayAccountInfo()
+    {
+        return $"Account Holder: {AccountHolder.Name}, Account Number: {AccountNumber}, Type: {AccountType}, Balance: {Balance:C}";
+    }
+
+    public void DisplayTransactions()
+    {
+        // TODO: Task 2: Step 5 - Update DisplayTransactions to iterate the public read-only Transactions view.
+        // TODO: Task 4: Step 7 - Ensure display iterates _ledger.Entries (or the Transactions view backed by it).
+
+        Console.WriteLine("Transactions:");
+        foreach (var transaction in Transactions)
+        {
+            Console.WriteLine(transaction);
+        }
+    }
+
+    // TODO: Task 2: Step 6 - (Optional) Add GetTransactions() returning IEnumerable<Transaction>.
+    public IEnumerable<Transaction> GetTransactions() => Transactions;
+
+    // TODO: Task 6: Step 4 - Add GetDailyTotals() returning IEnumerable<DailyTotal>.
+    public IEnumerable<DailyTotal> GetDailyTotals()
+    {
+        return Transactions
+            .GroupBy(t => DateOnly.FromDateTime(t.Date))
+            .Select(g => new DailyTotal(g.Key, g.Sum(x => x.Amount), g.Count()))
+            .OrderBy(x => x.Day);
+    }
+
+}
+
+// TODO: Task 3: Step 1 - Add the Bank class that stores accounts in Dictionary<BankAccountNumber, BankAccount>.
+
+public sealed class Bank
+{
+    private readonly Dictionary<BankAccountNumber, BankAccount> _accounts = new();
+
+    public void OpenAccount(BankAccount account)
+    {
+        if (account is null) throw new ArgumentNullException(nameof(account));
+        _accounts.Add(account.AccountNumber, account);
+    }
+
+    public BankAccount GetAccount(BankAccountNumber number)
+    {
+        if (_accounts.TryGetValue(number, out var account))
+            return account;
+
+        throw new InvalidOperationException($"No account exists with number {number}.");
+    }
+
+    public bool TryGetAccount(BankAccountNumber number, out BankAccount account)
+        => _accounts.TryGetValue(number, out account!);
+
+    public bool CloseAccount(BankAccountNumber number)
+        => _accounts.Remove(number);
+}
+
+// TODO: Task 4: Step 3 - Add the generic Ledger<TEntry> class (where TEntry : ILedgerEntry).
+
+// TODO: Task 4: Step 8 - Add a second ledger entry type (e.g., Fee) that implements ILedgerEntry.
+
