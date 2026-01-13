@@ -424,5 +424,3 @@ Use the following steps to complete this task:
 ## Clean up
 
 Now that you've finished the exercise, consider archiving your project files for review at a later time. Having your own projects available for review can be a valuable resource when you're learning to code. Additionally, building a portfolio of projects can be a great way to demonstrate your skills to potential employers.
-
-If you no longer need the project files, you can delete the folder to free up space on your computer. However, it's recommended to keep a copy of the completed project for future reference or as part of your coding portfolio.

@@ -41,8 +41,13 @@ You've developed an initial version of the app that includes the following files
 This exercise includes the following tasks:
 
 1. Review the current version of your project.
+1. Refactor transactions to a read-only generic API.
+1. Add a Bank class that manages accounts using generics.
+1. Build a reusable generic Ledger\<TEntry\> with constraints.
+1. Create reports using anonymous types (LINQ projections).
+1. Decide the boundary - anonymous types vs named result types.
 
-## Review the current version of your project
+## Task 1: Review the current version of your project
 
 In this task, you download the existing version of your project and review the code.
 
@@ -95,11 +100,9 @@ Use the following steps to complete this section of the exercise:
 
 ## Task 2: Refactor transactions to a read-only generic API
 
-### What to learn
-
 Returning mutable collections like `List<T>` exposes internal state that callers can modify, breaking encapsulation. Generic read-only interfaces like `IReadOnlyList<T>` provide a safe way to expose collections without allowing mutation.
 
-In this task, you make transactions queryable without exposing mutable internal state.
+In this task, you use generic read-only interfaces to make transactions queryable without exposing mutable internal state.
 
 Use the following steps to complete this task:
 
@@ -136,21 +139,13 @@ Use the following steps to complete this task:
     Before:
 
     ```csharp
-    public void AddTransaction(decimal amount, string description)
-    {
-        Balance += amount;
-        Transactions.Add(new Transaction(amount, DateTime.Now, description));
-    }
+    Transactions.Add(new Transaction(amount, DateTime.Now, description));
     ```
 
     After:
 
     ```csharp
-    public void AddTransaction(decimal amount, string description)
-    {
-        Balance += amount;
-        _transactions.Add(new Transaction(amount, DateTime.Now, description));
-    }
+    _transactions.Add(new Transaction(amount, DateTime.Now, description));
     ```
 
     Notice that the method now adds to the private backing list, not the public property.
@@ -162,26 +157,18 @@ Use the following steps to complete this task:
     Before (iterate the backing list directly):
 
     ```csharp
-    public void DisplayTransactions()
+    foreach (Transaction transaction in Transactions)
     {
-        Console.WriteLine("Transactions:");
-        foreach (Transaction transaction in _transactions)
-        {
-            Console.WriteLine(transaction);
-        }
+        Console.WriteLine(transaction);
     }
     ```
 
     After (iterate the read-only view):
 
     ```csharp
-    public void DisplayTransactions()
+    foreach (var transaction in Transactions)
     {
-        Console.WriteLine("Transactions:");
-        foreach (var transaction in Transactions)
-        {
-            Console.WriteLine(transaction);
-        }
+        Console.WriteLine(transaction);
     }
     ```
 
@@ -199,7 +186,9 @@ Use the following steps to complete this task:
 
 1. Open the `Program.cs` file.
 
-1. Locate the `DisplayTransactions()` method call.
+1. Locate the code comment that begins with **Task 2: Step 6**.
+
+1. Take a minute to consider the `DisplayTransactions()` method call.
 
     You updated the `DisplayTransactions()` method to read transactions using the read-only API, so no changes are needed here. However, if you wanted to print transactions directly from `Program.cs`, you could replace the method call with something similar to the following code:
 
@@ -274,9 +263,9 @@ Use the following steps to complete this task:
     private readonly Dictionary<BankAccountNumber, BankAccount> _accounts = new();
     ```
 
-    The 'generics' part of this line is the `Dictionary<BankAccountNumber, BankAccount>`:
+    The 'generics' part of this line is the `Dictionary<BankAccountNumber, BankAccount>`.
 
-    `Dictionary<TKey, TValue>` is a generic .NET collection type. It takes two type parameters:
+    You may recall that `Dictionary<TKey, TValue>` is a generic .NET collection type. It takes two type parameters:
     - TKey = BankAccountNumber (the type you look up by)
     - TValue = BankAccount (the type you get back)
 
@@ -329,9 +318,9 @@ Use the following steps to complete this task:
     Add this below the code above:
 
     ```csharp
-    var selected = bank.GetAccount(accountNumber);
-    selected.AddTransaction(200m, "Deposit");
-    selected.AddTransaction(-50m, "ATM Withdrawal");
+    var selected = bank.GetAccount(accountNumber3);
+    selected.AddTransaction(321m, "Deposit");
+    selected.AddTransaction(-123m, "ATM Withdrawal");
     Console.WriteLine(selected.DisplayAccountInfo());
     ```
 
@@ -341,13 +330,11 @@ Use the following steps to complete this task:
 
     ```plaintext
     Welcome to the Bank App!
-    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $650.00
+    Account Holder: Ni Kang, Account Number: 000123456789, Type: Savings, Balance: $1,350.00
     Account type description: A standard checking account.
+    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $500.00
     Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $650.00
-    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $800.00
     Transactions:
-    1/12/2026: Deposit - $200.00
-    1/12/2026: ATM Withdrawal - ($50.00)
     1/12/2026: Deposit - $200.00
     1/12/2026: ATM Withdrawal - ($50.00)
     Are customers equal? True
@@ -403,6 +390,8 @@ Use the following steps to complete this task:
     }
     ```
 
+1. Scroll to the bottom of the file.
+
 1. Locate the code comment that begins with **Task 4: Step 3**.
 
 1. Create a new generic class `Ledger<TEntry>` constrained to `ILedgerEntry`:
@@ -424,15 +413,15 @@ Use the following steps to complete this task:
     }
     ```
 
-1. Take a minute to consider the generic class declaration you just created.
+1. Take a minute to consider the class declaration code line that you just created.
 
     ```csharp
     public sealed class Ledger<TEntry> where TEntry : ILedgerEntry
     ```
 
-    In this code, `TEntry` can be any type that implements `ILedgerEntry`, ensuring type safety while allowing flexibility.
+    In this generic class declaration, `TEntry` can be any type that implements `ILedgerEntry`, ensuring type safety while allowing flexibility.
 
-1. Locate the code comment that begins with **Task 4: Step 4**.
+1. Scroll back up to locate the code comment that begins with **Task 4: Step 4**.
 
 1. Refactor `BankAccount` to replace its transaction list with `Ledger<Transaction>`.
 
@@ -496,9 +485,7 @@ Use the following steps to complete this task:
 
 1. Open Program.cs, and then locate the code comment that begins with **Task 4: Step 8**.
 
-1. Demonstrate in `Program.cs` that `Ledger<Fee>` works without rewriting ledger logic.
-
-    Add this (example) somewhere in `Main`:
+1. To demonstrate that `Ledger<Fee>` works without rewriting ledger logic, enter the following code:
 
     ```csharp
     var feeLedger = new Ledger<Fee>();
@@ -512,13 +499,11 @@ Use the following steps to complete this task:
 
     ```plaintext
     Welcome to the Bank App!
-    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $650.00
+    Account Holder: Ni Kang, Account Number: 000123456789, Type: Savings, Balance: $1,350.00
     Account type description: A standard checking account.
+    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $500.00
     Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $650.00
-    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $800.00
     Transactions:
-    1/12/2026: Deposit - $200.00
-    1/12/2026: ATM Withdrawal - ($50.00)
     1/12/2026: Deposit - $200.00
     1/12/2026: ATM Withdrawal - ($50.00)
     Fee ledger total: ($2.50)
@@ -601,26 +586,21 @@ Use the following steps to complete this task:
 
     ```plaintext
     Welcome to the Bank App!
-    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $650.00
+    Account Holder: Ni Kang, Account Number: 000123456789, Type: Savings, Balance: $1,398.00
     Account type description: A standard checking account.
+    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $500.00
     Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $650.00
-    Fee ledger total: ($2.50)
-    Transaction report:
-    1/12/2026 | Credit |    $200.00 | Deposit
-    1/12/2026 | Debit  |   ($50.00) | ATM Withdrawal
-    1/12/2026 | Credit |    $200.00 | Deposit
-    1/12/2026 | Debit  |   ($50.00) | ATM Withdrawal
-    Daily totals:
-    1/12/2026: $300.00 (4 tx)
-    Top debits:
-    1/12/2026 |   ($50.00) | ATM Withdrawal
-    1/12/2026 |   ($50.00) | ATM Withdrawal
-    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $800.00
     Transactions:
     1/12/2026: Deposit - $200.00
     1/12/2026: ATM Withdrawal - ($50.00)
-    1/12/2026: Deposit - $200.00
-    1/12/2026: ATM Withdrawal - ($50.00)
+    Transaction report:
+    1/12/2026 | Credit |    $200.00 | Deposit
+    1/12/2026 | Debit  |   ($50.00) | ATM Withdrawal
+    Daily totals:
+    1/12/2026: $150.00 (2 tx)
+    Top debits:
+    1/12/2026 |   ($50.00) | ATM Withdrawal
+    Fee ledger total: ($2.50)
     Are customers equal? True
     Original Account Number: 000123456789
     ```
@@ -645,7 +625,7 @@ Use the following steps to complete this task:
     public record DailyTotal(DateOnly Day, decimal Total, int Count);
     ```
 
-1. Locate the code comment that begins with **Task 6: Step 1**.
+1. Locate the code comment that begins with **Task 6: Step 2**.
 
 1. To create a daily totals method that returns `IEnumerable<DailyTotal>`, enter the following code:
 
@@ -704,27 +684,25 @@ Use the following steps to complete this task:
 
     ```plaintext
     Welcome to the Bank App!
-    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $650.00
+    Account Holder: Ni Kang, Account Number: 000123456789, Type: Savings, Balance: $1,398.00
     Account type description: A standard checking account.
+    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $500.00
     Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $650.00
-    Fee ledger total: ($2.50)
-    Transaction report:
-    1/12/2026 | Credit |    $200.00 | Deposit
-    1/12/2026 | Debit  |   ($50.00) | ATM Withdrawal
-    1/12/2026 | Credit |    $200.00 | Deposit
-    1/12/2026 | Debit  |   ($50.00) | ATM Withdrawal
-    Daily totals:
-    1/12/2026: $300.00 (4 tx)
-    Top debits:
-    1/12/2026 |   ($50.00) | ATM Withdrawal
-    1/12/2026 |   ($50.00) | ATM Withdrawal
-    Account Holder: Tim Shao, Account Number: 000012345678, Type: Checking, Balance: $800.00
     Transactions:
     1/12/2026: Deposit - $200.00
     1/12/2026: ATM Withdrawal - ($50.00)
-    1/12/2026: Deposit - $200.00
-    1/12/2026: ATM Withdrawal - ($50.00)
+    Transaction report:
+    1/12/2026 | Credit |    $200.00 | Deposit
+    1/12/2026 | Debit  |   ($50.00) | ATM Withdrawal
+    Daily totals:
+    1/12/2026: $150.00 (2 tx)
+    Top debits:
+    1/12/2026 |   ($50.00) | ATM Withdrawal
+    Fee ledger total: ($2.50)
     Are customers equal? True
     Original Account Number: 000123456789
     ```
 
+## Clean up
+
+Now that you've finished the exercise, consider archiving your project files for review at a later time. Having your own projects available for review can be a valuable resource when you're learning to code. Additionally, building a portfolio of projects can be a great way to demonstrate your skills to potential employers.

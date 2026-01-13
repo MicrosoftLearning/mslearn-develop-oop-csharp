@@ -23,20 +23,20 @@ class Program
         bankAccount.AddTransaction(200m, "Deposit");
         bankAccount.AddTransaction(-50m, "ATM Withdrawal");
 
-        // Task 5: Step 3 - Add an anonymous-type transaction report (Select(...) into new { ... }).
+        Console.WriteLine(bankAccount.DisplayAccountInfo());
 
+        // Task 2: Step 6 - Consider the DisplayTransactions() method call. 
+        bankAccount.DisplayTransactions();
 
-        // Task 5: Step 5 - Add an anonymous-type daily totals report (GroupBy(...) + Select(...)).
-
-
-        // Task 5: Step 7 - Add an anonymous-type "top debits" report (Where/OrderBy/Take).
+        // Task 5: Step 1 - Add an anonymous-type transaction report (Select(...) into new { ... }).
 
 
         // Task 6: Step 3 - Update Program to call bankAccount.GetDailyTotals() (named record) for API-friendly reporting.
+        // Task 5: Step 2 - Add an anonymous-type daily totals report (GroupBy(...) + Select(...)).
 
 
-        Console.WriteLine(bankAccount.DisplayAccountInfo());
-        bankAccount.DisplayTransactions();
+        // Task 5: Step 3 - Add an anonymous-type "top debits" report (Where/OrderBy/Take).
+
 
         // Task 4: Step 8 - Add Fee transactions to the account.
 
