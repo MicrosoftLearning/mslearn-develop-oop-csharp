@@ -423,9 +423,11 @@ Use the following steps to complete this section of the exercise:
 
     ```
 
-    The static constructor initializes the static field `s_nextAccountNumber`, and the static properties `InterestRate`, `TransactionRate`, `MaxTransactionFee`, `OverdraftRate`, and `MaxOverdraftFee`. 
+    The static constructor initializes the static field `s_nextAccountNumber`, and the static properties `InterestRate`, `TransactionRate`, `MaxTransactionFee`, `OverdraftRate`, and `MaxOverdraftFee`.
 
     The single instance constructor now requires the `customerIdNumber`, `balance`, and `accountType` parameters in order to instantiate an account. The instance constructor uses the parameters to initialize the `CustomerId`, `Balance`, and `AccountType` properties of a `BankAccount` instance. The `AccountNumber` property is initialized using the `s_nextAccountNumber` field.
+
+    > **NOTE**: The other instance constructor that accepts only the `customerIdNumber` parameter has been removed to simplify the class design. However, this constructor is used in Program.cs to create a `BankAccount` instance. You'll update the code in Program.cs later in this exercise to use the remaining instance constructor.
 
 1. Replace the existing `ApplyInterest` method with the following code snippet:
 
@@ -523,7 +525,43 @@ Use the following steps to complete this section of the exercise:
 
     This `using` directive allows you to use the `CultureInfo` class to format currency values.
 
-1. Locate the code that demonstrates the use of BankAccount methods.
+1. Locate the Step 2 code that demonstrates creating BankAccount objects.
+
+    ```csharp
+
+    // Step 2: Create BankAccount objects for customers
+    Console.WriteLine("\nCreating BankAccount objects for customers...");
+    BankAccount account1 = new BankAccount(customer1.CustomerId);
+    BankAccount account2 = new BankAccount(customer2.CustomerId, 1500, "Checking");
+    BankAccount account3 = new BankAccount(customer3.CustomerId, 2500, "Checking");
+    
+    Console.WriteLine($"Account 1: Account # {account1.AccountNumber}, type {account1.AccountType}, balance {account1.Balance}, rate {BankAccount.InterestRate}, customer ID {account1.CustomerId}");
+    Console.WriteLine($"Account 2: Account # {account2.AccountNumber}, type {account2.AccountType}, balance {account2.Balance}, rate {BankAccount.InterestRate}, customer ID {account2.CustomerId}");
+    Console.WriteLine($"Account 3: Account # {account3.AccountNumber}, type {account3.AccountType}, balance {account3.Balance}, rate {BankAccount.InterestRate}, customer ID {account3.CustomerId}");
+    
+    ```
+
+1. Replace the existing Step 2 code with the following code snippet:
+
+    ```csharp
+
+    // Step 2: Create BankAccount objects for customers
+    Console.WriteLine("\nCreating BankAccount objects for customers...");
+    
+    //BankAccount account1 = new BankAccount(customer1.CustomerId);
+    BankAccount account1 = new BankAccount(customer1.CustomerId, 1000, "Checking");
+    BankAccount account2 = new BankAccount(customer2.CustomerId, 1500, "Checking");
+    BankAccount account3 = new BankAccount(customer3.CustomerId, 2500, "Checking");
+    
+    Console.WriteLine($"Account 1: Account # {account1.AccountNumber}, type {account1.AccountType}, balance {account1.Balance}, rate {BankAccount.InterestRate}, customer ID {account1.CustomerId}");
+    Console.WriteLine($"Account 2: Account # {account2.AccountNumber}, type {account2.AccountType}, balance {account2.Balance}, rate {BankAccount.InterestRate}, customer ID {account2.CustomerId}");
+    Console.WriteLine($"Account 3: Account # {account3.AccountNumber}, type {account3.AccountType}, balance {account3.Balance}, rate {BankAccount.InterestRate}, customer ID {account3.CustomerId}");
+    
+    ```
+
+    The original code used a constructor that accepted `customerIdNumber` as the only parameter. However, that constructor was removed from the `BankAccount` class. This code update modifies the creation of `account1` to use the remaining constructor that requires the `customerIdNumber`, `balance`, and `accountType` parameters. The initial balance for `account1` is set to 1000.
+
+1. Locate the Step 4 code that demonstrates the use of BankAccount methods.
 
     ```csharp
 
@@ -553,7 +591,7 @@ Use the following steps to complete this section of the exercise:
 
     ```
 
-1. Replace the existing "Step 4" code with the following code snippet:
+1. Replace the existing Step 4 code with the following code snippet:
 
     ```csharp
 
@@ -641,40 +679,39 @@ Use the following steps to complete this section of the exercise:
     Your app should produce output that's similar to the following example:
 
     ```plaintext
-
     Creating BankCustomer objects...
-    BankCustomer 1: Tim Shao 0016201844
-    BankCustomer 2: Lisa Shao 0016201845
-    BankCustomer 3: Sandy Zoeng 0016201846
+    BankCustomer 1: Tim Shao 0011689278
+    BankCustomer 2: Lisa Shao 0011689279
+    BankCustomer 3: Sandy Zoeng 0011689280
     
     Creating BankAccount objects for customers...
-    Account 1: Account # 18378304, type Checking, balance 0, rate 0, customer ID 0016201844
-    Account 2: Account # 18378305, type Checking, balance 1500, rate 0, customer ID 0016201845
-    Account 3: Account # 18378306, type Checking, balance 2500, rate 0, customer ID 0016201846
+    Account 1: Account # 11288725, type Checking, balance 1000, rate 0, customer ID 0011689278
+    Account 2: Account # 11288726, type Checking, balance 1500, rate 0, customer ID 0011689279
+    Account 3: Account # 11288727, type Checking, balance 2500, rate 0, customer ID 0011689280
     
     Updating BankCustomer 1's name...
-    Updated BankCustomer 1: Thomas Margand 0016201844
+    Updated BankCustomer 1: Thomas Margand 0011689278
     
     Demonstrating BankAccount methods...
     Depositing $500.00 into Account 1...
-    Account 1 after deposit: Balance = $500.00
+    Account 1 after deposit: Balance = $1,500.00
     Withdrawing $200.00 from Account 2...
     Account 2 after withdrawal: Balance = $1,300.00, Withdrawal successful: True
     Transferring $300.00 from Account 3 to Account 1...
     Account 3 after transfer: Balance = $2,200.00, Transfer successful: True
-    Account 1 after receiving transfer: Balance = $800.00
+    Account 1 after receiving transfer: Balance = $1,800.00
     
     Demonstrating utility methods in AccountCalculations...
-    Compound interest on account1 balance of $800.00 at 0.00% for 1 year: $0.00
-    Is account number 18378304 valid? True
-    Transaction fee for a $800.00 wire transfer at a 0.00% rate and a max fee of $0.00 is: $0.00
-    Overdraft fee for an account that's $500.00 overdrawn, using a penalty rate of 0.00% and a max fee of $0.00 is: $0.00
+    Compound interest on account1 balance of $1,800.00 at 0.00% for 1 year: $0.00
+    Is account number 11288725 valid? True
+    Transaction fee for a $800.00 wire transfer at a 1.00% rate and a max fee of $10.00 is: $8.00
+    Overdraft fee for an account that's $500.00 overdrawn, using a penalty rate of 5.00% and a max fee of $10.00 is: $10.00      
     The foreign currency received after exchanging $100.00 at an exchange rate of 1.20 is: $120.00
     
     Applying interest to Account 1...
-    Account 1 after applying interest: Balance = $800.00, Interest Rate = 0.00%, Time Period = 0.08 years
+    Account 1 after applying interest: Balance = $1,800.00, Interest Rate = 0.00%, Time Period = 0.08 years
     Issue cashier's check from account 2...
-    Account 2 after requesting cashier's check: Received cashier's check: True, Balance = $800.00, Transaction Amount = $500.00, Transaction Fee Rate = 0.00%, Max Transaction Fee = $0.00
+    Account 2 after requesting cashier's check: Received cashier's check: True, Balance = $795.00, Transaction Amount = $500.00, Transaction Fee Rate = 1.00%, Max Transaction Fee = $10.00
     Applying refund to Account 3...
     Account 3 after applying refund: Balance = $2,250.00, Refund Amount = $50.00
     
@@ -685,8 +722,8 @@ Use the following steps to complete this section of the exercise:
     Is account3 overdrawn? False
     
     Displaying customer and account information...
-    Customer ID: 0016201844, Name: Thomas Margand
-    Account Number: 18378304, Type: Checking, Balance: 800, Interest Rate: 0, Customer ID: 0016201844
+    Customer ID: 0011689278, Name: Thomas Margand
+    Account Number: 11288725, Type: Checking, Balance: 1800, Interest Rate: 0, Customer ID: 0011689278
 
     ```
 
@@ -808,28 +845,40 @@ In this task, you update a constructor in the BankAccount class using optional p
     ```plaintext
 
     Creating BankCustomer objects...
-    BankCustomer 1: Tim Shao 0016320839
-    BankCustomer 2: Lisa Shao 0016320840
-    BankCustomer 3: Sandy Zoeng 0016320841
+    BankCustomer 1: Tim Shao 0018589715
+    BankCustomer 2: Lisa Shao 0018589716
+    BankCustomer 3: Sandy Zoeng 0018589717
     
     Creating BankAccount objects for customers...
-    Account 1: Account # 12848501, type Checking, balance 0, rate 0, customer ID 0016320839
-    Account 2: Account # 12848502, type Checking, balance 1500, rate 0, customer ID 0016320840
-    Account 3: Account # 12848503, type Checking, balance 2500, rate 0, customer ID 0016320841
+    Account 1: Account # 19568126, type Checking, balance 1000, rate 0, customer ID 0018589715
+    Account 2: Account # 19568127, type Checking, balance 1500, rate 0, customer ID 0018589716
+    Account 3: Account # 19568128, type Checking, balance 2500, rate 0, customer ID 0018589717
     
     Updating BankCustomer 1's name...
-    Updated BankCustomer 1: Thomas Margand 0016320839
+    Updated BankCustomer 1: Thomas Margand 0018589715
     
     Demonstrating BankAccount methods...
-    Depositing 500 into Account 1...
-    Account 1 after deposit: Balance = 500
-    Withdrawing 200 from Account 2...
-    Account 2 after withdrawal: Balance = 1300, Withdrawal successful: True
-    Transferring 300 from Account 3 to Account 1...
-    Account 3 after transfer: Balance = 2200, Transfer successful: True
-    Account 1 after receiving transfer: Balance = 800
+    Depositing $500.00 into Account 1...
+    Account 1 after deposit: Balance = $1,500.00
+    Withdrawing $200.00 from Account 2...
+    Account 2 after withdrawal: Balance = $1,300.00, Withdrawal successful: True
+    Transferring $300.00 from Account 3 to Account 1...
+    Account 3 after transfer: Balance = $2,200.00, Transfer successful: True
+    Account 1 after receiving transfer: Balance = $1,800.00
+    
+    Demonstrating utility methods in AccountCalculations...
+    Compound interest on account1 balance of $1,800.00 at 0.00% for 1 year: $0.00
+    Is account number 19568126 valid? True
+    Transaction fee for a $800.00 wire transfer at a 1.00% rate and a max fee of $10.00 is: $8.00
+    Overdraft fee for an account that's $500.00 overdrawn, using a penalty rate of 5.00% and a max fee of $10.00 is: $10.00      
+    The foreign currency received after exchanging $100.00 at an exchange rate of 1.20 is: $120.00
+    
     Applying interest to Account 1...
-    Account 1 after applying interest: Balance = 800
+    Account 1 after applying interest: Balance = $1,800.00, Interest Rate = 0.00%, Time Period = 0.08 years
+    Issue cashier's check from account 2...
+    Account 2 after requesting cashier's check: Received cashier's check: True, Balance = $795.00, Transaction Amount = $500.00, Transaction Fee Rate = 1.00%, Max Transaction Fee = $10.00
+    Applying refund to Account 3...
+    Account 3 after applying refund: Balance = $2,250.00, Refund Amount = $50.00
     
     Demonstrating extension methods...
     Hello, Thomas Margand!
@@ -838,8 +887,8 @@ In this task, you update a constructor in the BankAccount class using optional p
     Is account3 overdrawn? False
     
     Displaying customer and account information...
-    Customer ID: 0016320839, Name: Thomas Margand
-    Account Number: 12848501, Type: Checking, Balance: 800, Interest Rate: 0, Customer ID: 0016320839
+    Customer ID: 0018589715, Name: Thomas Margand
+    Account Number: 19568126, Type: Checking, Balance: 1800, Interest Rate: 0, Customer ID: 0018589715
 
     ```
 
@@ -856,7 +905,7 @@ Use the following steps to complete this section of the exercise:
 
 1. Open the BankCustomer.cs file.
 
-1. To create a copy constructor for the BankCustomer class, add the following code:
+1. To create a copy constructor for the BankCustomer class, add the following code to the end of the BankCustomer class:
 
     ```csharp
 
@@ -877,7 +926,7 @@ Use the following steps to complete this section of the exercise:
 
 1. Open the BankAccount.cs file.
 
-1. To create a copy constructor for the BankAccount class, add the following code:
+1. To create a copy constructor for the BankAccount class, add the following code to the BankAccount class (just below the existing instance constructor):
 
     ```csharp
 
@@ -892,7 +941,7 @@ Use the following steps to complete this section of the exercise:
 
     ```
 
-    Notice that a new `AccountNumber` field is generated for the new account. The `CustomerId`, `Balance`, and `AccountType` fields are copied from the existing account. The `InterestRate` field is not copied because it's a static field that's shared across all instances of the BankAccount class. The `CustomerId` field is copied because the intension is to create a new account for the same customer.
+    Notice that a new `AccountNumber` field is generated for the new account. The `CustomerId`, `Balance`, and `AccountType` fields are copied from the existing account. The `InterestRate` field is not copied because it's a static field that's shared across all instances of the BankAccount class. The `CustomerId` field is copied because the intention is to create a new account for the same customer.
 
 1. Open the Program.cs file.
 
@@ -961,36 +1010,36 @@ Use the following steps to complete this section of the exercise:
     ```plaintext
 
     Creating BankCustomer objects...
-    BankCustomer 1: Tim Shao 0016484785
-    BankCustomer 2: Lisa Shao 0016484786
-    BankCustomer 3: Sandy Zoeng 0016484787
+    BankCustomer 1: Tim Shao 0019842061
+    BankCustomer 2: Lisa Shao 0019842062
+    BankCustomer 3: Sandy Zoeng 0019842063
     
     Creating BankAccount objects for customers...
-    Account 1: Account # 16017880, type Checking, balance 200, rate 0, customer ID 0016484785
-    Account 2: Account # 16017881, type Checking, balance 1500, rate 0, customer ID 0016484786
-    Account 3: Account # 16017882, type Checking, balance 2500, rate 0, customer ID 0016484787
+    Account 1: Account # 14408011, type Checking, balance 1000, rate 0, customer ID 0019842061
+    Account 2: Account # 14408012, type Checking, balance 1500, rate 0, customer ID 0019842062
+    Account 3: Account # 14408013, type Checking, balance 2500, rate 0, customer ID 0019842063
     
     Updating BankCustomer 1's name...
-    Updated BankCustomer 1: Thomas Margand 0016484785
+    Updated BankCustomer 1: Thomas Margand 0019842061
     
     Demonstrating BankAccount methods...
     Depositing $500.00 into Account 1...
-    Account 1 after deposit: Balance = $700.00
+    Account 1 after deposit: Balance = $1,500.00
     Withdrawing $200.00 from Account 2...
     Account 2 after withdrawal: Balance = $1,300.00, Withdrawal successful: True
     Transferring $300.00 from Account 3 to Account 1...
     Account 3 after transfer: Balance = $2,200.00, Transfer successful: True
-    Account 1 after receiving transfer: Balance = $1,000.00
+    Account 1 after receiving transfer: Balance = $1,800.00
     
     Demonstrating utility methods in AccountCalculations...
-    Compound interest on account1 balance of $1,000.00 at 0.00% for 1 year: $0.00
-    Is account number 16017880 valid? True
+    Compound interest on account1 balance of $1,800.00 at 0.00% for 1 year: $0.00
+    Is account number 14408011 valid? True
     Transaction fee for a $800.00 wire transfer at a 1.00% rate and a max fee of $10.00 is: $8.00
-    Overdraft fee for an account that's $500.00 overdrawn, using a penalty rate of 5.00% and a max fee of $10.00 is: $10.00
+    Overdraft fee for an account that's $500.00 overdrawn, using a penalty rate of 5.00% and a max fee of $10.00 is: $10.00      
     The foreign currency received after exchanging $100.00 at an exchange rate of 1.20 is: $120.00
     
     Applying interest to Account 1...
-    Account 1 after applying interest: Balance = $1,000.00, Interest Rate = 0.00%, Time Period = 0.08 years
+    Account 1 after applying interest: Balance = $1,800.00, Interest Rate = 0.00%, Time Period = 0.08 years
     Issue cashier's check from account 2...
     Account 2 after requesting cashier's check: Received cashier's check: True, Balance = $795.00, Transaction Amount = $500.00, Transaction Fee Rate = 1.00%, Max Transaction Fee = $10.00
     Applying refund to Account 3...
@@ -1003,21 +1052,20 @@ Use the following steps to complete this section of the exercise:
     Is account3 overdrawn? False
     
     Displaying customer and account information...
-    Customer ID: 0016484785, Name: Thomas Margand
-    Account Number: 16017880, Type: Checking, Balance: 1000, Interest Rate: 0, Customer ID: 0016484785
+    Customer ID: 0019842061, Name: Thomas Margand
+    Account Number: 14408011, Type: Checking, Balance: 1800, Interest Rate: 0, Customer ID: 0019842061
     
     Demonstrating named and optional parameters...
-    Account Number: 16017883, Type: Checking, Balance: 200, Interest Rate: 0, Customer ID: 0016484785
-    Account Number: 16017884, Type: Checking, Balance: 1500, Interest Rate: 0, Customer ID: 0016484785
-    Account Number: 16017885, Type: Checking, Balance: 200, Interest Rate: 0, Customer ID: 0016484786
-    Account Number: 16017886, Type: Checking, Balance: 5000, Interest Rate: 0, Customer ID: 0016484786
+    Account Number: 14408014, Type: Checking, Balance: 200, Interest Rate: 0, Customer ID: 0019842061
+    Account Number: 14408015, Type: Checking, Balance: 1500, Interest Rate: 0, Customer ID: 0019842061
+    Account Number: 14408016, Type: Checking, Balance: 200, Interest Rate: 0, Customer ID: 0019842062
+    Account Number: 14408017, Type: Checking, Balance: 5000, Interest Rate: 0, Customer ID: 0019842062
     
     Demonstrating object initializers and copy constructors...
-    BankCustomer 4: Mikaela Lee 0016484788
-    BankCustomer 5 (copy of customer4): Mikaela Lee 0016484789
-    Account 8: Account # 16017887, type Savings, balance 200, rate 0, customer ID 0016484788
-    Account 9 (copy of account8): Account # 16017888, type Savings, balance 200, rate 0, customer ID 0016484788
-
+    BankCustomer 4: Mikaela Lee 0019842064
+    BankCustomer 5 (copy of customer4): Mikaela Lee 0019842065
+    Account 8: Account # 14408018, type Savings, balance 200, rate 0, customer ID 0019842064
+    Account 9 (copy of account4): Account # 14408019, type Checking, balance 200, rate 0, customer ID 0019842061
     ```
 
 ## Clean up
