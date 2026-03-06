@@ -14,11 +14,11 @@ This exercise takes approximately **20-25 minutes** to complete.
 
 This exercise demonstrates how to use interfaces in C# to create flexible, reusable, and loosely coupled code. You'll learn to define and implement interfaces with default methods, use interfaces as method parameters, and work with system-defined interfaces like `IComparable` and `IEnumerable`. By the end, you'll apply these concepts to a scenario.  
 
-## Before you start  
+## Before you start
 
 Before you can start this exercise, you need to:  
 
-1. Ensure that you have the latest short term support (STS) version of the .NET SDK installed on your computer. You can download the latest versions of the .NET SDK using the following URL: [Download .NET](https://dotnet.microsoft.com/download).  
+1. Ensure that you have the latest long term support (LTS) or short term support (STS) version of the .NET SDK installed on your computer. You can download the latest versions of the .NET SDK using the following URL: [Download .NET](https://dotnet.microsoft.com/download).
 
 1. Ensure that you have Visual Studio Code installed on your computer. You can download Visual Studio Code using the following URL: [Download Visual Studio Code](https://code.visualstudio.com/).  
 
@@ -26,7 +26,7 @@ Before you can start this exercise, you need to:
 
 For additional help configuring the Visual Studio Code environment, see [Install and configure Visual Studio Code for C# development](https://learn.microsoft.com/en-us/dotnet/core/tutorials/with-visual-studio-code).  
 
-## Exercise scenario  
+## Exercise scenario
 
 Suppose you're a software developer at a tech company working on a new project. Your task is to design a system that models people in different roles, such as teachers and students, while ensuring the code is flexible, reusable, and easy to maintain. You'll achieve this by leveraging interfaces and system-defined features in C#. In this exercise, you will build a console application that demonstrates how to use interfaces to decouple code, implement default methods, and create a dynamic classroom system that supports sorting and iteration.
 
@@ -40,7 +40,7 @@ This exercise includes the following tasks:
 1. Update the Program class.
 1. Build and run the program to examine the output.
 
-## Task 1: Create a new C# project  
+## Task 1: Create a new C# project
 
 To start, you need to create a new C# project in your development environment. This project will serve as the foundation for creating decoupled code using Interfaces.
 
@@ -100,9 +100,11 @@ To start, you need to create a new C# project in your development environment. T
 
     Each file should contain a single code line with the specified namespace declaration.
 
-## Task 2: Extend the IPerson interface  
+## Task 2: Extend the IPerson interface
 
-You start by adding a new property and a default method to the `IPerson` interface. Default methods allow you to provide functionality directly in the interface, which can be overridden by implementing classes if needed.
+Interfaces can provide default properties and methods that provide functionality directly in the interface. The default properties and methods can be overridden in the implementing classes when needed.
+
+In this task, you create an `IPerson` interface with a `Role` property and a default `Greet` method.
 
 1. Open the `IPerson.cs` file in the Visual Studio Code editor.
 
@@ -131,9 +133,11 @@ You start by adding a new property and a default method to the `IPerson` interfa
 
 1. Notice the `IPerson` interface includes the `Role` property and the `Greet` method with a default implementation.
 
-## Task 3: Update Teacher and Student classes  
+## Task 3: Update Teacher and Student classes
 
-The `Teacher` and `Student` classes now implement the new `Role` property. The `Teacher` class overrides the default `Greet` method, while the `Student` class uses the default implementation.  
+Classes can use interfaces to implement shared functionality. However, they can still provide their own specific implementations by overriding default properties and methods.
+
+In this task, you update the `Teacher` and `Student` classes to inherit the `IPerson` interface. You update the `Student` class to use the default implementation of the `Greet` method. However, you override the default `Greet` method in the `Teacher` class.  Additionally, you implement the `IComparable` interface in the `Student` class to enable sorting by age. The `Student` and `Teacher` implementations demonstrate how interfaces can be used to add functionality and flexibility to your classes while maintaining a consistent contract defined by the `IPerson` interface.
 
 1. Open the `Teacher.cs` file in the Visual Studio Code editor.
 
@@ -211,9 +215,9 @@ The `Teacher` and `Student` classes now implement the new `Role` property. The `
     - The `Teacher` class overrides the default `Greet` method with a custom implementation.  
     - The `Student` class uses the default `Greet` method and implements the `IComparable` interface for sorting.  
 
-## Task 4: Use interfaces as method parameters  
+## Task 4: Use interfaces as method parameters
 
-In this task, you will create a utility class that uses an interface as a method parameter. This demonstrates how interfaces allow you to handle multiple object types generically, enabling flexibility and reusability in your code.  
+In this task, you create a utility class that uses an interface as a method parameter. This demonstrates how interfaces allow you to handle multiple object types generically, enabling flexibility and reusability in your code.  
 
 1. Open the `PersonUtilities.cs` file in the Visual Studio Code editor.
 
@@ -237,9 +241,9 @@ In this task, you will create a utility class that uses an interface as a method
 
     The `PrintPersonDetails` method accepts an `IPerson` object as a parameter. This allows the method to work with any class that implements the `IPerson` interface, such as `Teacher` or `Student`. Inside the method, the `DisplayInfo` and `Greet` methods are called on the `IPerson` object. These methods are defined in the `IPerson` interface and implemented by the `Teacher` and `Student` classes.  
 
-## Task 5: Create a Classroom with IEnumerable  
+## Task 5: Create a Classroom with IEnumerable
 
-In this task, you will create a `Classroom` class that uses `List<T>` to store students dynamically and implements `IEnumerable` to allow iteration over the collection. You will also test the `Classroom` class by adding, sorting, and displaying students.
+In this task, you create a `Classroom` class that uses `List<T>` to store students dynamically and implements `IEnumerable` to allow iteration over the collection. You will also test the `Classroom` class by adding, sorting, and displaying students.
 
 1. Open the `Classroom.cs` file in the Visual Studio Code editor.
 
@@ -283,7 +287,7 @@ In this task, you will create a `Classroom` class that uses `List<T>` to store s
     - The `Classroom` class implements `IEnumerable<Student>`, which means it provides an enumerator through the `GetEnumerator` method. This allows the `foreach` loop to iterate over the `students` list directly without needing a separate method like `GetStudents()`.
     - The `foreach` loop automatically uses the `GetEnumerator` method to retrieve the enumerator, which handles the iteration process internally by calling `MoveNext()` and accessing the `Current` property of the enumerator.
 
-## Task 6: Update the Program class  
+## Task 6: Update the Program class
 
 1. Open the `Program.cs` file in the Visual Studio Code editor.
 
