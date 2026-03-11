@@ -1,9 +1,14 @@
 ---
 lab:
-    title: 'Exercise - Implement base and derived classes'
-    description: 'Learn how to create a class hierarchy that implements base and derived classes. Explore using the abstract, virtual, sealed, new, and override keywords to extend base class behavior in derived classes, and how to access base class members from within a derived class using the base keyword.'
+  title: Exercise - Implement base and derived classes
+  description: Learn how to create a class hierarchy that implements base and derived
+    classes. Explore using the abstract, virtual, sealed, new, and override keywords
+    to extend base class behavior in derived classes, and how to access base class
+    members from within a derived class using the base keyword.
+  duration: 30 minutes
+  level: 100
+  islab: true
 ---
-
 
 # Implement base and derived classes
 
