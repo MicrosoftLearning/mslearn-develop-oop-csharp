@@ -1,8 +1,14 @@
----  
-lab:  
-    title: 'Exercise - Decouple code using Interfaces'  
-    description: 'Create flexible and maintainable code by refactoring tightly coupled code to use interfaces in C#.'  
----  
+---
+lab:
+  title: Exercise - Decouple code using Interfaces
+  description: Create flexible and maintainable code by refactoring tightly coupled code to use interfaces in C#.
+  duration: 25 minutes
+  level: 200
+  islab: true
+  primarytopics:
+    - C# (.NET)
+    - Visual Studio Code
+---
 
 # Decouple code using Interfaces
 

@@ -1,7 +1,13 @@
 ---
 lab:
-    title: 'Exercise - Implement Collection Types'
-    description: 'Learn how to implement and use collection types in C#. Explore using List, Dictionary, HashSet, and other collection types to manage data effectively.'
+  title: Exercise - Implement Collection Types
+  description: Learn how to implement and use collection types in C#. Explore using List, Dictionary, HashSet, and other collection types to manage data effectively.
+  duration: 30 minutes
+  level: 200
+  islab: true
+  primarytopics:
+    - C# (.NET)
+    - Visual Studio Code
 ---
 
 # Implement Collection Types

@@ -1,7 +1,13 @@
 ---
 lab:
-    title: 'Exercise - Implement Enum, Struct, and Record in a Banking Application'
-    description: 'Learn how to define and implement enums, structs, and records in C#. Explore their use in a banking application to manage accounts, transactions, and customers.'
+  title: Exercise - Implement Enum, Struct, and Record in a Banking Application
+  description: Learn how to define and implement enums, structs, and records in C#. Explore their use in a banking application to manage accounts, transactions, and customers.
+  duration: 30 minutes
+  level: 200
+  islab: true
+  primarytopics:
+    - C# (.NET)
+    - Visual Studio Code
 ---
 
 # Implement Enum, Struct, and Record in a Banking Application

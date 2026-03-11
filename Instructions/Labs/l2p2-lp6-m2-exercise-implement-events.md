@@ -1,7 +1,13 @@
 ---
 lab:
-    title: 'Exercise: Implement events in C#'
-    description: 'Practice creating, subscribing to, and raising events in C# using delegates and custom event data classes.'
+  title: 'Exercise: Implement events in C#'
+  description: Practice creating, subscribing to, and raising events in C# using delegates and custom event data classes.
+  duration: 25 minutes
+  level: 200
+  islab: true
+  primarytopics:
+    - C# (.NET)
+    - Visual Studio Code
 ---
 
 # Implement events in C#
