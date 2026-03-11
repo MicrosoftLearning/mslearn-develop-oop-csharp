@@ -3,7 +3,7 @@ lab:
   title: Exercise - Create class definitions and instantiate objects
   description: Learn how to create class definitions that include fields and constructors, and how to use the "new" operator to instantiate objects that expose encapsulated field data.
   duration: 25 minutes
-  level: 100
+  level: 200
   islab: true
 ---
 
