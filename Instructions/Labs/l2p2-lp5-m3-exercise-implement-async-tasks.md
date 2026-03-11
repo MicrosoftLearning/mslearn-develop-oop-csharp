@@ -1,7 +1,10 @@
 ---
 lab:
-    title: 'Exercise - Implement tasks asynchronously and in parallel'
-    description: 'Learn how to improve app responsiveness by converting synchronous methods into asynchronous tasks, and how to reduce performance bottlenecks in your apps by running asynchronous tasks in parallel.'
+  title: Exercise - Implement tasks asynchronously and in parallel
+  description: Learn how to improve app responsiveness by converting synchronous methods into asynchronous tasks, and how to reduce performance bottlenecks in your apps by running asynchronous tasks in parallel.
+  duration: 20 minutes
+  level: 100
+  islab: true
 ---
 
 # Implement tasks asynchronously and in parallel
