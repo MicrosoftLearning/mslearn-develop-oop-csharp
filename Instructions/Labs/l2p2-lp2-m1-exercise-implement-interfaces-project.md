@@ -1,7 +1,10 @@
 ---
 lab:
-    title: 'Exercise - Implement Interfaces in a Project'
-    description: 'Define and implement interfaces in C# to enforce consistent behavior across multiple classes, including explicit interface implementations.'
+  title: Exercise - Implement Interfaces in a Project
+  description: Define and implement interfaces in C# to enforce consistent behavior across multiple classes, including explicit interface implementations.
+  duration: 20 minutes
+  level: 100
+  islab: true
 ---
 
 # Implement Interfaces in a Project
