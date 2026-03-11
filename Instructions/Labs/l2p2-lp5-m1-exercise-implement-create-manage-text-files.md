@@ -1,7 +1,14 @@
 ---
 lab:
-    title: 'Exercise - Create and manage text files'
-    description: 'Learn how to create and enumerate directories and files by using the Directory and Path classes, how to read, write, and manage text files by using the File class, how to read and write comma-separated value files by using StreamReader, StreamWriter, and FileStream classes, and how to read and write binary data files by using BinaryReader and BinaryWriter classes.'
+  title: Exercise - Create and manage text files
+  description: Learn how to create and enumerate directories and files by using the
+    Directory and Path classes, how to read, write, and manage text files by using
+    the File class, how to read and write comma-separated value files by using StreamReader,
+    StreamWriter, and FileStream classes, and how to read and write binary data files
+    by using BinaryReader and BinaryWriter classes.
+  duration: 30 minutes
+  level: 100
+  islab: true
 ---
 
 # Create and manage text files
