@@ -5,6 +5,9 @@ lab:
   duration: 35 minutes
   level: 200
   islab: true
+  primarytopics:
+    - C# (.NET)
+    - Visual Studio Code
 ---
 
 # Update a class with properties and methods
