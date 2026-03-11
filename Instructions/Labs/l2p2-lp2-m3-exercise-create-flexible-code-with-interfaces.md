@@ -1,7 +1,10 @@
 ---
 lab:
-    title: 'Exercise - Create Flexible Code Using Interfaces'
-    description: 'Create flexible and maintainable code by refactoring tightly coupled code to use interfaces in C#.'
+  title: Exercise - Create Flexible Code Using Interfaces
+  description: Create flexible and maintainable code by refactoring tightly coupled code to use interfaces in C#.
+  duration: 25 minutes
+  level: 100
+  islab: true
 ---
 
 # Create Flexible Code Using Interfaces
