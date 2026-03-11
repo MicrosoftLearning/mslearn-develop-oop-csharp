@@ -5,6 +5,9 @@ lab:
   duration: 25 minutes
   level: 200
   islab: true
+  primarytopics:
+    - C# (.NET)
+    - Visual Studio Code
 ---
 
 # Decouple code using Interfaces
