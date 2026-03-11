@@ -3,8 +3,11 @@ lab:
   title: Exercise - Implement polymorphism in a C# app
   description: Learn the principles of polymorphism and how to implement polymorphic behavior in C# apps using interface-based and inheritance-based approaches.
   duration: 30 minutes
-  level: 100
+  level: 200
   islab: true
+  primarytopics:
+    - C# (.NET)
+    - Visual Studio Code
 ---
 
 # Implement polymorphism in a C# app
