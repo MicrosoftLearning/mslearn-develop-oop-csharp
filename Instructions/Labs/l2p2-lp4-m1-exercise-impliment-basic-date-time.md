@@ -1,7 +1,12 @@
 ---
 lab:
-    title: 'Exercise - Implement Basic Date and Time Operations'
-    description: 'Learn how to create and manipulate date and time values in C#. Explore using DateTime, DateOnly, TimeOnly, and TimeZoneInfo classes to perform various date and time operations.'
+  title: Exercise - Implement Basic Date and Time Operations
+  description: Learn how to create and manipulate date and time values in C#. Explore
+    using DateTime, DateOnly, TimeOnly, and TimeZoneInfo classes to perform various
+    date and time operations.
+  duration: 30 minutes
+  level: 100
+  islab: true
 ---
 
 # Implement Basic Date and Time Operations
