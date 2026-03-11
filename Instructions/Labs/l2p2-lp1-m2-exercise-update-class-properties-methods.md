@@ -3,7 +3,7 @@ lab:
   title: Exercise - Update a class with properties and methods
   description: Learn how to implement class properties using property accessors and access modifiers, and how to implement methods by adding methods to a class and by developing extension methods for existing classes.
   duration: 35 minutes
-  level: 100
+  level: 200
   islab: true
 ---
 
