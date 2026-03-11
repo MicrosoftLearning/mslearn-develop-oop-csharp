@@ -1,7 +1,12 @@
 ---
 lab:
-    title: 'Exercise - Implement Generics and Anonymous Types in a Banking Application'
-    description: 'Learn how to implement generics, advanced generics, and anonymous types in C#. Explore their use in a banking application to manage accounts, transactions, and customers.'
+  title: Exercise - Implement Generics and Anonymous Types in a Banking Application
+  description: Learn how to implement generics, advanced generics, and anonymous types
+    in C#. Explore their use in a banking application to manage accounts, transactions,
+    and customers.
+  duration: 25 minutes
+  level: 200
+  islab: true
 ---
 
 # Implement Generics and Anonymous Types in a Banking Application
