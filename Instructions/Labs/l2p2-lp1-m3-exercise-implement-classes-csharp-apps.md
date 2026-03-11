@@ -1,9 +1,13 @@
 ---
 lab:
-    title: 'Exercise - Manage class implementations'
-    description: 'Learn how to improve code quality by creating static and partial classes, using optional parameters in constructors, and by implementing copy constructors and object initializers in your applications.'
+  title: Exercise - Manage class implementations
+  description: Learn how to improve code quality by creating static and partial classes,
+    using optional parameters in constructors, and by implementing copy constructors
+    and object initializers in your applications.
+  duration: 30 minutes
+  level: 100
+  islab: true
 ---
-
 
 # Manage class implementations
 
