@@ -1,7 +1,13 @@
 ---
 lab:
-    title: 'Exercise - Serialize and deserialize JSON files'
-    description: 'Learn how serialize and deserialize JSON using JsonSerializer methods, how to use JsonSerializerOptions to customize serialization and deserialization, and how to use Data Transfer Objects to implement serialization and deserialization when objects cannot be serialized directly.'
+  title: Exercise - Serialize and deserialize JSON files
+  description: Learn how serialize and deserialize JSON using JsonSerializer methods,
+    how to use JsonSerializerOptions to customize serialization and deserialization,
+    and how to use Data Transfer Objects to implement serialization and deserialization
+    when objects cannot be serialized directly.
+  duration: 30 minutes
+  level: 200
+  islab: true
 ---
 
 # Serialize and deserialize JSON files
